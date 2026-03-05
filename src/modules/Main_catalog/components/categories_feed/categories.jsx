@@ -11,13 +11,16 @@ const Categories = () => {
 
     const [categories, setCategories] = useState([]);
     useEffect(() => {
-        const categoriesRef = ref(database, "categories");
+        const categoriesRef = ref(database, "categorias");
         
         onValue(categoriesRef, (snapshot) => {
           const data = snapshot.val();
 
           if (data) {
-            const categoriesArray = Object.values(data);
+            const categoriesArray = Object.entries(data).map(([id, value]) => ({
+              id,
+              ...value
+            }));
             setCategories(categoriesArray);
           } else {
             setCategories([]);
@@ -33,7 +36,7 @@ const Categories = () => {
       }, []);
 
       const scroll = (direction) => {
-        const scrollAmount = 220; // Можно настроить
+        const scrollAmount = 220;
         if(scrollContainer.current) {
             const scrollLeft = direction === 'left' ? -scrollAmount : scrollAmount;
             scrollContainer.current.scrollBy({ left: scrollLeft, behavior: 'smooth' });
@@ -50,8 +53,8 @@ const Categories = () => {
             </button>
             <div ref={scrollContainer} className="flex flex-grow overflow-x-scroll rounded-md mx-3 py-2 scrollbar-hide">
                     <div className="flex flex-shrink-0 space-x-3 my-2">
-                        {categories.map((category, index) => (
-                            <CategoryBtn key={index} name={category.name} image={category.image} />
+                        {categories.map((category) => (
+                            <CategoryBtn key={category.id} nombre={category.nombre} imagen={category.imagen} />
                         ))}
                     </div>
                 </div>

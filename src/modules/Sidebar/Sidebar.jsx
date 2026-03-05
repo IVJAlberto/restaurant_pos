@@ -20,13 +20,11 @@ const Sidebar = () => {
 
   useEffect(() => {
     const handleBodyScroll = () => {
-      // Устанавливаем overflow: hidden только на устройствах с шириной экрана менее md
       if (window.innerWidth < 768) {
         document.body.style.overflow = isMenuOpen ? 'hidden' : 'auto';
       }
     };
 
-    // Устанавливаем overflow: hidden при инициализации, если меню открыто на устройствах с шириной экрана менее md
     if (window.innerWidth < 768) {
       document.body.style.overflow = isMenuOpen ? 'hidden' : 'auto';
     }

@@ -11,7 +11,7 @@ const SelectedCategory = () => {
   const selectedCategory = useSelector((state) => state.Categories.selectedCategory);
 
   useEffect(() => {
-    const dishesRef = ref(database, "dishes");
+    const dishesRef = ref(database, "platillos");
     
     onValue(dishesRef, (snapshot) => {
       const data = snapshot.val();
@@ -27,11 +27,11 @@ const SelectedCategory = () => {
 
   return (
     <>
-      <TextHeader text="Explore our best menu" size="text-md md:text-xl p-4" color="text-zinc-950 dark:text-gray-300"/>
+      <TextHeader text="Explora nuestro increíble menú" size="text-md md:text-xl p-4" color="text-zinc-950 dark:text-gray-300"/>
       <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10 md:gap-10 lg:gap-4">
-      {filteredDishes.map((category, index) => (
-              dishes[category].map((value) => (
-                <ProductCard key={index} dish={value}/>
+      {filteredDishes.map((category) => (
+              dishes[category].map((value, dishIndex) => (
+                <ProductCard key={`${category}-${dishIndex}`} platillo={value}/>
               ))
           ))}
       </div>

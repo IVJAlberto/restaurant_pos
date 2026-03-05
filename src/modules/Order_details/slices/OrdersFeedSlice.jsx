@@ -3,52 +3,52 @@ import { createSlice } from "@reduxjs/toolkit";
 const OrdersFeedSlice = createSlice({
     name: 'OrdersFeed',
     initialState: {
-        SelectedDishes: [],
-        totalAmount: 0,
+        PlatillosSeleccionados: [],
+        totalPedido: 0,
     },
     reducers: {
-        addDishToOrder: (state, action) => {
-            const addedDish = action.payload;
-            const existingDish = state.SelectedDishes.find(dish => dish.name === addedDish.name);
+        agregarPlatillo: (state, action) => {
+            const nuevoPlatillo = action.payload;
+            const platilloExistente = state.PlatillosSeleccionados.find(dish => dish.nombre === nuevoPlatillo.nombre);
 
-            if (existingDish) {
-                existingDish.quantity += 1;
+            if (platilloExistente) {
+                platilloExistente.cantidad += 1;
             } else {
-                state.SelectedDishes.push({ ...addedDish, quantity: 1 });
+                state.PlatillosSeleccionados.push({ ...nuevoPlatillo, cantidad: 1 });
             }
 
-            state.totalAmount += addedDish.price;
+            state.totalPedido += nuevoPlatillo.precio;
         },
-        removeDish: (state, action) => {
-            const removedDishName = action.payload;
-            const removedDish = state.SelectedDishes.find(dish => dish.name === removedDishName);
+        eliminarPlatillo: (state, action) => {
+            const nombrePlatillo = action.payload;
+            const platilloAEliminar = state.PlatillosSeleccionados.find(dish => dish.nombre === nombrePlatillo);
 
-            if (removedDish) {
-                if (removedDish.quantity > 1) {
-                    removedDish.quantity -= 1;
+            if (platilloAEliminar) {
+                if (platilloAEliminar.cantidad > 1) {
+                    platilloAEliminar.cantidad -= 1;
                 } else {
-                    state.SelectedDishes = state.SelectedDishes.filter(dish => dish.name !== removedDishName);
+                    state.PlatillosSeleccionados = state.PlatillosSeleccionados.filter(dish => dish.nombre !== nombrePlatillo);
                 }
 
-                state.totalAmount -= removedDish.price;
+                state.totalPedido -= platilloAEliminar.precio;
             }
         },
-        removeAllDishes: (state, action) => {
-            const removedDishName = action.payload;
-            const removedDish = state.SelectedDishes.find(dish => dish.name === removedDishName);
+        eliminarTodosLosPlatillos: (state, action) => {
+            const nombrePlatillo = action.payload;
+            const platilloAEliminar = state.PlatillosSeleccionados.find(dish => dish.nombre === nombrePlatillo);
 
-            if (removedDish) {
-                state.SelectedDishes = state.SelectedDishes.filter(dish => dish.name !== removedDishName);
-                state.totalAmount -= removedDish.price * removedDish.quantity;
+            if (platilloAEliminar) {
+                state.PlatillosSeleccionados = state.PlatillosSeleccionados.filter(dish => dish.nombre !== nombrePlatillo);
+                state.totalPedido -= platilloAEliminar.precio * platilloAEliminar.cantidad;
             }
         },
-        setOrdersFeed: (state, action) => {
-            const { SelectedDishes, totalAmount } = action.payload;
-            state.SelectedDishes = SelectedDishes;
-            state.totalAmount = totalAmount;
+        setOrdenPedidos: (state, action) => {
+            const { PlatillosSeleccionados, totalPedido } = action.payload;
+            state.PlatillosSeleccionados = PlatillosSeleccionados;
+            state.totalPedido = totalPedido;
           },  
     },
 });
 
-export const { removeDish, addDishToOrder, removeAllDishes, setOrdersFeed } = OrdersFeedSlice.actions;
+export const { eliminarPlatillo, agregarPlatillo, eliminarTodosLosPlatillos, setOrdenPedidos } = OrdersFeedSlice.actions;
 export default OrdersFeedSlice.reducer;

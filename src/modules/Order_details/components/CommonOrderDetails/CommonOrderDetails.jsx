@@ -1,43 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Datepicker from "react-tailwindcss-datepicker"; 
-import { setDate } from "../../slices/OrderInformation";
-import { toggleModal } from "./../../slices/toggleTableModalSlice"
-import { toggleVisibility } from "../../slices/OrderDetailsSlice";
+import { setTableNumber } from "../../slices/OrderInformation";
 
 const CommonOrderDetails = () => {
     const dispatch = useDispatch();
-    const tableNumber = useSelector(state => state.OrderTotal.table);
+    const mesaSeleccionada = useSelector(state => state.OrderTotal.table);
 
-    const [value, setValue] = useState({ 
-        startDate: new Date(), 
-        endDate: new Date().setMonth(11) 
-        }); 
-        
-    const handleValueChange = (newValue) => {
-        setValue(newValue);
-        dispatch(setDate(newValue.endDate));
-    }
-
-    const handleTableChange = () => {
-        dispatch(toggleModal());
-        dispatch(toggleVisibility());
+    const handleSeleccionarMesa = (numeroMesa) => {
+        dispatch(setTableNumber(numeroMesa));
     }
 
     return(
-        <div className="px-7 py-4 md:py-7 font-semibold flex justify-between">
-            <div className="flex flex-row space-x-3 items-center">
-                <button onClick={handleTableChange} className="text-zinc-950 dark:text-gray-300 text-lg capitalize">Table {tableNumber}</button>
-            </div>
-            <div className="flex w-1/2">
-                <p className='content-center pr-2 font-semibold text-red-500'>!</p>
-                <Datepicker
-                    primaryColor={"orange"}
-                    useRange={false}
-                    asSingle={true}
-                    value={value}
-                    onChange={handleValueChange}
-                />
+        <div className="px-7 py-4 md:py-7 font-semibold flex flex-col space-y-3 ">
+            {/* Título */}
+            <p className="flex justify-center text-zinc-950 dark:text-gray-300 text-lg ">
+                Mesa {mesaSeleccionada ? mesaSeleccionada : <span className="text-zinc-400 text-sm font-normal flex flex-wrap content-center px-2">x</span>}
+            </p>
+
+            {/* Grid de mesas */}
+            <div className="grid grid-cols-5 gap-2">
+                {[...Array(15)].map((_, i) => {
+                    const numeroMesa = i + 1;
+                    const estaSeleccionada = mesaSeleccionada === numeroMesa;
+                    return (
+                        <button
+                            key={numeroMesa}
+                            onClick={() => handleSeleccionarMesa(numeroMesa)}
+                            className={`rounded-lg py-2 text-sm font-semibold transition-colors duration-150
+                                ${estaSeleccionada
+                                    ? "bg-orange-400 text-white"
+                                    : "bg-zinc-200 dark:bg-zinc-700 text-zinc-950 dark:text-gray-300 hover:bg-zinc-300 dark:hover:bg-zinc-600"
+                                }`}
+                        >
+                            {numeroMesa}
+                        </button>
+                    );
+                })}
             </div>
         </div>
     );

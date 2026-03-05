@@ -1,9 +1,9 @@
 import React from 'react';
 import NotificationGif from "../assets/common_icons/done.gif"
 
-const Toast = ({type='dish'}) => {
+const Toast = ({type='platillo'}) => {
   const options = {
-    'dish': 'Dish was added.',
+    'platillo': 'El platillo fue agregado.',
     'order': 'Order was placed succesfully.'
   }
 

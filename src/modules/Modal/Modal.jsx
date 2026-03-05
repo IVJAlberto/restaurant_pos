@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import Toast from '../../UI/Toast';
 
 import { setOrderInformation } from '../Order_details/slices/OrderInformation';
-import { setOrdersFeed } from '../Order_details/slices/OrdersFeedSlice';
+import { setOrdenPedidos } from '../Order_details/slices/OrdersFeedSlice';
 
 import { database } from '../../firebase_config';
 import { ref, set, onValue, get } from 'firebase/database';
@@ -93,7 +93,7 @@ const Modal = () => {
                     console.log('Order placed successfully and statistics updated');
                     dispatch(toggleModal());
                     
-                    dispatch(setOrdersFeed({
+                    dispatch(setOrdenPedidos({
                       SelectedDishes: [],
                       totalAmount: 0
                     }));

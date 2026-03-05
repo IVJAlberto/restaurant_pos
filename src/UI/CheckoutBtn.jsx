@@ -7,10 +7,10 @@ import { useSelector } from "react-redux";
 
 const CheckoutBtn = ({ displayOnBig }) => {
     const dispatch = useDispatch();
-    let amountOfDishesLength = useSelector(
-      (state) => state.OrdersFeed.SelectedDishes
+    let numeroPlatillosEnCarrito = useSelector(
+      (state) => state.OrdersFeed.PlatillosSeleccionados
     );
-    amountOfDishesLength = amountOfDishesLength.length;
+    numeroPlatillosEnCarrito = numeroPlatillosEnCarrito.length;
   
     const handleCheckoutClick = () => {
       dispatch(toggleVisibility());
@@ -23,7 +23,7 @@ const CheckoutBtn = ({ displayOnBig }) => {
       <div className={styling} onClick={handleCheckoutClick}>
         <div className="relative">
           <span className="absolute top-0 right-0 bg-red-500 text-white font-semibold rounded-full text-xs md:text-sm py-0 px-0.5 md:py-0.5 md:px-1">
-                {amountOfDishesLength}
+                {numeroPlatillosEnCarrito}
           </span>
           <img className="w-8 md:w-10 md:h-10" src={CheckoutImg} alt="Checkout" />
         </div>
