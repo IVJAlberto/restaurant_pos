@@ -34,7 +34,7 @@ Homer's Pub (Restaurant Point of Sale) - web application for managing orders and
 
 ## Installation
 
-1. Clone repo:
-
-```bash
-git clone https://github.com/dmitry-lapin/restaurant-pos.git
+1. Install npm:
+  npm install
+2. Install redux-persist:
+  npm install redux-persist
