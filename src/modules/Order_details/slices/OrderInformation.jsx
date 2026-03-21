@@ -9,9 +9,9 @@ const formattedDate = `${year}-${month}-${day}`;
 const OrderInformation = createSlice({
     name: 'OrderInformation',
     initialState: {
-        paymentMethod: "Cash",
+        paymentMethod: "Efectivo",
         date: formattedDate,
-        waiter: "Homer Simpson",
+        waiter: "Fluke de Gongora y Gongora",
         table: null
     },
     reducers: {

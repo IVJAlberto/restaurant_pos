@@ -16,7 +16,7 @@ function TableNumberModal() {
   const handleInputChange = (e) => {
     const text = e.target.value;
     setInputText(text);
-    const isNumeric = /^[0-9]*$/.test(text); // Проверка, что введены только цифры
+    const isNumeric = /^[0-9]*$/.test(text);
     setIsValid(isNumeric && text.trim() !== '');
   };
 

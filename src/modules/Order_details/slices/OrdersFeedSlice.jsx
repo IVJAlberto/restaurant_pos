@@ -42,13 +42,21 @@ const OrdersFeedSlice = createSlice({
                 state.totalPedido -= platilloAEliminar.precio * platilloAEliminar.cantidad;
             }
         },
+        actualizarNotasPlatillo: (state, action) => {
+            const { nombre, notas } = action.payload;
+            const platillo = state.PlatillosSeleccionados.find(p => p.nombre === nombre);
+            if (platillo) {
+                platillo.notas = notas;
+            }
+        },
+
         setOrdenPedidos: (state, action) => {
             const { PlatillosSeleccionados, totalPedido } = action.payload;
             state.PlatillosSeleccionados = PlatillosSeleccionados;
             state.totalPedido = totalPedido;
-          },  
+        },  
     },
 });
 
-export const { eliminarPlatillo, agregarPlatillo, eliminarTodosLosPlatillos, setOrdenPedidos } = OrdersFeedSlice.actions;
+export const { eliminarPlatillo, agregarPlatillo, eliminarTodosLosPlatillos,actualizarNotasPlatillo, setOrdenPedidos } = OrdersFeedSlice.actions;
 export default OrdersFeedSlice.reducer;
