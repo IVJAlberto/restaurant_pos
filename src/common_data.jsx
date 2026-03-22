@@ -33,6 +33,7 @@ import { revenue } from "./app/helpers/fetchStatisticsData";
 const menuData = [
     ['Dashboard', '/dashboard', Dashboard],
     ['Food & Drinks', '/food_catalog', Food],
+    ['Cocina', '/cocina', Bills],
     ['Messages', '/messages', Messages],
     ['Team', '/team', Team],
     ['Settings', '/settings', Settings]

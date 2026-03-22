@@ -12,6 +12,7 @@ import TeamPage from './pages/TeamPage';
 
 import { AuthProvider } from './app/helpers/AuthContext';
 import { ProtectedRoute } from './app/helpers/ProtectedRoute';
+import CocinaPage from './pages/CocinaPage';
 
 function App() {
   
@@ -24,6 +25,7 @@ function App() {
         <Route path="messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
         <Route path="settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         <Route path="food_catalog" element={<ProtectedRoute><FoodPage /></ProtectedRoute>} />
+        <Route path="cocina" element={<ProtectedRoute><CocinaPage/></ProtectedRoute>}/>
         <Route path='dashboard/orders' element={<ProtectedRoute><ListOfOrders /></ProtectedRoute>} /> 
         <Route path='team' element={<ProtectedRoute><TeamPage /></ProtectedRoute>}/>
       </Routes>

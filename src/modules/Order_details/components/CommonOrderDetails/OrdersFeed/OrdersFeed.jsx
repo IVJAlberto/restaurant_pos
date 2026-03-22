@@ -332,7 +332,7 @@ const OrdersFeed = () => {
                             {loadingIndividual[platillo.id] ? (
                               <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
                             ) : (
-                              'Listo'
+                              'Entregado'
                             )}
                           </button>
                         </div>

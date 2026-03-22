@@ -30,10 +30,12 @@ const ModalPedido = () => {
       });
   }, [mesa]);
 
+  // Cerrar Modal
   const handleClose = () => {
     dispatch(toggleModal());
   };
 
+  // Función para enviar pedido a cocina
   const handleEnviarCocina = async () => {
     if (!mesa) {
       toast.custom(<Toast type="error" message="Selecciona una mesa" />, {
@@ -167,7 +169,6 @@ const ModalPedido = () => {
       setLoading(false);
     }
   };
-
 
   const totalPedido = platillos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0).toFixed(2);
 

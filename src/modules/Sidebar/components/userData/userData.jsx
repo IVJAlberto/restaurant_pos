@@ -42,10 +42,10 @@ const UserData = () => {
 
     return (
         <div className="relative flex w-full">
-            <div onClick={displayUserData} className="flex w-full justify-normal md:justify-center lg:justify-normal items-center space-x-3 md:space-x-0 lg:space-x-3 rounded-2xl p-2 bg-zinc-300 dark:bg-zinc-900 duration-100">
+            <div onClick={displayUserData} className="flex w-full justify-normal md:justify-center lg:justify-normal items-center space-x-3 md:space-x-0 lg:space-x-3 rounded-2xl p-2 bg-zinc-300 dark:bg-zinc-900 duration-100 cursor-pointer">
                 <div className="ml-5 truncate block md:hidden lg:block">
-                    <p className="text-zinc-950 dark:text-gray-300 font-semibold text-md xl:text-lg">{userInfo.name}</p>
-                    <p className="text-zinc-950 dark:text-gray-400 font-normal truncate text-sm xl:text-normal">{userInfo.role}</p>
+                    <p className="text-zinc-950 dark:text-gray-300 font-semibold text-md xl:text-lg">{userInfo.name  || "Usuario"}</p>
+                    <p className="text-zinc-950 dark:text-gray-400 font-normal truncate text-sm xl:text-normal">{userInfo.role  || "Administrador"}</p>
                 </div>
             </div>
             {isDataDisplayed && (
