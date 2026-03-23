@@ -82,87 +82,104 @@ const OrdersFeed = () => {
   const todoVacio = ordenesCompletadas.length === 0 && ordenPendiente.length === 0 && carritoLocal.length === 0;
 
   // Eliminar pedidosCocina
-  const eliminarPedidosCocina = async (timestamps, fechaPedido, mesaSeleccionada) => {
-  console.log('DEBUG eliminar:', { timestamps, fechaPedido, mesaSeleccionada });
-  
-  for (const timestamp of timestamps) {
-    const path = `pedidosCocina/${fechaPedido}/${timestamp}`;
-    const cocinaRef = ref(database, path);
-    
-    console.log('Probando path:', path);
-    
-    try {
-      const snapshot = await get(cocinaRef);
-      console.log('Snapshot:', snapshot.val());
-      
-      const pedidoCocina = snapshot.val();
-      if (!pedidoCocina) {
-        console.warn('No existe:', path);
-        continue;
-      }
-      
-      console.log('Mesa DB:', pedidoCocina.mesa, 'vs', mesaSeleccionada);
-      
-      if (String(pedidoCocina.mesa) !== String(mesaSeleccionada)) {
-        console.warn('Mesa distinta:', path);
-        continue;
-      }
-      
-      // Eliminar haciendo null
-      await set(cocinaRef, null);
-      console.log('ELIMINADO:', path);
-      
-    } catch (error) {
-      console.error('ERROR:', error.message, path);
-    }
-  }
-};
+  const eliminarPedidosCocina = async (idsPlatillos, fecha, mesa) => {
+    if (!idsPlatillos.length) return;
+
+    const updates = {};
+
+    idsPlatillos.forEach((id) => {
+      const path = `pedidosCocina/${fecha}/${id}`;
+      updates[path] = null; // Asignar null es igual a borrar el nodo
+    });
+
+    await update(ref(database), updates);
+  };
 
    // FUNCIONES COMPLETAR PLATILLOS
   const handleCompletarPendientes = async () => {
     if (!mesaData || ordenPendiente.length === 0) return;
-    
+
     setLoadingCompletar(true);
     try {
       const mesaRef = ref(database, `ordenesPorMesa/mesa${mesaSeleccionada}`);
-      
-      const completadosNuevos = ordenPendiente.map(platillo => ({
+
+      // Filtros por estado
+      const listosParaServir = ordenPendiente.filter(
+        (p) => p.estadoPlatillo === "listo"
+      );
+      const restantesPendientes = ordenPendiente.filter(
+        (p) => p.estadoPlatillo !== "listo"
+      );
+
+      if (listosParaServir.length === 0) {
+        toast.custom(
+          <Toast
+            type="info"
+            message="No hay platillos en estado 'listo' para entregar"
+          />,
+          { duration: 2000 }
+        );
+        return;
+      }
+
+      const completadosNuevos = listosParaServir.map((platillo) => ({
         ...platillo,
         estadoPlatillo: "servido",
-        timestampServido: new Date().toISOString()
+        timestampServido: new Date().toISOString(),
       }));
 
+      //Actualizar mesa
       await update(mesaRef, {
-        ordenPendiente: [],
-        totalPendiente: 0,
-        pedidosCompletados: [...(mesaData.pedidosCompletados || []), ...completadosNuevos],
-        totalCompletados: (mesaData.totalCompletados || 0) + parseFloat(infoMesa?.totalPendiente || 0),
+        ordenPendiente: restantesPendientes,
+        totalPendiente: restantesPendientes.reduce(
+          (sum, p) => sum + (p.subtotal || 0),
+          0
+        ),
+        pedidosCompletados: [
+          ...(mesaData.pedidosCompletados || []),
+          ...completadosNuevos,
+        ],
+        totalCompletados:
+          (mesaData.totalCompletados || 0) +
+          completadosNuevos.reduce((sum, p) => sum + (p.subtotal || 0), 0),
         horaUltimaActualizacion: new Date().toISOString(),
         historialMeseros: [
           ...(mesaData.historialMeseros || []),
-          { accion: "completar_pendientes", meseroId: "mesero001", nombre: "Sistema", timestamp: new Date().toISOString() }
-        ]
+          {
+            accion: "completar_pendientes",
+            meseroId: "mesero001",
+            nombre: "Sistema",
+            timestamp: new Date().toISOString(),
+          },
+        ],
       });
 
-      //ELIMINAR TODOS pedidosCocina relacionados
-      const fechaPedido = ordenPendiente[0].timestampCaptura.split('T')[0];
-      const timestampsUnicos = [...new Set(
-        ordenPendiente.map(p => p.id.split('-')[0])
-      )];
-      
-      await eliminarPedidosCocina(timestampsUnicos, fechaPedido, mesaSeleccionada);
+      // Limpiar solo los platillos servidos
+      const fechaPedido = new Date(listosParaServir[0].timestampCaptura)
+  .toLocaleDateString('sv-SE', { timeZone: 'America/Mexico_City' });
+      const idsPlatillos = listosParaServir.map((p) => p.id);
+      await eliminarPedidosCocina(idsPlatillos, fechaPedido, mesaSeleccionada);
 
-      toast.custom(<Toast type="success" message={`${ordenPendiente.length} completados`} />, { 
-        duration: 2000 
-      });
-      
+      if (listosParaServir.length !== 0) {
+        toast.custom(
+          <Toast
+            type="success"
+            message={`${completadosNuevos.length} platillo(s) completados`}
+          />,
+          { duration: 2000 }
+        );
+      }
     } catch (error) {
-      console.error('Error:', error);
-      toast.custom(<Toast type="error" message="Error al completar todo" />, { duration: 3000 });
+      console.error("Error al completar pendientes:", error);
+      toast.custom(
+        <Toast type="error" message="Error al completar pendientes" />,
+        { duration: 3000 }
+      );
     } finally {
       setLoadingCompletar(false);
     }
   };
+
 
   const handleCompletarIndividual = async (platilloId) => {
     if (!mesaData) return;
@@ -185,7 +202,6 @@ const OrdersFeed = () => {
       const nuevosPendientes = ordenPendiente.filter(p => p.id !== platilloId);
       const nuevoTotalPendiente = nuevosPendientes.reduce((sum, p) => sum + p.subtotal, 0);
 
-      //Update mesa
       await update(mesaRef, {
         ordenPendiente: nuevosPendientes,
         totalPendiente: nuevoTotalPendiente,
@@ -198,10 +214,9 @@ const OrdersFeed = () => {
         ]
       });
 
-      //ELIMINAR pedidosCocina
-      const timestampCocina = platillo.id.split('-')[0];
-      const fechaPedido = platillo.timestampCaptura.split('T')[0];
-      await eliminarPedidosCocina([timestampCocina], fechaPedido, mesaSeleccionada);
+      const fechaPedido = new Date(platillo.timestampCaptura)
+  .toLocaleDateString('sv-SE', { timeZone: 'America/Mexico_City' });
+      await eliminarPedidosCocina([platillo.id], fechaPedido, mesaSeleccionada);
 
       toast.custom(<Toast type="success" message="Completado" />, { duration: 1500 });
       
@@ -326,11 +341,14 @@ const OrdersFeed = () => {
                           <button
                             onClick={() => handleCompletarIndividual(platillo.id)}
                             disabled={loadingIndividual[platillo.id]}
-                            className="px-3 py-1 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium rounded shadow-sm transition-all disabled:opacity-50 flex items-center space-x-1 h-10"
+                            className={`px-3 py-1 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium rounded shadow-sm transition-all disabled:opacity-50 flex items-center space-x-1 h-10
+                                ${platillo.estadoPlatillo === "listo" ? "" : "opacity-50 cursor-not-allowed pointer-events-none bg-zinc-800/50 select-none" }  
+                              `
+                            }
                             title="Marcar como completado"
                           >
                             {loadingIndividual[platillo.id] ? (
-                              <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"/>
                             ) : (
                               'Entregado'
                             )}

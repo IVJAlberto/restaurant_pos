@@ -5,7 +5,7 @@ import CocinaFeed from '../modules/Cocina/CocinaFeed';
 
 const CocinaPage = () => {
     const timestamp = Date.now();
-    const fecha = new Date().toISOString().split('T')[0];
+    const fecha = new Date(timestamp).toLocaleDateString('sv-SE', { timeZone: 'America/Mexico_City' });
     
     return(
     <div className="flex flex-col md:flex-row w-full h-screen">

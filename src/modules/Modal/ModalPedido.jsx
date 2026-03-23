@@ -57,7 +57,7 @@ const ModalPedido = () => {
 
     try {
       const timestamp = Date.now();
-      const fecha = new Date().toISOString().split('T')[0];
+      const fecha = new Date(timestamp).toLocaleDateString('sv-SE', { timeZone: 'America/Mexico_City' });
       
       const platillosParaMesa = platillos.map((platillo, index) => ({
         id: `${timestamp}-${index}`,
@@ -131,20 +131,29 @@ const ModalPedido = () => {
         });
       }
 
-      // pedidosCocina (mantener formato nuevo para cocina)
-      const platillosConID = platillos.map((platillo, index) => ({
-        id: `${timestamp}-${index}`,
-        nombre: platillo.nombre,               
-        cantidad: platillo.cantidad,  
-        notas: platillo.notas || ""
-      }));
-      
-      const pedidosCocinaRef = ref(database, `pedidosCocina/${fecha}/${timestamp}`);
-      await set(pedidosCocinaRef, {
-        mesa,
-        timestamp,
-        platillos: platillosConID,
+      const updates = {};
+
+      platillos.forEach((platillo, index) => {
+        // Usamos el mismo id que ya traes del platillo (no recreado)
+        const platilloId =  `${timestamp}-${index}`
+
+        // ruta en DB: pedidosCocina/fecha/platilloId
+        const path = `pedidosCocina/${fecha}/${platilloId}`;
+
+        updates[path] = {
+          id: platilloId,
+          mesa: mesa,
+          timestamp, // timestamp del pedido completo
+          nombre: platillo.nombre,
+          cantidad: platillo.cantidad,
+          notas: platillo.notas || "",
+          // opcional: si quieres llevar el origen o alguna otra meta
+          // origen: platillo.origen // si aplica
+        };
       });
+
+      // 1 sola escritura atómica
+      await update(ref(database), updates);
 
       // Limpiar carrito local
       dispatch(setOrdenPedidos({

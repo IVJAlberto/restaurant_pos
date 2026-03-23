@@ -32,7 +32,7 @@ const DishOrder = ({ platillo, origen="local" }) => {
                 origen === "pendiente" 
                     ? platillo.estadoPlatillo === "pendiente" 
                         ? "bg-zinc-400 dark:bg-zinc-800 border-red-400" 
-                        : platillo.estadoPlatillo === "cocinando" 
+                        : platillo.estadoPlatillo === "preparando" 
                         ? "bg-yellow-400/80 dark:bg-yellow-800/80 border-yellow-500" 
                         : platillo.estadoPlatillo === "listo" 
                             ? "bg-blue-400/80 dark:bg-blue-800/80 border-blue-500" 
@@ -54,7 +54,7 @@ const DishOrder = ({ platillo, origen="local" }) => {
                         :
                             <span className="text-md font-medium">
                                 {platillo.estadoPlatillo === "pendiente" ? "Pendiente" :
-                                platillo.estadoPlatillo === "cocinando" ? "Preparando" :
+                                platillo.estadoPlatillo === "preparando" ? "Preparando" :
                                 platillo.estadoPlatillo === "listo" ? "Listo" : ""}
                             </span>
                      }
