@@ -6,6 +6,12 @@ import OrdersFeedSliceReducer from '../modules/Order_details/slices/OrdersFeedSl
 
 import toggleModalSlice from '../modules/Order_details/slices/toggleModalSlice';
 
+import togglePagoSlice from '../modules/Order_details/slices/togglePagoSlice';
+
+import PagoDetailsSlice from '../modules/Order_details/slices/PagoDetailsSlice';
+
+import MesaSeleccionSlice from '../modules/Order_details/slices/MesaSeleccionSlice';
+
 import OrderInformation from '../modules/Order_details/slices/OrderInformation';
 
 import toggleTableModalSlice from '../modules/Order_details/slices/toggleTableModalSlice';
@@ -19,6 +25,9 @@ const rootReducer = combineReducers({
   Categories: SelectedCategorySliceReducer,
   OrdersFeed: OrdersFeedSliceReducer,
   ModalSlice: toggleModalSlice,
+  PagoSlice: togglePagoSlice,
+  PagoDetails: PagoDetailsSlice,
+  MesaSeleccion: MesaSeleccionSlice,
   OrderTotal: OrderInformation,
   ToggleTableModal: toggleTableModalSlice,
   DarkModeToggler: darkModeVisibility,

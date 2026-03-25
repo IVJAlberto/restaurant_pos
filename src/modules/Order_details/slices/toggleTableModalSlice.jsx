@@ -3,11 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const toggleTableModal = createSlice({
   name: 'tableModal',
   initialState: {
-    isToggleModalVisible: false,
+    toggleVisibility: false,
   },
   reducers: {
     toggleModal: (state) => {
-        state.isToggleModalVisible = !state.isToggleModalVisible;
+        state.toggleVisibility = !state.toggleVisibility;
     }
 }
 });

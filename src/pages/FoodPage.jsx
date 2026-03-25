@@ -5,11 +5,15 @@ import OrderDetails from "../modules/Order_details/OrderDetails";
 import {  useSelector } from "react-redux";
 import ModalPedido from "../modules/Modal/ModalPedido";
 import TableNumberModal from "../modules/TableNumberModal/TableNumberModal"
+import { ModalPago } from './../modules/Modal/ModalPago';
+import ModalMesa from './../modules/Modal/ModalMesa';
 
 function FoodPage() {
 
     const isOpen = useSelector(state => state.ToggleTableModal.isToggleModalVisible);
-    const modalVisibility = useSelector(state => state.ModalSlice.isModalVisible);
+    const modalPedidoVisibility = useSelector(state => state.ModalSlice.isModalVisible);
+    const modalPagoVisibility = useSelector(state => state.PagoSlice.isModalVisible);
+    const modalMesaVisibility = useSelector(state => state.MesaSeleccion.isVisible);
     
     return (
       <div className="flex flex-col md:flex-row">
@@ -18,7 +22,9 @@ function FoodPage() {
         <Sidebar/>
         <Catalog /> 
         <OrderDetails />
-        {modalVisibility && <ModalPedido />}
+        {modalPedidoVisibility && <ModalPedido />}
+        {modalPagoVisibility && <ModalPago />}
+        {modalMesaVisibility && <ModalMesa />}
       </div>
     );
   }

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import DishOrder from "./components/DishOrder/DishOrder";
-import { useSelector } from "react-redux";
-import emptyCart from "../../../../../assets/stickers/nothing_in_cart.png";
-import { database } from "../../../../../firebase_config";
+import { useSelector, useDispatch } from "react-redux";
 import { ref, onValue, set, get, update } from "firebase/database";
-import Toast from "../../../../../UI/Toast"; // Ajusta path
 import toast from 'react-hot-toast';
 
+import { database } from "../../../../../firebase_config";
+import DishOrder from "./components/DishOrder/DishOrder";
+import emptyCart from "../../../../../assets/stickers/nothing_in_cart.png";
+import Toast from "../../../../../UI/Toast";
+import { limpiarMesaData, agregarMesaData } from "../../../slices/togglePagoSlice";
+
 const OrdersFeed = () => {
+  const dispatch = useDispatch();
   const mesaSeleccionada = useSelector((state) => state.OrderTotal.table);
   const carritoLocal = useSelector((state) => state.OrdersFeed?.PlatillosSeleccionados || []);
   
@@ -43,6 +46,13 @@ const OrdersFeed = () => {
       const pendientes = data?.ordenPendiente || [];
       const completados = data?.pedidosCompletados || [];
       
+      dispatch(agregarMesaData({
+        ordenPendiente: pendientes,
+        pedidosCompletados: completados,
+        granTotal: (data?.totalCompletados || 0) + (data?.totalPendiente || 0),
+        mesa: mesaSeleccionada
+      }));
+
       setOrdenPendiente(Array.isArray(pendientes) ? pendientes.map(p => normalizarPlatillo(p, 'pendiente')) : []);
       setOrdenesCompletadas(Array.isArray(completados) ? completados.map(p => normalizarPlatillo(p, 'completado')) : []);
       
@@ -63,6 +73,8 @@ const OrdersFeed = () => {
 
     setCargando(true);
     const unsubscribe = fetchMesaData();
+
+    dispatch(limpiarMesaData());
 
     return () => {
       if (unsubscribe) unsubscribe();
