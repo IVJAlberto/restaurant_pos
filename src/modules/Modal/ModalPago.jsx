@@ -29,6 +29,7 @@ export const ModalPago = () => {
   const [notas, setNotas] = useState('');
   const [propina, setPropina] = useState(0);
   const [cargandoCobro, setCargandoCobro] = useState(false);
+  const [resumenAbierto, setResumenAbierto] = useState(true);
 
   // Total: mesaData + propina
   const totalFinal = (mesaData?.granTotal) + propina;
@@ -112,8 +113,9 @@ export const ModalPago = () => {
         onClick={() => { dispatch(toggleVisibility()); dispatch(toggleModal()); }}
       />
       
-      <div className="bg-zinc-200 dark:bg-stone-950 w-full md:w-6/12 absolute right-0 h-full overflow-auto shadow-2xl">
-        <div className="flex flex-col gap-2 h-full">
+      <div className="bg-zinc-200 dark:bg-stone-950 w-full md:w-6/12 absolute right-0 h-full
+      shadow-2xl overflow-hidden">
+        <div className="flex flex-col gap-2 h-full overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between p-5 bg-zinc-300 dark:bg-zinc-900 max-h-20">
             <div>
@@ -132,100 +134,133 @@ export const ModalPago = () => {
             }} />
           </div>
 
-          {/* Platillos */}
-          <div className="p-5 bg-white dark:bg-zinc-800 rounded-2xl mx-4 mb-4 max-h-80 overflow-auto">
-            <h3 className="font-bold text-lg mb-4">
-              Resumen {todosPlatillos.length > 0 && `(${todosPlatillos.length})`}
-            </h3>
-            {!mesaData && !carritoLocal.length ? (
-              <div className="text-center py-12 text-zinc-500">
-                <div className="w-16 h-16 bg-zinc-200 dark:bg-zinc-700 rounded-2xl mx-auto mb-4 text-2xl flex items-center justify-center">
-                  🛒
-                </div>
-                <p>Sin platillos para cobrar</p>
-              </div>
-            ) : (
-              todosPlatillos.map((p, i) => (
-                <div key={i} className="flex justify-between items-center py-3 border-b last:border-b-0 hover:bg-zinc-50 dark:hover:bg-zinc-700 p-2 rounded">
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium truncate">{p.nombre}</div>
-                    {p.notas && (
-                      <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded mt-1 inline-block">
-                        📝 {p.notas}
-                      </span>
-                    )}
-                  </div>
-                  <div className="text-right ml-4">
-                    <div className="text-sm text-zinc-500">x{p.cantidad || 1}</div>
-                    <div className="font-bold text-lg">
-                      ${(p.subtotal || p.precio * (p.cantidad || 1)).toFixed(2)}
+          <div className="flex-1 overflow-y-auto flex flex-col gap-2">
+            {/* Platillos */}
+            <div className="p-5 bg-white dark:bg-zinc-800 rounded-2xl mx-4 mb-4">
+  
+              {/* Header clickeable */}
+              <button
+                onClick={() => setResumenAbierto(!resumenAbierto)}
+                className="w-full flex items-center justify-between mb-4"
+              >
+                <h3 className="font-bold text-lg">
+                  Resumen {todosPlatillos.length > 0 && `(${todosPlatillos.length})`}
+                </h3>
+                <span className={`text-zinc-500 transition-transform duration-200 ${resumenAbierto ? 'rotate-180' : ''}`}>
+                  ▼
+                </span>
+              </button>
+
+              {/* Contenido colapsable */}
+              {resumenAbierto && (
+                <>
+                  {!mesaData && !carritoLocal.length ? (
+                    <div className="text-center py-12 text-zinc-500">
+                      <div className="w-16 h-16 bg-zinc-200 dark:bg-zinc-700 rounded-2xl mx-auto mb-4 text-2xl flex items-center justify-center">
+                        🛒
+                      </div>
+                      <p>Sin platillos para cobrar</p>
                     </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+                  ) : (
+                    todosPlatillos.map((p, i) => (
+                      <div key={i} className="flex justify-between items-center py-3 border-b last:border-b-0 hover:bg-zinc-50 dark:hover:bg-zinc-700 p-2 rounded">
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium truncate">{p.nombre}</div>
+                          {p.notas && (
+                            <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded mt-1 inline-block">
+                              📝 {p.notas}
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-right ml-4">
+                          <div className="text-sm text-zinc-500">x{p.cantidad || 1}</div>
+                          <div className="font-bold text-lg">
+                            ${(p.subtotal || p.precio * (p.cantidad || 1)).toFixed(2)}
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </>
+              )}
 
-          {/* Form */}
-          <div className="p-5 space-y-4 flex-1">
-            <div>
-              <label className="block text-sm font-semibold mb-2">Método pago *</label>
-              <div className="flex flex-row space-x-3 justify-center">
-                {["Efectivo", "TDC"].map((value, index) => (
-                    <PaymentBtn
-                        key={index}
-                        onClick={() => handlePaymentMethod(value)}
-                        className={`${
-                            seleccionadoMetodoPago === value ? 'bg-zinc-900 hover:bg-zinc-900 dark:bg-slate-100 dark:hover:bg-slate-200 text-gray-300 dark:text-zinc-950' : 'text-gray-950 dark:text-zinc-200 bg-zinc-400 hover:bg-zinc-500 dark:bg-zinc-800 dark:hover:bg-zinc-700'
-                        }  basis-1/3`}
-                    >
-                        {value}
-                    </PaymentBtn>
-                ))}
-              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-semibold mb-2">Mesero</label>
-              <input
-                value={meseroCierre}
-                onChange={e => setMeseroCierre(e.target.value)}
-                className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-blue-500 bg-white"
-                placeholder="Nombre mesero"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
+            {/* Form */}
+            <div className="p-5 space-y-4">
               <div>
-                <label className="block text-xs font-medium mb-1">Propina</label>
+                <label className="block text-sm font-semibold mb-2">Método pago *</label>
+                <div className="flex flex-row space-x-3 justify-center">
+                  {["Efectivo", "TDC"].map((value, index) => (
+                      <PaymentBtn
+                          key={index}
+                          onClick={() => handlePaymentMethod(value)}
+                          className={`${
+                              seleccionadoMetodoPago === value ? 'bg-zinc-900 hover:bg-zinc-900 dark:bg-slate-100 dark:hover:bg-slate-200 text-gray-300 dark:text-zinc-950' : 'text-gray-950 dark:text-zinc-200 bg-zinc-400 hover:bg-zinc-500 dark:bg-zinc-800 dark:hover:bg-zinc-700'
+                          }  basis-1/3`}
+                      >
+                          {value}
+                      </PaymentBtn>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold mb-2">Mesero</label>
                 <input
-                  type="number"
-                  value={propina}
-                  onChange={e => setPropina(Number(e.target.value) || 0)}
-                  className="w-full p-3 rounded-xl border border-zinc-200 focus:border-green-500 text-right"
-                  min="0"
-                  step="0.01"
+                  value={meseroCierre}
+                  onChange={e => setMeseroCierre(e.target.value)}
+                  className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-blue-500 bg-white"
+                  placeholder="Nombre mesero"
                 />
               </div>
-              <button
-                type="button"
-                onClick={() => setPropina(mesaData?.granTotal * 0.15)}
-                className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
-              >
-                15% (${(mesaData?.granTotal * 0.15).toFixed(2)})
-              </button>
-            </div>
 
-            <div>
-              <label className="block text-sm font-semibold mb-2">Notas</label>
-              <textarea
-                value={notas}
-                onChange={e => setNotas(e.target.value)}
-                rows="3"
-                className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-purple-500 resize-vertical bg-white"
-                placeholder="Notas opcionales..."
-                maxLength="500"
-              />
+              <div className="grid grid-cols-4 gap-3">
+                <div>
+                  <label className="block text-xs font-medium mb-1">Propina</label>
+                  <input
+                    type="number"
+                    value={propina}
+                    onChange={e => setPropina(Number(e.target.value) || 0)}
+                    className="w-full p-3 rounded-xl border border-zinc-200 focus:border-green-500 text-right"
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPropina(mesaData?.granTotal * 0.05)}
+                  className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
+                >
+                  5% (${(mesaData?.granTotal * 0.05).toFixed(2)})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPropina(mesaData?.granTotal * 0.10)}
+                  className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
+                >
+                  10% (${(mesaData?.granTotal * 0.10).toFixed(2)})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPropina(mesaData?.granTotal * 0.15)}
+                  className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
+                >
+                  15% (${(mesaData?.granTotal * 0.15).toFixed(2)})
+                </button>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold mb-2">Notas</label>
+                <textarea
+                  value={notas}
+                  onChange={e => setNotas(e.target.value)}
+                  rows="3"
+                  className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-purple-500 resize-vertical bg-white"
+                  placeholder="Notas opcionales..."
+                  maxLength="500"
+                />
+              </div>
             </div>
           </div>
 
