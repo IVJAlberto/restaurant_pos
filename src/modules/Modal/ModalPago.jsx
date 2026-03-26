@@ -5,11 +5,11 @@ import { database } from '../../firebase_config';
 import { toggleVisibility } from '../Order_details/slices/PagoDetailsSlice';
 import { toggleModal } from '../Order_details/slices/togglePagoSlice';
 import { setPaymentMethod } from '../Order_details/slices/OrderInformation';
-import CloseBtn from '../../UI/CloseBtn';
 import TextHeader from '../../UI/textHeader';
 import Toast from '../../UI/Toast';
 import toast from 'react-hot-toast';
 import PaymentBtn from '../../UI/PaymentBtn';
+import BackBtn from './../../UI/BackBtn';
 
 export const ModalPago = () => {
   const dispatch = useDispatch();
@@ -126,7 +126,7 @@ export const ModalPago = () => {
                 {todosPlatillos.length} platillos - ${totalFinal.toFixed(2)}
               </p>
             </div>
-            <CloseBtn onClick={() => {
+            <BackBtn onClick={() => {
               dispatch(toggleVisibility());
               dispatch(toggleModal());
             }} />
