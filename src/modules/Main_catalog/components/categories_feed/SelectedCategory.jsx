@@ -7,7 +7,7 @@ import { ref, onValue, off } from "firebase/database";
 
 const SelectedCategory = () => {
   
-  const [dishes, setDishes] = useState({});
+  const [dishes, setDishes] = useState(null);
   const selectedCategory = useSelector((state) => state.Categories.selectedCategory);
 
   useEffect(() => {
@@ -23,6 +23,8 @@ const SelectedCategory = () => {
     };
   }, []);
 
+  if (!dishes) return <p className="p-5 text-zinc-500 dark:text-zinc-400">Cargando menú...</p>;
+
   const filteredDishes = selectedCategory === "All" ? Object.keys(dishes) : [selectedCategory];
 
   return (
@@ -30,7 +32,7 @@ const SelectedCategory = () => {
       <TextHeader text="Explora nuestro increíble menú" size="text-md md:text-xl p-4" color="text-zinc-950 dark:text-gray-300"/>
       <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10 md:gap-10 lg:gap-4">
       {filteredDishes.map((category) => (
-              dishes[category].map((value, dishIndex) => (
+              dishes[category || []].map((value, dishIndex) => (
                 <ProductCard key={`${category}-${dishIndex}`} platillo={value}/>
               ))
           ))}
