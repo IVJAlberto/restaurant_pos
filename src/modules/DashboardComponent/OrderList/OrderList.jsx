@@ -34,10 +34,10 @@ const OrderList = () => {
   
     const categories = {
       'no': 'No.',
-      'date': 'Date',
-      'table': 'Table',
-      'price': 'Price',
-      'btnDetails': 'Actions'
+      'date': 'Fecha',
+      'table': 'Mesa',
+      'price': 'Total',
+      'btnDetails': 'Acciones'
     };
   
     const categoryKeys = Object.keys(categories);
@@ -45,8 +45,8 @@ const OrderList = () => {
     return (
       <div className="w-full md:w-7/12 border bg-white rounded-2xl border-zinc-300">
         <div className="flex justify-between px-5 py-4">
-          <p className="font-semibold text-xl">Order List</p>
-          <a href="/orders" className="font-medium">View all</a>
+          <p className="font-semibold text-xl">Lista de ordenes</p>
+          <a href="/orders" className="font-medium">Ver todas</a>
         </div>
         <div className="flex flex-row bg-gray-200 px-5 py-3 border-y border-zinc-300">
           {categoryKeys.map((categoryKey, index) => (

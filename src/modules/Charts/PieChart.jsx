@@ -42,7 +42,7 @@ const PieChart = () => {
   const option = {
     dark: darkMode,
     title: {
-      text: 'Most popular dishes',
+      text: 'Platillos más populares',
       left: 'center',
     },
     tooltip: {

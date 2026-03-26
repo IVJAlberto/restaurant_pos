@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "../modules/Sidebar/Sidebar";
-import Catalog from "../modules/Main_catalog/catalog";
+import Catalogo from "../modules/Main_catalog/catalogo";
 import OrderDetails from "../modules/Order_details/OrderDetails";
 import {  useSelector } from "react-redux";
 import ModalPedido from "../modules/Modal/ModalPedido";
@@ -20,7 +20,7 @@ function FoodPage() {
         {/* Se quitó la funcionalidad del modal para la mesa porque se selecciona desde el menú de orden */}
         {/* {isOpen && <TableNumberModal />}  */}
         <Sidebar/>
-        <Catalog /> 
+        <Catalogo /> 
         <OrderDetails />
         {modalPedidoVisibility && <ModalPedido />}
         {modalPagoVisibility && <ModalPago />}

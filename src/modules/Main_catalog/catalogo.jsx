@@ -1,17 +1,18 @@
 import React from 'react';
-import Categories from './components/categories_feed/categories';
-import SelectedCategory from './components/categories_feed/SelectedCategory';
+import Categorias from './components/categories_feed/categorias';
+import CategoriaSeleccionada from './components/categories_feed/CategoriaSeleccionada';
 import TextHeader from '../../UI/textHeader';
 import CheckoutBtn from '../../UI/CheckoutBtn';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const Catalog = () => {
+const Catalogo = () => {
   const auth = getAuth();
   const user = auth.currentUser;
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
-      // ...
+      // console.log("Usuario",uid);
+      
     } else {
       // User is signed out
       // ...
@@ -25,11 +26,11 @@ const Catalog = () => {
         <CheckoutBtn displayOnBig={true}/>
       </div>
       <div className='px-2'>
-        <Categories />
-        <SelectedCategory />
+        <Categorias />
+        <CategoriaSeleccionada />
       </div>
     </div>
   );
 };
 
-export default Catalog;
+export default Catalogo;

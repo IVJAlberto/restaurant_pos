@@ -13,7 +13,7 @@ const LinearChart = () => {
   });
 
   useEffect(() => {
-    const databaseRef = ref(database, 'statistics'); 
+    const databaseRef = ref(database, 'historicoPedidos'); 
     get(databaseRef)
       .then((snapshot) => {
         if (snapshot.exists()) {
@@ -33,14 +33,14 @@ const LinearChart = () => {
       .catch((error) => {
         console.error('Error getting data from Firebase:', error);
       });
-  }, [darkMode]); // Добавлен darkMode в зависимости эффекта
+  }, [darkMode]);
 
   const { xAxisData, seriesData } = chartData;
 
   const option = {
-    dark: darkMode, // Включение темного режима в зависимости от darkMode
+    dark: darkMode,
     title: {
-      text: 'Revenue',
+      text: 'Ganancia',
     },
     xAxis: {
       type: 'category',

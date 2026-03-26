@@ -15,7 +15,7 @@ export const FetchStatisticsData = () => {
 
     const StatisticalArrData = [
         {
-            name: "Total revenue",
+            name: "Ingresos Totales",
             value: revenueState,
             icon: 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -25,7 +25,7 @@ export const FetchStatisticsData = () => {
           
         },
         {
-            name: "Average Check",
+            name: "Ingreso Promedio",
             value: averageCheck,
             icon: 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -35,7 +35,7 @@ export const FetchStatisticsData = () => {
       
         },
         {
-            name: "Amount of Orders",
+            name: "Cantidad de Pedidos",
             value: amountOfOrders,
             icon: 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -45,7 +45,7 @@ export const FetchStatisticsData = () => {
       
         },
         {
-            name: "My Rating",
+            name: "Mi Puntaje",
             value: 4.7,
             icon: 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

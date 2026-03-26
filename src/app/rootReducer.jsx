@@ -1,7 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import OrderDetailsReducer from '../modules/Order_details/slices/OrderDetailsSlice';
-import SelectedCategorySliceReducer from '../modules/Main_catalog/components/slices/SelectedCategorySlice';
+import CategoriaSeleccionadaSliceReducer from '../modules/Main_catalog/components/slices/CategoriaSeleccionadaSlice';
 import OrdersFeedSliceReducer from '../modules/Order_details/slices/OrdersFeedSlice';
 
 import toggleModalSlice from '../modules/Order_details/slices/toggleModalSlice';
@@ -22,7 +22,7 @@ import UIDSliceReducer from '../modules/Login_page/components/LoginSide/componen
 
 const rootReducer = combineReducers({
   OrderDetails: OrderDetailsReducer,
-  Categories: SelectedCategorySliceReducer,
+  Categorias: CategoriaSeleccionadaSliceReducer,
   OrdersFeed: OrdersFeedSliceReducer,
   ModalSlice: toggleModalSlice,
   PagoSlice: togglePagoSlice,

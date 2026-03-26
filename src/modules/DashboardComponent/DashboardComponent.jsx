@@ -13,7 +13,7 @@ const DashboardComponent = () => {
     return(
         <div className="flex flex-1 flex-col bg-zinc-100 dark:bg-zinc-800">
             <ModuleHeaderName bgColor="bg-zinc-200 dark:bg-stone-950">
-                <TextHeader text="Dashboard" color="text-zinc-950 dark:text-gray-300" size="text-xl" />
+                <TextHeader text="Estadísticas" color="text-zinc-950 dark:text-gray-300" size="text-xl" />
             </ModuleHeaderName>
             <div className="p-4 space-y-5 overflow-auto flex flex-col flex-grow">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
