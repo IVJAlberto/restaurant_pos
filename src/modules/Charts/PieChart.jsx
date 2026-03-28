@@ -1,85 +1,80 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactEChart from 'echarts-for-react';
-import { ref, get } from 'firebase/database';
-import { database } from "../../firebase_config" 
-
 import { useSelector } from 'react-redux';
 
-const PieChart = () => {
-  const [chartData, setChartData] = useState([]);
-  const darkMode = useSelector((state) => state.DarkModeToggler.isDark);
-  
-  useEffect(() => {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    const currentMonth = `${year}-${month}`;
+const PieChart = ({ data = [] }) => {
+    const darkMode = useSelector((state) => state.DarkModeToggler.isDark);
 
-    const databaseRef = ref(database, `statistics/${currentMonth}`); 
+    // Contar platillos más populares desde pedidosFiltrados
+    const platillosData = React.useMemo(() => {
+        if (!data.length) return [];
 
-    get(databaseRef)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const statisticsData = snapshot.val();
-          const dishesData = statisticsData.dishes || {};
+        const conteoPlatillos = {};
 
-          const pieChartData = Object.entries(dishesData)
-            .map(([name, quantity]) => ({
-              name,
-              value: quantity,
+        data.forEach(pedido => {
+            pedido.platillos?.forEach(platillo => {
+                const nombre = platillo.nombre || platillo.platillo || 'Desconocido';
+                conteoPlatillos[nombre] = (conteoPlatillos[nombre] || 0) + platillo.cantidad;
+            });
+        });
+
+        // Top 6 platillos más vendidos
+        return Object.entries(conteoPlatillos)
+            .map(([nombre, cantidad]) => ({
+                name: nombre,
+                value: cantidad
             }))
             .sort((a, b) => b.value - a.value)
             .slice(0, 6);
+    }, [data]);
 
-          setChartData(pieChartData);
-        }
-      })
-      .catch((error) => {
-        console.error('Error getting data from Firebase:', error);
-      });
-  }, [darkMode]);
-
-  const option = {
-    dark: darkMode,
-    title: {
-      text: 'Platillos más populares',
-      left: 'center',
-    },
-    tooltip: {
-      trigger: 'item',
-    },
-    legend: {
-      orient: 'horizontal',
-      left: 'center',
-      bottom: 0,
-    },
-    series: [
-      {
-        name: 'Access From',
-        type: 'pie',
-        radius: '65%',
-        data: chartData, 
-        top: "-5%",
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)',
-          },
+    const option = {
+        darkMode: darkMode,
+        title: {
+            text: 'Platillos más populares',
+            left: 'center',
         },
-      },
-    ],
-  };
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            top: 20,
+            bottom: 20,
+        },
+        series: [
+            {
+                name: 'Platillos',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                center: ['50%', '60%'],
+                data: platillosData,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    }
+                },
+                label: {
+                    show: true,
+                    formatter: '{b}: {c} ({d}%)'
+                }
+            }
+        ]
+    };
 
-  return (
-    <ReactEChart
-      style={{
-        width: '100%',
-        height: '100%',
-      }}
-      option={option}
-    />
-  );
+    return (
+        <ReactEChart
+            style={{
+                width: '100%',
+                height: '100%',
+            }}
+            option={option}
+        />
+    );
 };
 
 export default PieChart;

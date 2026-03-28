@@ -1,79 +1,102 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactEcharts from 'echarts-for-react';
-import { ref, get } from 'firebase/database';
-import { database } from "../../firebase_config" 
 import getMonthName from './helpers/getMonthName';
 import { useSelector } from 'react-redux';
 
-const LinearChart = () => {
-  const darkMode = useSelector((state) => state.DarkModeToggler.isDark);
-  const [chartData, setChartData] = useState({
-    xAxisData: [],
-    seriesData: [],
-  });
+const LinearChart = ({ data = [] }) => {
+    const darkMode = useSelector((state) => state.DarkModeToggler.isDark);
 
-  useEffect(() => {
-    const databaseRef = ref(database, 'historicoPedidos'); 
-    get(databaseRef)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const statisticsData = snapshot.val();
+    // Procesar pedidosFiltrados → datos de gráfica
+    const chartData = React.useMemo(() => {
+        if (!data.length) return { xAxisData: [], seriesData: [] };
 
-          const xAxisData = [];
-          const seriesData = [];
+        // Agrupar por día/mes según periodo
+        const ingresosPorPeriodo = {};
+        
+        data.forEach(pedido => {
+            const fecha = pedido.fecha;
+            let key;
+            
+            // Determinar granularidad según periodo (puedes pasarlo como prop también)
+            if (fecha === new Date().toISOString().split('T')[0]) {
+                // Hoy: mostrar por hora
+                key = pedido.horaCierre || 'Sin hora';
+            } else {
+                // Otros periodos: por día
+                key = fecha;
+            }
 
-          for (const month in statisticsData) {
-            xAxisData.push(getMonthName(month.split("-")[1]));
-            seriesData.push(statisticsData[month].revenue); 
-          }
+            if (!ingresosPorPeriodo[key]) {
+                ingresosPorPeriodo[key] = 0;
+            }
+            ingresosPorPeriodo[key] += Number(pedido.granTotal || pedido.total || 0);
+        });
 
-          setChartData({ xAxisData, seriesData });
-        }
-      })
-      .catch((error) => {
-        console.error('Error getting data from Firebase:', error);
-      });
-  }, [darkMode]);
+        const xAxisData = Object.keys(ingresosPorPeriodo).sort();
+        const seriesData = xAxisData.map(fecha => ingresosPorPeriodo[fecha]);
 
-  const { xAxisData, seriesData } = chartData;
+        return {
+            xAxisData: xAxisData.map(fecha => 
+                fecha.includes('-') ? fecha.split('-').slice(2).join('-') : fecha
+            ),
+            seriesData
+        };
+    }, [data]);
 
-  const option = {
-    dark: darkMode,
-    title: {
-      text: 'Ganancia',
-    },
-    xAxis: {
-      type: 'category',
-      data: xAxisData, 
-    },
-    yAxis: {
-      type: 'value',
-    },
-    grid: {
-      bottom: '10%',
-    },
-    series: [
-      {
-        data: seriesData, 
-        type: 'bar',
-        showBackground: true,
-        top: "-15%",
-        backgroundStyle: {
-          color: 'rgba(29, 78, 216, 0.2)',
+    const { xAxisData, seriesData } = chartData;
+
+    const option = {
+        darkMode: darkMode,
+        title: {
+            text: 'Ganancias por período',
         },
-      },
-    ],
-  };
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        xAxis: {
+            type: 'category',
+            data: xAxisData,
+            axisLabel: {
+                rotate: 45
+            }
+        },
+        yAxis: {
+            type: 'value',
+            name: 'Ingresos ($)'
+        },
+        grid: {
+            bottom: '15%',
+            left: '8%',
+            right: '5%'
+        },
+        series: [
+            {
+                name: 'Ingresos',
+                data: seriesData,
+                type: 'bar',
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(220, 220, 220, 0.8)'
+                },
+                itemStyle: {
+                    color: '#3b82f6'
+                }
+            }
+        ]
+    };
 
-  return (
-    <ReactEcharts
-      style={{
-        width: '100%',
-        height: '100%',
-      }}
-      option={option}
-    />
-  );
+    return (
+        <ReactEcharts
+            style={{
+                width: '100%',
+                height: '100%',
+            }}
+            option={option}
+        />
+    );
 };
 
 export default LinearChart;
