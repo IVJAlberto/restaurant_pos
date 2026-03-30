@@ -9,12 +9,32 @@ import ChartPie from "../Charts/PieChart";
 import ChartWrapper from "./ChartWrapper/ChartWrapper";
 import OrderList from "./OrderList/OrderList";
 import Report from "./Report/Report";
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleModal as toggleModalOrdenUnica } from './slices/toggleModalOrdenUnica';
+import { toggleModal as toggleModalOrdenes } from './slices/toggleModalOrdenes';
+import ModalOrdenUnica from "../Modal/ModalOrdenUnica";
+import ModalOrdenes from "../Modal/ModalOrdenes";
 
 const DashboardComponent = () => {
+    const dispatch = useDispatch();
     const [periodo, setPeriodo] = useState("day");
     const [fechaInicio, setFechaInicio] = useState("");
     const [fechaFin, setFechaFin] = useState("");
     const [historicoPedidos, setHistoricoPedidos] = useState({});
+    const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
+
+    const modalOrdenUnica = useSelector(state => state.OrdenUnicaSlice.isModalVisible);
+    const modalOrdenes = useSelector(state => state.OrdenesSlice.isModalVisible);
+
+    const handleVerPedido = (pedido) => {
+        setPedidoSeleccionado(pedido);
+        dispatch(toggleModalOrdenUnica());
+    };
+
+    const handleVerPedidos = (pedidos) => {
+        // setPedidoSeleccionado(null);
+        dispatch(toggleModalOrdenes());
+    };
 
     // Conexión a Firebase Realtime DB
     useEffect(() => {
@@ -192,10 +212,13 @@ const DashboardComponent = () => {
                 </div>
 
                 <div className="w-full flex flex-col md:flex-row flex-grow space-y-5 md:space-y-0 md:space-x-5">
-                    <OrderList data={pedidosFiltrados} />
+                    <OrderList data={pedidosFiltrados} onVerPedidos={handleVerPedidos} onVerPedido={handleVerPedido} />
                     <Report data={pedidosFiltrados} />
                 </div>
             </div>
+
+            {modalOrdenUnica && pedidoSeleccionado && (<ModalOrdenUnica pedido={pedidoSeleccionado} />)}
+            {modalOrdenes && (<ModalOrdenes pedidos={pedidosFiltrados} />)}
         </div>
     );
 };
