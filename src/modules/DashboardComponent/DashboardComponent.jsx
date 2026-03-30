@@ -17,7 +17,7 @@ import ModalOrdenes from "../Modal/ModalOrdenes";
 
 const DashboardComponent = () => {
     const dispatch = useDispatch();
-    const [periodo, setPeriodo] = useState("day");
+    const [periodo, setPeriodo] = useState("día");
     const [fechaInicio, setFechaInicio] = useState("");
     const [fechaFin, setFechaFin] = useState("");
     const [historicoPedidos, setHistoricoPedidos] = useState({});
@@ -61,10 +61,10 @@ const DashboardComponent = () => {
         Object.entries(historicoPedidos).forEach(([fecha, pedidosPorDia]) => {
             // Filtros por periodo
             const dentroDelPeriodo =
-                periodo === "year" ? fecha.startsWith(`${y}-`) :
-                periodo === "month" ? fecha.startsWith(`${y}-${m}`) :
-                periodo === "day" ? fecha === fechaHoy :
-                periodo === "custom" ?
+                periodo === "año" ? fecha.startsWith(`${y}-`) :
+                periodo === "mes" ? fecha.startsWith(`${y}-${m}`) :
+                periodo === "día" ? fecha === fechaHoy :
+                periodo === "personalizado" ?
                     (!fechaInicio || fecha >= fechaInicio) && (!fechaFin || fecha <= fechaFin) :
                 false;
 
@@ -95,10 +95,10 @@ const DashboardComponent = () => {
 
         Object.entries(historicoPedidos).forEach(([fecha, pedidosPorDia]) => {
             const dentroPeriodoAnterior =
-                periodo === "day" ? fecha === fechaAyer :
-                periodo === "month" ? fecha.startsWith(fechaMesAnt) :
-                periodo === "year" ? fecha.startsWith(fechaAñoAnt) :
-                []; // custom no compara
+                periodo === "día" ? fecha === fechaAyer :
+                periodo === "mes" ? fecha.startsWith(fechaMesAnt) :
+                periodo === "año" ? fecha.startsWith(fechaAñoAnt) :
+                [];
 
             if (dentroPeriodoAnterior && pedidosPorDia) {
                 Object.values(pedidosPorDia).forEach(pedido => {
@@ -170,13 +170,13 @@ const DashboardComponent = () => {
                             onChange={(e) => setPeriodo(e.target.value)}
                             className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm outline-none transition dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
                         >
-                            <option value="day">Hoy</option>
-                            <option value="month">Mes</option>
-                            <option value="year">Año</option>
-                            <option value="custom">Personalizado</option>
+                            <option value="día">Hoy</option>
+                            <option value="mes">Mes</option>
+                            <option value="año">Año</option>
+                            <option value="personalizado">Personalizado</option>
                         </select>
 
-                        {periodo === "custom" && (
+                        {periodo === "personalizado" && (
                             <div className="flex items-center gap-2 flex-wrap">
                                 <input
                                     type="date"
@@ -212,13 +212,13 @@ const DashboardComponent = () => {
                 </div>
 
                 <div className="w-full flex flex-col md:flex-row flex-grow space-y-5 md:space-y-0 md:space-x-5">
-                    <OrderList data={pedidosFiltrados} onVerPedidos={handleVerPedidos} onVerPedido={handleVerPedido} />
+                    <OrderList data={pedidosFiltrados} onVerPedidos={handleVerPedidos} onVerPedido={handleVerPedido} periodo={periodo} />
                     <Report data={pedidosFiltrados} />
                 </div>
             </div>
 
             {modalOrdenUnica && pedidoSeleccionado && (<ModalOrdenUnica pedido={pedidoSeleccionado} />)}
-            {modalOrdenes && (<ModalOrdenes pedidos={pedidosFiltrados} />)}
+            {modalOrdenes && (<ModalOrdenes pedidos={pedidosFiltrados} periodo={periodo}/>)}
         </div>
     );
 };

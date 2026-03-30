@@ -8,7 +8,7 @@ const ITEMS_PER_PAGE = 20;
 
 const ModalOrdenes = ({
   pedidos = [],
-  periodo = 'day',
+  periodo = 'día',
   onViewPedido,
 }) => {
   const dispatch = useDispatch();
