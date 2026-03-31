@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import menuData from '../../../../common_data';
 import MenuItem from "../../../../UI/MenuItem";
 
-const Sidemenu = () => {
+const Sidemenu = ({collapsed}) => {
     const location = useLocation();
     let linkStyle = 'inline-block md:flex lg:inline-block justify-normal md:justify-center lg:justify-normal rounded-xl duration-100 p-3';
 
@@ -12,7 +12,7 @@ const Sidemenu = () => {
         {menuData.map(([title, url, image]) => (
           <Link to={url} key={url} className={ location.pathname === url ? ( linkStyle + ' bg-zinc-300 dark:bg-zinc-800 ' ) : ( linkStyle + ' rounded-xl hover:bg-zinc-300 dark:hover:bg-zinc-800' ) }>
             <MenuItem image={image}>
-              <p className="md:hidden lg:block">{title}</p>
+              <p className={collapsed ? "hidden" : "inline"}>{title}</p>
             </MenuItem>
           </Link>
         ))}

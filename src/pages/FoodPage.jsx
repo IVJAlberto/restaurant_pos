@@ -19,7 +19,6 @@ function FoodPage() {
       <div className="flex flex-col md:flex-row">
         {/* Se quitó la funcionalidad del modal para la mesa porque se selecciona desde el menú de orden */}
         {/* {isOpen && <TableNumberModal />}  */}
-        <Sidebar/>
         <Catalogo /> 
         <OrderDetails />
         {modalPedidoVisibility && <ModalPedido />}

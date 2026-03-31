@@ -9,7 +9,6 @@ const CocinaPage = () => {
     
     return(
     <div className="flex flex-col md:flex-row w-full h-screen">
-        <Sidebar/>
         <CocinaFeed fecha={fecha}/>
   </div>);
 };
