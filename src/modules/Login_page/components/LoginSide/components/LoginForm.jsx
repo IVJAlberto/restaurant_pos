@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-import { signInWithEmailAndPassword } from "firebase/auth"; //Firebase Sign in method.
-import { auth } from "../../../../../firebase_config"; // auth logic.
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../../../firebase_config";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 import TextHeader from "../../../../../UI/textHeader";
 import LoginPageBtn from "../../../../../UI/LoginPageBtn";
 import LoginOptions from "./LoginOptions";
 import GoogleIcon from "../../../../../assets/login_icons/google_icon.png"
 
-import { useNavigate } from "react-router-dom"; // Navigate method (Routing).
+import { useNavigate } from "react-router-dom";
 
-import { setUID } from "./slices/AuthReducer";
+import { setTempUID, setLoading } from "./slices/AuthReducer";
 import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
@@ -37,25 +37,39 @@ const LoginForm = () => {
         setShowPassword(!showPassword);
     };
 
-    const onLogin = (e) => {
-        e.preventDefault();
-        signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            navigate("/food_catalog")
-            dispatch(setUID(user.uid));
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            setErrorMessage('Invalid email or password. Please try again.');
-            console.log(errorCode, errorMessage);
-            setTimeout(() => {
-                setErrorMessage('');
-            }, 5000); 
-        });
+    const onLogin = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+    dispatch(setLoading(true));
+
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const uid = userCredential.user.uid;
         
+        dispatch(setTempUID(uid));
+        
+        setEmail('');
+        setPassword('');
+        
+        navigate("/mensajes");
+        
+    } catch (error) {
+        const errorCode = error.code;
+        
+        if (errorCode === 'auth/user-not-found') {
+        setErrorMessage('Usuario no encontrado.');
+        } else if (errorCode === 'auth/wrong-password') {
+        setErrorMessage('Contraseña incorrecta.');
+        } else if (errorCode === 'auth/invalid-email') {
+        setErrorMessage('Correo inválido.');
+        } else {
+        setErrorMessage('Error al iniciar sesión. Inténtalo de nuevo.');
+        }
+        
+        dispatch(setLoading(false));
+        setTimeout(() => setErrorMessage(''), 5000);
     }
+    };
 
     const onForgetPassword = () => {
         sendPasswordResetEmail(auth, email)

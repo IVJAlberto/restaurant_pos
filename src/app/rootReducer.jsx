@@ -22,7 +22,7 @@ import toggleModalSliceOrdenes from '../modules/DashboardComponent/slices/toggle
 
 import darkModeVisibility from '../modules/Sidebar/components/ThemeToggler/slices/darkModeVisibility';
 
-import UIDSliceReducer from '../modules/Login_page/components/LoginSide/components/slices/AuthReducer';
+import AuthReducer  from '../modules/Login_page/components/LoginSide/components/slices/AuthReducer';
 
 const rootReducer = combineReducers({
   OrderDetails: OrderDetailsReducer,
@@ -37,7 +37,7 @@ const rootReducer = combineReducers({
   OrderTotal: OrderInformation,
   ToggleTableModal: toggleTableModalSlice,
   DarkModeToggler: darkModeVisibility,
-  UIDSlice: UIDSliceReducer,
+  AuthSlice: AuthReducer ,
 });
 
 export default rootReducer;

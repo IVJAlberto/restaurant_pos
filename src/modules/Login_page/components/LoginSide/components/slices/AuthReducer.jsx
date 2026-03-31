@@ -1,16 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const UIDSlice = createSlice({
-    name: 'UniqueID',
-    initialState: {
-        UID: null
+const AuthReducer = createSlice({
+  name: 'auth',
+  initialState: {
+    uid: null,
+    nombre: null,
+    rol: null,
+    loading: true
+  },
+  reducers: {
+    setUserData: (state, action) => {
+      state.uid = action.payload.uid;
+      state.nombre = action.payload.nombre;
+      state.rol = action.payload.rol;
+      state.loading = false;
     },
-    reducers: {
-        setUID: (state, action) => {
-            state.UID = action.payload;
-        }
-    }
-})
+    clearUserData: (state) => {
+      state.uid = null;
+      state.nombre = null;
+      state.rol = null;
+      state.loading = true;
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    setTempUID: (state, action) => {
+        state.uid = action.payload;
+        state.loading = true;
+    },
+  }
+});
 
-export const { setUID } = UIDSlice.actions;
-export default UIDSlice.reducer;
+export const { setUserData, clearUserData, setLoading, setTempUID } = AuthReducer.actions;
+export default AuthReducer.reducer;
