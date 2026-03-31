@@ -1,6 +1,6 @@
 {
   "name": "restaurant_pos",
-  "homepage": "https://dmitry-lapin.github.io/restaurant_pos/#",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
