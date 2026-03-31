@@ -33,7 +33,7 @@ const Sidebar = () => {
 
   const sidebarClasses = `
     h-screen flex flex-col bg-zinc-200 dark:bg-stone-950 border-r border-zinc-300 dark:border-zinc-950
-    transition-all duration-300 ease-in-out overflow-hidden
+    transition-all duration-300 ease-in-out
     ${isCollapsed ? 'w-20' : 'w-full md:w-72 lg:w-80'}
   `;
 
@@ -61,18 +61,20 @@ const Sidebar = () => {
         )}
       </div>
 
-      <div id="sidebar-content" className="flex-1 overflow-y-auto">
+      <div id="sidebar-content" className="flex-1">
         <MenuWrapper>
           <Sidemenu collapsed={isCollapsed} />
-          {!isCollapsed && (
-            <div>
-              <div className="flex flex-row md:flex-col lg:flex-row mx-3 space-x-3 md:space-x-0 lg:space-x-3 space-y-0 md:space-y-3 lg:space-y-0 mb-3 lg:mb-0">
-                <UserData />
-                <ThemeToggler />
-              </div>
-              <InfoContainer />
+          <div>
+            <div className={`flex flex-row mx-3 
+              ${isCollapsed ? 'justify-center flex-col space-y-3' : 'justify-start space-x-3'}`}
+            >
+              <UserData collapsed={isCollapsed}/>
+              <ThemeToggler />
             </div>
-          )}
+            <InfoContainer collapsed={isCollapsed}/>
+          </div>
+          {/* {!isCollapsed && (
+          )} */}
         </MenuWrapper>
       </div>
     </aside>

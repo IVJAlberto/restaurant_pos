@@ -7,7 +7,7 @@ import { SignOutUser } from "./helpers/signoutUser";
 import { useNavigate } from 'react-router-dom'; // Импортируем useNavigate
 import { Link } from "react-router-dom";
 
-const UserData = () => {
+const UserData = ({ collapsed }) => {
     const auth = getAuth();
     const user = auth.currentUser;
     const userUID = user.uid;
@@ -42,20 +42,39 @@ const UserData = () => {
 
     return (
         <div className="relative flex w-full">
-            <div onClick={displayUserData} className="flex w-full justify-normal md:justify-center lg:justify-normal items-center space-x-3 md:space-x-0 lg:space-x-3 rounded-2xl p-2 bg-zinc-300 dark:bg-zinc-900 duration-100 cursor-pointer">
-                <div className="ml-5 truncate block md:hidden lg:block">
-                    <p className="text-zinc-950 dark:text-gray-300 font-semibold text-md xl:text-lg">{userInfo.name  || "Usuario"}</p>
-                    <p className="text-zinc-950 dark:text-gray-400 font-normal truncate text-sm xl:text-normal">{userInfo.role  || "Administrador"}</p>
-                </div>
+            <div onClick={displayUserData} 
+                className={`flex w-full justify-normal lg:justify-normal items-center space-x-3 
+                 rounded-2xl p-2 bg-zinc-300 dark:bg-zinc-900 duration-100 cursor-pointer
+                    ${collapsed ? 'justify-center' : 'justify-start'}`}>
+                {
+                    collapsed ? (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            className="h-8 w-8 text-gray-700 dark:text-gray-300 self-center"
+                            aria-hidden="true"
+                            >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.93 17.93 0 0112 21.75a17.93 17.93 0 01-3.499-.82z"
+                            />
+                        </svg>
+                    ) : (
+                        <div className="ml-5 truncate block md:hidden lg:block">
+                            <p className="text-zinc-950 dark:text-gray-300 font-semibold text-md xl:text-lg">{userInfo.name  || "Usuario"}</p>
+                            <p className="text-zinc-950 dark:text-gray-400 font-normal truncate text-sm xl:text-normal">{userInfo.role  || "Administrador"}</p>
+                        </div>
+                    )
+                }
             </div>
             {isDataDisplayed && (
-                <div className="flex flex-col space-y-2 absolute bottom-20 rounded-xl bg-zinc-300 dark:bg-zinc-900 p-4 w-full text-zinc-950 dark:text-gray-300">         
-                    <p className="text-lg font-medium">Hey, {userInfo.name}!</p>
-                    <ul className="list-none space-y-1">
-                        <li><Link to={'/settings'} className="text-sm">Profile settings</Link></li>
-                        <li><Link to={'/settings'} className="text-sm">Team</Link></li>
-                    </ul>                    
-                    <button onClick={onSignOut} className="text-red-500 w-fit">Logout</button>
+                <div className="flex flex-col space-y-2 absolute bottom-20 rounded-xl bg-zinc-300 dark:bg-zinc-900 p-4 w-[200px] text-zinc-950 dark:text-gray-300">         
+                    <p className="text-lg font-medium">Hola, {userInfo.name}!</p>                
+                    <button onClick={onSignOut} className="text-red-500 w-fit">Cerrar sesión</button>
                 </div>
             )}
         </div>
