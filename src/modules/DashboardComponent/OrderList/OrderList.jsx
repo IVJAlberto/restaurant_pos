@@ -97,7 +97,7 @@ const OrderList = ({ data = [], onVerPedidos, onVerPedido }) => {
     };
 
     return (
-        <div className="w-full md:w-7/12 border bg-white rounded-2xl border-zinc-300 relative z-50 order-list-container">
+        <div className="w-full md:w-7/12 border bg-white rounded-2xl border-zinc-300 relative z-40 order-list-container">
             <div className="flex justify-between px-5 py-4">
                 <p className="font-semibold text-xl">Lista de órdenes</p>
                 <button

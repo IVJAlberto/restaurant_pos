@@ -111,7 +111,7 @@ const CocinaFeed = ({ fecha = '2026-03-21' }) => {
   }
 
   return (
-    <div className="inset-0 z-50 p-4 bg-zinc-200/75 backdrop-blur-sm flex flex-col w-full max-h-screen">
+    <div className="inset-0 z-40 p-4 bg-zinc-200/75 backdrop-blur-sm flex flex-col w-full max-h-screen">
       {/* Header */}
       <div className="bg-zinc-500 rounded-2xl p-6 flex justify-between items-center mb-4 shadow-2xl flex-shrink-0">
         <div>

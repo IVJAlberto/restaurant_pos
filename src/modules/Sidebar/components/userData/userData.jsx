@@ -58,7 +58,7 @@ const UserData = ({ collapsed }) => {
                 }
             </div>
             {isDataDisplayed && (
-                <div className="flex flex-col space-y-2 absolute bottom-20 rounded-xl bg-zinc-300 dark:bg-zinc-900 p-4 w-[200px] text-zinc-950 dark:text-gray-300">         
+                <div className="z-50 flex flex-col space-y-2 absolute bottom-20 rounded-xl bg-zinc-300 dark:bg-zinc-900 p-4 w-[200px] text-zinc-950 dark:text-gray-300">         
                     <p className="text-lg font-medium">Hola, {nombre}!</p>                
                     <button onClick={onSignOut} className="text-red-500 w-fit">Cerrar sesión</button>
                 </div>
