@@ -24,6 +24,7 @@ const ModalOrdenes = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [openActionId, setOpenActionId] = useState(null);
+  const [orden, setOrden] = useState('desc');
 
   const totalOrders = pedidos.length;
   const totalPages = Math.max(1, Math.ceil(totalOrders / ITEMS_PER_PAGE));
@@ -41,10 +42,22 @@ const ModalOrdenes = ({
     setSelectedOrder(null);
   };
 
+  const toggleOrden = () => {
+    setOrden((prev) => (prev === 'desc' ? 'asc' : 'desc'));
+    setCurrentPage(1);
+  };
+
   const paginatedPedidos = useMemo(() => {
+    const pedidosOrdenados = [...pedidos].sort((a, b) => {
+      const fechaA = new Date(a.fecha).getTime();
+      const fechaB = new Date(b.fecha).getTime();
+
+      return orden === 'desc' ? fechaB - fechaA : fechaA - fechaB;
+    });
+
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return pedidos.slice(start, start + ITEMS_PER_PAGE);
-  }, [pedidos, currentPage]);
+    return pedidosOrdenados.slice(start, start + ITEMS_PER_PAGE);
+  }, [pedidos, currentPage, orden]);
 
   const goToPage = (page) => {
     const nextPage = Math.min(Math.max(page, 1), totalPages);
@@ -102,13 +115,25 @@ const ModalOrdenes = ({
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 sm:text-xl">
                 Todas las órdenes ({totalOrders})
               </h2>
-              <div className="mt-1 flex flex-wrap gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+
+              <div className="mt-3 flex flex-wrap gap-2 text-sm text-zinc-500 dark:text-zinc-400">
                 <span className="rounded-full bg-zinc-100 px-3 py-1 dark:bg-zinc-800">
                   Periodo: {periodo}
                 </span>
+
                 <span className="rounded-full bg-zinc-100 px-3 py-1 dark:bg-zinc-800">
                   Página {currentPage} de {totalPages}
                 </span>
+
+                <button
+                  onClick={toggleOrden}
+                  className="inline-flex items-center gap-2 rounded-full bg-zinc-100 px-3 py-1 font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                >
+                  <span>{orden === 'desc' ? '↓' : '↑'}</span>
+                  <span>
+                    {orden === 'desc' ? 'Más recientes' : 'Más antiguos'}
+                  </span>
+                </button>
               </div>
             </div>
 
@@ -141,85 +166,85 @@ const ModalOrdenes = ({
               <>
                 <div className="max-h-[calc(90vh-180px)] overflow-y-auto px-3 py-3 sm:px-4">
                   <div className="space-y-3">
-                    {paginatedPedidos.map((order) => 
-                      {
-                        const orderId = order.id ?? order._id;
+                    {paginatedPedidos.map((order) => {
+                      const orderId = order.id ?? order._id;
 
-                        return(
-                          <div
-                            key={orderId}
-                            className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 shadow-sm transition hover:shadow-md dark:border-zinc-800 dark:bg-zinc-950/60"
-                          >
-                            <div className="grid grid-cols-1 gap-3 md:grid-cols-[1.2fr_1fr_1fr_1fr_auto] md:items-center">
-                              <div className="flex flex-col">
-                                <span className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                                  Orden
-                                </span>
-                                <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                                  {order.folio ?? order.codigo ?? order.id ?? order._id}
-                                </span>
-                              </div>
-    
-                              <div className="flex flex-col">
-                                <span className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                                  Fecha
-                                </span>
-                                <span className="text-sm text-zinc-700 dark:text-zinc-300">
-                                  {order.fecha?.nombre ?? order.fecha ?? '—'}
-                                </span>
-                              </div>
-    
-                              <div className="flex flex-col">
-                                <span className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                                  Total
-                                </span>
-                                <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                                  {order.granTotal != null
-                                    ? `$${Number(order.granTotal).toFixed(2)}`
-                                    : '—'}
-                                </span>
-                              </div>
-    
-                              <div className="flex flex-col">
-                                <span className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                                  Método de pago
-                                </span>
-                                <span className="inline-flex w-fit rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-500/20 dark:text-blue-300">
-                                  {order.seleccionadoMetodoPago ?? order.paymentMethod ?? 'Efectivo'}
-                                </span>
-                              </div>
-    
-                              <div className="relative">
-                                <details className="group"
-                                  open={openActionId === orderId}
-                                  onToggle={(e) => {
-                                    if (e.target.open) {
-                                      setOpenActionId(orderId);
-                                    } else if (openActionId === orderId) {
-                                      setOpenActionId(null);
-                                    }
-                                  }}
-                                >
-                                  <summary className="list-none cursor-pointer rounded-xl bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm ring-1 ring-zinc-200 transition hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-200 dark:ring-zinc-800 dark:hover:bg-zinc-800">
-                                    Acciones
-                                  </summary>
-                                  <div className="absolute right-0 z-10 mt-2 w-48 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
-                                    <button
-                                      onClick={() => {
-                                        handleView(order);
-                                      }}
-                                      className="block w-full px-4 py-3 text-left text-sm text-zinc-700 transition hover:bg-blue-50 hover:text-blue-700 dark:text-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-blue-300"
-                                    >
-                                      Ver detalles
-                                    </button>
-                                  </div>
-                                </details>
-                              </div>
+                      return (
+                        <div
+                          key={orderId}
+                          className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 shadow-sm transition hover:shadow-md dark:border-zinc-800 dark:bg-zinc-950/60"
+                        >
+                          <div className="grid grid-cols-1 gap-3 md:grid-cols-[1.2fr_1fr_1fr_1fr_auto] md:items-center">
+                            <div className="flex flex-col">
+                              <span className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                                Orden
+                              </span>
+                              <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                                {order.folio ?? order.codigo ?? order.id ?? order._id}
+                              </span>
+                            </div>
+
+                            <div className="flex flex-col">
+                              <span className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                                Fecha
+                              </span>
+                              <span className="text-sm text-zinc-700 dark:text-zinc-300">
+                                {order.fecha?.nombre ?? order.fecha ?? '—'}
+                              </span>
+                            </div>
+
+                            <div className="flex flex-col">
+                              <span className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                                Total
+                              </span>
+                              <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                                {order.granTotal != null
+                                  ? `$${Number(order.granTotal).toFixed(2)}`
+                                  : '—'}
+                              </span>
+                            </div>
+
+                            <div className="flex flex-col">
+                              <span className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                                Método de pago
+                              </span>
+                              <span className="inline-flex w-fit rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-500/20 dark:text-blue-300">
+                                {order.seleccionadoMetodoPago ?? order.paymentMethod ?? 'Efectivo'}
+                              </span>
+                            </div>
+
+                            <div className="relative">
+                              <details
+                                className="group"
+                                open={openActionId === orderId}
+                                onToggle={(e) => {
+                                  if (e.target.open) {
+                                    setOpenActionId(orderId);
+                                  } else if (openActionId === orderId) {
+                                    setOpenActionId(null);
+                                  }
+                                }}
+                              >
+                                <summary className="list-none cursor-pointer rounded-xl bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm ring-1 ring-zinc-200 transition hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-200 dark:ring-zinc-800 dark:hover:bg-zinc-800">
+                                  Acciones
+                                </summary>
+
+                                <div className="absolute right-0 z-10 mt-2 w-48 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
+                                  <button
+                                    onClick={() => {
+                                      handleView(order);
+                                    }}
+                                    className="block w-full px-4 py-3 text-left text-sm text-zinc-700 transition hover:bg-blue-50 hover:text-blue-700 dark:text-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-blue-300"
+                                  >
+                                    Ver detalles
+                                  </button>
+                                </div>
+                              </details>
                             </div>
                           </div>
-                        )
-                      }
-                    )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
