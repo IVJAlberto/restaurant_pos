@@ -44,7 +44,7 @@ const Categorias = () => {
     };
     return(
         <>
-            <TextHeader text="Categorias" color="text-zinc-950 dark:text-gray-300" categoryTopic={true} size="text-md md:text-lg p-4"/>
+            <TextHeader text="Categorías" color="text-zinc-950 dark:text-gray-300" categoryTopic={true} size="text-md md:text-lg p-4"/>
             <div className="flex items-center py-1.5 md:py-3 mx-2 px-1.5 md:px-5 bg-zinc-300 dark:bg-zinc-900 rounded-lg">
             <button onClick={() => scroll('left')} className="text-black dark:text-white">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
