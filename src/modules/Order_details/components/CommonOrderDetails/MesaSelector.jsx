@@ -1,17 +1,67 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { onValue, ref } from "firebase/database";
+
+import { database } from "../../../../firebase_config";
 import { toggleVisibility } from "../../slices/MesaSeleccionSlice";
-import { useDispatch } from "react-redux";
 
 const MesaSelector = ({ origen = "carrito" }) => {
     const dispatch = useDispatch();
     const mesaSeleccionada = useSelector(state => state.OrderTotal.table);
 
+    const [mesaEstado, setMesaEstado] = useState("libre");
+    const [tieneActualizaciones, setTieneActualizaciones] = useState("pendiente");
+    
+    useEffect(() => {
+        if (!mesaSeleccionada) {
+            setMesaEstado("libre");
+            setTieneActualizaciones("pendiente");
+            return;
+        }
+
+        const mesaRef = ref(database, `ordenesPorMesa/mesa${mesaSeleccionada}`);
+
+        const unsubscribe = onValue(mesaRef, (snapshot) => {
+            const data = snapshot.val();
+
+            if (!data) {
+            setMesaEstado("libre");
+            setTieneActualizaciones("pendiente");
+            return;
+            }
+
+            setMesaEstado(data.estadoMesa || "libre");
+
+            const ordenes = data.ordenPendiente || [];
+
+            let nuevoEstado = "pendiente";
+
+            if (ordenes.some((item) => item.estadoPlatillo === "listo"))
+                nuevoEstado = "listo";
+            else if (ordenes.some((item) => item.estadoPlatillo === "preparando"))
+                nuevoEstado = "preparando";
+            else if (ordenes.some((item) => item.estadoPlatillo === "pendiente"))
+                nuevoEstado = "pendiente";
+
+            setTieneActualizaciones(nuevoEstado);
+        });
+
+        return () => unsubscribe();
+    }, [mesaSeleccionada]);
+
     return (
         <div className="px-7 py-4 md:py-7 font-semibold flex flex-col space-y-3 h-full justify-center">
             <div className={`flex items-center justify-between ${origen === "carrito" ? "w-full" : "gap-2"}`}>
                 <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-orange-400 rounded-full animate-pulse"></div>
+                    <div className={`
+                        w-3 h-3 rounded-full 
+                        ${mesaEstado === "libre" ? "bg-emerald-500" : ""}
+                        ${mesaEstado === "ocupada" ? 
+                            tieneActualizaciones === "preparando" ? "bg-yellow-500 animate-pulse" :
+                            tieneActualizaciones === "listo" ? "bg-purple-500 animate-pulse" : "bg-red-500" 
+                            : ""}
+                    `}>
+                    </div>
                     <p className="text-lg font-bold">
                         Mesa {mesaSeleccionada || 'No seleccionada'}
                     </p>

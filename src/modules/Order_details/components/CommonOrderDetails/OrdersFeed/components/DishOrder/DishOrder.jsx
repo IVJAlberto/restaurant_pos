@@ -37,7 +37,7 @@ const DishOrder = ({ platillo, origen="local" }) => {
                         : platillo.estadoPlatillo === "preparando" 
                         ? "bg-yellow-400/80 dark:bg-yellow-800/80 border-yellow-500" 
                         : platillo.estadoPlatillo === "listo" 
-                            ? "bg-blue-400/80 dark:bg-blue-800/80 border-blue-500" 
+                            ? "bg-purple-400/80 dark:bg-purple-800/80 border-purple-500" 
                             : "bg-zinc-400 dark:bg-zinc-800"
                     : "bg-zinc-400 dark:bg-zinc-800"  // Local/completado = gris
             }

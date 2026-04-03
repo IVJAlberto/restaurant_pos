@@ -10,8 +10,8 @@ import TextHeader from "../../UI/textHeader";
 const ModalMesa = () => {
     const dispatch = useDispatch();
     const mesaSeleccionada = useSelector(state => state.OrderTotal.table);
-    const [mesas, setMesas] = useState({});
     const isVisible = useSelector(state => state.MesaSeleccion.isVisible);
+    const [mesas, setMesas] = useState({});
 
     useEffect(() => {
         
@@ -20,6 +20,14 @@ const ModalMesa = () => {
         const unsubscribe = onValue(mesasRef, (snapshot) => {
             const data = snapshot.val() || {};
             setMesas(data);
+            const ordenes = [];
+            
+            Object.values(data).forEach(mesa => {
+                if (mesa.ordenPendiente) {
+                    ordenes.push(...mesa.ordenPendiente);
+                }
+            });
+            // console.log("Ordenes", ordenes);
         });
         return () => unsubscribe();
     }, [isVisible]);
@@ -29,17 +37,20 @@ const ModalMesa = () => {
         dispatch(toggleVisibility());
     };
 
-    const getMesaEstadoClass = (estado, seleccionada) => {
-        const baseClasses = "rounded-lg py-3 text-sm font-bold transition-all duration-200 transform hover:scale-105 group";
+    const getMesaEstadoClass = (estado, seleccionada, orden) => {
+        const baseClasses = "rounded-lg py-3 text-sm font-bold transition-all duration-200 transform hover:scale-105 group text-white shadow-lg border-2";
         
         if (seleccionada) {
             return `${baseClasses} bg-orange-400 text-white shadow-xl border-4 border-orange-500 ring-2 ring-orange-300`;
         }
+        // console.log("Orden",orden);
         
         switch (estado) {
             case "limpiando": return `${baseClasses} bg-yellow-400 text-white shadow-lg border-2 border-yellow-500 hover:bg-yellow-500`;
-            case "ocupada": return `${baseClasses} bg-red-400 text-white shadow-lg border-2 border-red-500 hover:bg-red-500`;
             case "libre": return `${baseClasses} bg-emerald-400 text-white shadow-lg border-2 border-emerald-500 hover:bg-emerald-500`;
+            case "ocupada": return `${orden === "listo" ? `${baseClasses} bg-purple-500` 
+                                                : orden === "preparando" ? `${baseClasses} bg-yellow-500` 
+                                                : orden === "pendiente" ? `${baseClasses} bg-red-500` : `${baseClasses} bg-emerald-500`}`;
             default: return `${baseClasses} bg-zinc-200 dark:bg-zinc-700 text-zinc-950 dark:text-gray-300 hover:bg-zinc-300 dark:hover:bg-zinc-600 border border-zinc-300`;
         }
     };
@@ -69,12 +80,15 @@ const ModalMesa = () => {
                                 const estaSeleccionada = mesaSeleccionada === numeroMesa;
                                 const estado = mesaData?.estadoMesa || 'libre';
                                 const total = mesaData?.granTotal || 0;
+                                const estadoOrden = mesaData?.ordenPendiente?.find(item =>
+                                    ["listo", "preparando", "pendiente"].includes(item.estadoPlatillo)
+                                )?.estadoPlatillo ?? null;
                                 
                                 return (
                                     <button
                                         key={numeroMesa}
                                         onClick={() => handleSeleccionarMesa(numeroMesa)}
-                                        className={getMesaEstadoClass(estado, estaSeleccionada)}
+                                        className={getMesaEstadoClass(estado, estaSeleccionada, estadoOrden)}
                                         title={`Mesa ${numeroMesa}: ${estado}\nTotal: $${total}`}
                                     >
                                         <div className="flex flex-col justify-center gap-1 items-center space-y-1 p-1">
