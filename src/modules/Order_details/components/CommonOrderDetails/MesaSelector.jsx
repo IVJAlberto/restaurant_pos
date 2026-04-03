@@ -19,7 +19,6 @@ const MesaSelector = () => {
                 <button
                     onClick={() => {
                         dispatch(toggleVisibility())
-                        console.log("click");
                     }
                     }
                     className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-semibold hover:bg-blue-600 transition-all shadow-md hover:shadow-lg flex items-center space-x-1"

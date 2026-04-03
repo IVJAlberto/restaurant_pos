@@ -1,26 +1,28 @@
 import React from "react";
 import AddReduceBtn from "../../../../../../../UI/AddReduceBtn"
 import { eliminarPlatillo, agregarPlatillo, eliminarTodosLosPlatillos, actualizarNotasPlatillo } from "../../../../../slices/OrdersFeedSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const DishOrder = ({ platillo, origen="local" }) => {
     const dispatch = useDispatch();
+    const mesaSeleccionada = useSelector(state => state.OrderTotal.table);
 
     const handleRemoveFromCart = (nombrePlatillo) => {
-        dispatch(eliminarPlatillo(nombrePlatillo));
+        dispatch(eliminarPlatillo({ mesaId: mesaSeleccionada, nombrePlatillo }));
     }
 
     const handleAddToOrder = () => {
-        dispatch(agregarPlatillo(platillo));
+        dispatch(agregarPlatillo({ mesaId: mesaSeleccionada, platillo }));
     }
 
     const handleRemoveAllFromCart = () => {
-        dispatch(eliminarTodosLosPlatillos(platillo.nombre));
+        dispatch(eliminarTodosLosPlatillos({ mesaId: mesaSeleccionada, nombrePlatillo: platillo.nombre }));
     }
 
     const handleNotasChange = (e) => {
         const nuevasNotas = e.target.value;
         dispatch(actualizarNotasPlatillo({ 
+        mesaId: mesaSeleccionada,
         nombre: platillo.nombre, 
         notas: nuevasNotas 
         }));

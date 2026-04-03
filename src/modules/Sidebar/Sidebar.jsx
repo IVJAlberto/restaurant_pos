@@ -21,8 +21,7 @@ const Sidebar = () => {
 
   const toggleSidebar = () => {
     setIsCollapsed(prev => !prev);
-    console.log("click");
-    
+
   };
 
   useEffect(() => {

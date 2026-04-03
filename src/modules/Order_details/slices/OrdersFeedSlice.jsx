@@ -1,62 +1,128 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  ordenesPorMesa: {}
+};
+
+const getMesaState = (state, mesaId) => {
+  if (!state.ordenesPorMesa[mesaId]) {
+    state.ordenesPorMesa[mesaId] = {
+      PlatillosSeleccionados: [],
+      totalPedido: 0,
+    };
+  }
+
+  return state.ordenesPorMesa[mesaId];
+};
+
 const OrdersFeedSlice = createSlice({
-    name: 'OrdersFeed',
-    initialState: {
+  name: "OrdersFeed",
+  initialState,
+  reducers: {
+    agregarPlatillo: (state, action) => {
+      const { mesaId, platillo } = action.payload;
+      const mesa = getMesaState(state, mesaId);
+
+      const platilloExistente = mesa.PlatillosSeleccionados.find(
+        (dish) => dish.nombre === platillo.nombre
+      );
+
+      if (platilloExistente) {
+        platilloExistente.cantidad += 1;
+      } else {
+        mesa.PlatillosSeleccionados.push({
+          ...platillo,
+          cantidad: 1,
+        });
+      }
+
+      mesa.totalPedido += platillo.precio;
+    },
+
+    eliminarPlatillo: (state, action) => {
+      const { mesaId, nombrePlatillo } = action.payload;
+      const mesa = getMesaState(state, mesaId);
+
+      const platilloAEliminar = mesa.PlatillosSeleccionados.find(
+        (dish) => dish.nombre === nombrePlatillo
+      );
+
+      if (platilloAEliminar) {
+        if (platilloAEliminar.cantidad > 1) {
+          platilloAEliminar.cantidad -= 1;
+        } else {
+          mesa.PlatillosSeleccionados = mesa.PlatillosSeleccionados.filter(
+            (dish) => dish.nombre !== nombrePlatillo
+          );
+        }
+
+        mesa.totalPedido -= platilloAEliminar.precio;
+      }
+    },
+
+    eliminarTodosLosPlatillos: (state, action) => {
+      const { mesaId, nombrePlatillo } = action.payload;
+      const mesa = getMesaState(state, mesaId);
+
+      const platilloAEliminar = mesa.PlatillosSeleccionados.find(
+        (dish) => dish.nombre === nombrePlatillo
+      );
+
+      if (platilloAEliminar) {
+        mesa.PlatillosSeleccionados = mesa.PlatillosSeleccionados.filter(
+          (dish) => dish.nombre !== nombrePlatillo
+        );
+
+        mesa.totalPedido -= platilloAEliminar.precio * platilloAEliminar.cantidad;
+      }
+    },
+
+    actualizarNotasPlatillo: (state, action) => {
+      const { mesaId, nombre, notas } = action.payload;
+      const mesa = getMesaState(state, mesaId);
+
+      const platillo = mesa.PlatillosSeleccionados.find(
+        (p) => p.nombre === nombre
+      );
+
+      if (platillo) {
+        platillo.notas = notas;
+      }
+    },
+
+    setOrdenPedidos: (state, action) => {
+      const { mesaId, PlatillosSeleccionados, totalPedido } = action.payload;
+
+      state.ordenesPorMesa[mesaId] = {
+        PlatillosSeleccionados,
+        totalPedido,
+      };
+    },
+
+    limpiarOrdenMesa: (state, action) => {
+      const { mesaId } = action.payload;
+      if (!state.ordenesPorMesa[mesaId]) return;
+      
+      state.ordenesPorMesa[mesaId] = {
         PlatillosSeleccionados: [],
         totalPedido: 0,
+      };
     },
-    reducers: {
-        agregarPlatillo: (state, action) => {
-            const nuevoPlatillo = action.payload;
-            const platilloExistente = state.PlatillosSeleccionados.find(dish => dish.nombre === nuevoPlatillo.nombre);
 
-            if (platilloExistente) {
-                platilloExistente.cantidad += 1;
-            } else {
-                state.PlatillosSeleccionados.push({ ...nuevoPlatillo, cantidad: 1 });
-            }
-
-            state.totalPedido += nuevoPlatillo.precio;
-        },
-        eliminarPlatillo: (state, action) => {
-            const nombrePlatillo = action.payload;
-            const platilloAEliminar = state.PlatillosSeleccionados.find(dish => dish.nombre === nombrePlatillo);
-
-            if (platilloAEliminar) {
-                if (platilloAEliminar.cantidad > 1) {
-                    platilloAEliminar.cantidad -= 1;
-                } else {
-                    state.PlatillosSeleccionados = state.PlatillosSeleccionados.filter(dish => dish.nombre !== nombrePlatillo);
-                }
-
-                state.totalPedido -= platilloAEliminar.precio;
-            }
-        },
-        eliminarTodosLosPlatillos: (state, action) => {
-            const nombrePlatillo = action.payload;
-            const platilloAEliminar = state.PlatillosSeleccionados.find(dish => dish.nombre === nombrePlatillo);
-
-            if (platilloAEliminar) {
-                state.PlatillosSeleccionados = state.PlatillosSeleccionados.filter(dish => dish.nombre !== nombrePlatillo);
-                state.totalPedido -= platilloAEliminar.precio * platilloAEliminar.cantidad;
-            }
-        },
-        actualizarNotasPlatillo: (state, action) => {
-            const { nombre, notas } = action.payload;
-            const platillo = state.PlatillosSeleccionados.find(p => p.nombre === nombre);
-            if (platillo) {
-                platillo.notas = notas;
-            }
-        },
-
-        setOrdenPedidos: (state, action) => {
-            const { PlatillosSeleccionados, totalPedido } = action.payload;
-            state.PlatillosSeleccionados = PlatillosSeleccionados;
-            state.totalPedido = totalPedido;
-        },  
+    limpiarTodasLasOrdenes: (state) => {
+      state.ordenesPorMesa = {};
     },
+  },
 });
 
-export const { eliminarPlatillo, agregarPlatillo, eliminarTodosLosPlatillos,actualizarNotasPlatillo, setOrdenPedidos } = OrdersFeedSlice.actions;
+export const {
+  agregarPlatillo,
+  eliminarPlatillo,
+  eliminarTodosLosPlatillos,
+  actualizarNotasPlatillo,
+  setOrdenPedidos,
+  limpiarOrdenMesa,
+  limpiarTodasLasOrdenes,
+} = OrdersFeedSlice.actions;
+
 export default OrdersFeedSlice.reducer;

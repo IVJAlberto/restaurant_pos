@@ -1,14 +1,14 @@
 import React from "react";
 import CheckoutImg from "../assets/common_icons/checkout.png"
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleVisibility } from "../modules/Order_details/slices/OrderDetailsSlice";
-import { useSelector } from "react-redux";
 
 const CheckoutBtn = ({ displayOnBig }) => {
     const dispatch = useDispatch();
+    const mesaSeleccionada = useSelector(state => state.OrderTotal.table);
     let numeroPlatillosEnCarrito = useSelector(
-      (state) => state.OrdersFeed.PlatillosSeleccionados
+      (state) => state.OrdersFeed.ordenesPorMesa?.[mesaSeleccionada]?.PlatillosSeleccionados?.length || 0
     );
     numeroPlatillosEnCarrito = numeroPlatillosEnCarrito.length;
   

@@ -1,6 +1,6 @@
 import React from "react";
 import AddReduceBtn from "../../../../UI/AddReduceBtn";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { agregarPlatillo } from "../../../Order_details/slices/OrdersFeedSlice";
 
 import toast, { Toaster } from "react-hot-toast";
@@ -8,9 +8,12 @@ import Toast from "../../../../UI/Toast";
 
 const ProductCard = ({ platillo }) => {
   const dispatch = useDispatch();
+  const mesaSeleccionada = useSelector(state => state.OrderTotal.table);
 
   const handleAddToCart = () => {
-    dispatch(agregarPlatillo(platillo));
+    console.log("Mesa",mesaSeleccionada);
+    
+    dispatch(agregarPlatillo({ mesaId: mesaSeleccionada, platillo }));
     toast.custom(<Toast type="platillo"/>,{
       duration: 1000,
       position: 'bottom-center',

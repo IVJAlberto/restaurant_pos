@@ -3,16 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleModal } from '../Order_details/slices/toggleModalSlice';
 import CloseBtn from '../../UI/CloseBtn';
 import Toast from '../../UI/Toast';
-import { setOrdenPedidos } from '../Order_details/slices/OrdersFeedSlice';
+import { limpiarOrdenMesa } from '../Order_details/slices/OrdersFeedSlice';
 import { database } from '../../firebase_config';
 import { ref, set, update, onValue, get } from 'firebase/database';
 import toast, { Toaster } from 'react-hot-toast';
 
 const ModalPedido = () => {
   const dispatch = useDispatch();
-  const platillos = useSelector((state) => state.OrdersFeed.PlatillosSeleccionados);
   const datosOrden = useSelector((state) => state.OrderTotal);
-  const mesa = datosOrden.table; // Mesa seleccionada del Redux
+  const mesa = datosOrden.table;
+  const platillos = useSelector((state) => state.OrdersFeed.ordenesPorMesa?.[mesa]?.PlatillosSeleccionados || []);
   const [loading, setLoading] = useState(false);
   const [mesaLibre, setMesaLibre] = useState(false);
 
@@ -103,7 +103,7 @@ const ModalPedido = () => {
         };
         await set(mesaRef, mesaCompleta);
       } else {
-        // Mesa OCUPADA → Agregar platillos
+        // Mesa OCUPADA - Agregar platillos
         const mesaData = snapshot.val();
         const ordenPendienteActualizada = [
           ...(mesaData.ordenPendiente || []),
@@ -134,7 +134,7 @@ const ModalPedido = () => {
       const updates = {};
 
       platillos.forEach((platillo, index) => {
-        // Usamos el mismo id que ya traes del platillo (no recreado)
+        // Usamos el mismo id que ya traes del platillo
         const platilloId =  `${timestamp}-${index}`
 
         // ruta en DB: pedidosCocina/fecha/platilloId
@@ -147,18 +147,14 @@ const ModalPedido = () => {
           nombre: platillo.nombre,
           cantidad: platillo.cantidad,
           notas: platillo.notas || "",
-          // opcional: si quieres llevar el origen o alguna otra meta
-          // origen: platillo.origen // si aplica
         };
       });
 
-      // 1 sola escritura atómica
       await update(ref(database), updates);
 
       // Limpiar carrito local
-      dispatch(setOrdenPedidos({
-        PlatillosSeleccionados: [],
-        totalPedido: 0
+      dispatch(limpiarOrdenMesa({
+        mesaId: mesa,
       }));
 
       toast.custom(<Toast type="success" message={`Pedido mesa ${mesa} → Cocina`} />, {

@@ -14,7 +14,6 @@ const ModalMesa = () => {
     const isVisible = useSelector(state => state.MesaSeleccion.isVisible);
 
     useEffect(() => {
-        console.log(isVisible - "perro");
         
         if (!isVisible) return;
         const mesasRef = ref(database, 'ordenesPorMesa');

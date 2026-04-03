@@ -12,14 +12,14 @@ import { limpiarMesaData, agregarMesaData } from "../../../slices/togglePagoSlic
 const OrdersFeed = () => {
   const dispatch = useDispatch();
   const mesaSeleccionada = useSelector((state) => state.OrderTotal.table);
-  const carritoLocal = useSelector((state) => state.OrdersFeed?.PlatillosSeleccionados || []);
+  const carritoLocal = useSelector((state) => state.OrdersFeed.ordenesPorMesa?.[mesaSeleccionada]?.PlatillosSeleccionados || []);
   
   // Estados separados
   const [ordenesCompletadas, setOrdenesCompletadas] = useState([]);
   const [ordenPendiente, setOrdenPendiente] = useState([]);
   const [cargando, setCargando] = useState(false);
   const [infoMesa, setInfoMesa] = useState(null);
-  const [mesaData, setMesaData] = useState(null); // Para funciones de completar
+  const [mesaData, setMesaData] = useState(null); 
   const [servidosAbierto, setServidosAbierto] = useState(false);
   const [pendientesAbierto, setPendientesAbierto] = useState(false);
   const [loadingCompletar, setLoadingCompletar] = useState(false);

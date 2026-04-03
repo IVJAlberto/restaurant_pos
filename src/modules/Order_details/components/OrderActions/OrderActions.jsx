@@ -9,8 +9,8 @@ import { setPaymentMethod } from "../../slices/OrderInformation";
 
 const OrderActions = () => {
     const dispatch = useDispatch();
-    let platillosVacio = useSelector(state => state.OrdersFeed.PlatillosSeleccionados);
-    let mesaSeleccionada  = useSelector(state => state.OrderTotal.table)
+    const mesaSeleccionada  = useSelector(state => state.OrderTotal.table)
+    let platillosVacio = useSelector(state => state.OrdersFeed.ordenesPorMesa?.[mesaSeleccionada]?.PlatillosSeleccionados?.length || 0);
     platillosVacio = platillosVacio.length;
 
     const handleToggleModal = () => {
