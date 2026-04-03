@@ -34,7 +34,7 @@ const OrderDetails = () => {
                 
                 {/* CommonOrderDetails: 15% del contenedor total */}
                 <div className="h-[10%] min-h-0 flex-shrink-0 p-4 overflow-hidden">
-                    <MesaSelector />   
+                    <MesaSelector/>   
                 </div>
                 
                 {/* OrdersFeed: flex-grow con scroll interno */}
