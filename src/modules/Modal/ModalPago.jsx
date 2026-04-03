@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ref, set, push } from 'firebase/database';
 import { database } from '../../firebase_config';
@@ -13,6 +13,7 @@ import BackBtn from './../../UI/BackBtn';
 
 export const ModalPago = () => {
   const dispatch = useDispatch();
+  const { nombre } = useSelector(state => state.AuthSlice);
 
   // REDUX: mesaData de OrdersFeed + carrito
   const mesaData = useSelector(state => state.PagoSlice.mesaData);
@@ -40,6 +41,11 @@ export const ModalPago = () => {
     // ...(mesaData?.ordenPendiente || []),
     // ...carritoLocal
   ];
+
+  useEffect(() => {
+    setMeseroCierre(nombre);
+  }, [nombre]);
+
 
   const handleCerrarMesa = async () => {
     if (totalFinal === 0 || todosPlatillos.length === 0) {
