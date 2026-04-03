@@ -36,9 +36,9 @@ export const ModalPago = () => {
 
   // Todos platillos: completados > pendientes > local
   const todosPlatillos = [
-    ...(mesaData?.pedidosCompletados || []),
-    ...(mesaData?.ordenPendiente || []),
-    ...carritoLocal
+    ...(mesaData?.pedidosCompletados || [])
+    // ...(mesaData?.ordenPendiente || []),
+    // ...carritoLocal
   ];
 
   const handleCerrarMesa = async () => {
