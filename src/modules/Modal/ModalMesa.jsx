@@ -50,7 +50,7 @@ const ModalMesa = () => {
             case "libre": return `${baseClasses} bg-emerald-400 text-white shadow-lg border-2 border-emerald-500 hover:bg-emerald-500`;
             case "ocupada": return `${orden === "listo" ? `${baseClasses} bg-purple-500` 
                                                 : orden === "preparando" ? `${baseClasses} bg-yellow-500` 
-                                                : orden === "pendiente" ? `${baseClasses} bg-red-500` : `${baseClasses} bg-emerald-500`}`;
+                                                : orden === "pendiente" ? `${baseClasses} bg-red-500` : `${baseClasses} bg-red-500`}`;
             default: return `${baseClasses} bg-zinc-200 dark:bg-zinc-700 text-zinc-950 dark:text-gray-300 hover:bg-zinc-300 dark:hover:bg-zinc-600 border border-zinc-300`;
         }
     };
