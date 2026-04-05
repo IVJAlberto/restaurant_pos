@@ -99,7 +99,7 @@ const ModalPedido = () => {
           ordenPendiente: platillosParaMesa,
           pedidosCompletados: [],
           totalCompletados: 0,
-          totalPendiente: totalPedido
+          totalPendiente: totalPedido,
         };
         await set(mesaRef, mesaCompleta);
       } else {
@@ -132,23 +132,25 @@ const ModalPedido = () => {
       }
 
       const updates = {};
+      const platillosCocinaObj = platillos.reduce((acc, platillo, index) => {
+        const idPlatillo = `${timestamp}-${index}`;
 
-      platillos.forEach((platillo, index) => {
-        // Usamos el mismo id que ya traes del platillo
-        const platilloId =  `${timestamp}-${index}`
-
-        // ruta en DB: pedidosCocina/fecha/platilloId
-        const path = `pedidosCocina/${fecha}/${platilloId}`;
-
-        updates[path] = {
-          id: platilloId,
-          mesa: mesa,
-          timestamp, // timestamp del pedido completo
+        acc[idPlatillo] = {
           nombre: platillo.nombre,
           cantidad: platillo.cantidad,
           notas: platillo.notas || "",
+          timestampCaptura: new Date().toISOString(),
         };
-      });
+
+        return acc;
+      },{});
+
+      const path = `pedidosCocina/${fecha}/${mesa}-${timestamp}`;
+      updates[path] = {
+        mesa: mesa,
+        timestamp,
+        platillosCocina: platillosCocinaObj,
+      };
 
       await update(ref(database), updates);
 

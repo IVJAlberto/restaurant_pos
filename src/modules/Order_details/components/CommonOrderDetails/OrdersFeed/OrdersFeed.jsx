@@ -96,14 +96,27 @@ const OrdersFeed = () => {
   // Eliminar pedidosCocina
   const eliminarPedidosCocina = async (idsPlatillos, fecha, mesa) => {
     if (!idsPlatillos.length) return;
-
+    console.log("Platillos", idsPlatillos);
+    
     const updates = {};
 
-    idsPlatillos.forEach((id) => {
-      const path = `pedidosCocina/${fecha}/${id}`;
-      updates[path] = null; // Asignar null es igual a borrar el nodo
-    });
+    const idPedido  = idsPlatillos[0].split("-")[0];
 
+    const snapshot = await get( ref(database, `pedidosCocina/${fecha}/${mesa}-${idPedido }/platillosCocina`));
+    let platillosCocina = snapshot.val() || [];
+
+    console.log("Platillos en cocina", platillosCocina);
+
+    if (idsPlatillos.length === 1 && Object.keys(platillosCocina).length > 1) {
+      console.log("Un platillo (no es el último)");
+      const idPlatillo = idsPlatillos[0];
+      const path = `pedidosCocina/${fecha}/${mesa}-${idPedido }/platillosCocina/${idPlatillo}`;
+      updates[path] = null;
+    }else{
+       console.log("Varios platillos o último platillo");
+      const path = `pedidosCocina/${fecha}/${mesa}-${idPedido }`;
+      updates[path] = null;
+    }
     await update(ref(database), updates);
   };
 
@@ -295,8 +308,14 @@ const OrdersFeed = () => {
                     className="w-full flex items-center justify-between text-left font-semibold text-green-700 mb-2 p-2 hover:bg-gray-200 dark:hover:bg-zinc-600 rounded-lg transition-all"
                   >
                     <span>Servidos ({ordenesCompletadas.length}) ${totalCompletados}</span>
-                    <span className={`transition-transform ${servidosAbierto ? 'rotate-180' : ''}`}>
-                      ▼
+                    <span className={`transition-transform`}>
+                      {
+                        servidosAbierto ? (
+                          <span className="ml-2 text-sm font-normal">▲</span>
+                        ) : (
+                          <span className="ml-2 text-sm font-normal">▼</span>
+                        )
+                      }
                     </span>
                   </button>
                   {servidosAbierto && (
@@ -318,8 +337,14 @@ const OrdersFeed = () => {
                       className="flex-1 text-left font-semibold text-orange-700 hover:bg-gray-200 dark:hover:bg-zinc-600 p-2 rounded-lg transition-all"
                     >
                       <span>Pendientes ({ordenPendiente.length}) ${totalPendiente}</span>
-                      <span className={`ml-2 transition-transform ${pendientesAbierto ? 'rotate-180' : ''}`}>
-                        ▼
+                      <span className={`ml-2 transition-transform `}>
+                        {
+                          pendientesAbierto ? (
+                            <span className="ml-2 text-sm font-normal">▲</span>
+                          ) : (
+                            <span className="ml-2 text-sm font-normal">▼</span>
+                          )
+                        }
                       </span>
                     </button>
                     
@@ -335,7 +360,7 @@ const OrdersFeed = () => {
                         </>
                       ) : (
                         <>
-                          <span>Todo</span>
+                          <span>Completar Todos</span>
                         </>
                       )}
                     </button>
