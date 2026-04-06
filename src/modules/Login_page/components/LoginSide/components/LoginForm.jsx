@@ -15,8 +15,6 @@ import { setTempUID, setLoading } from "./slices/AuthReducer";
 import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
-    // const auth = getAuth();
-
     const dispatch = useDispatch();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -38,37 +36,37 @@ const LoginForm = () => {
     };
 
     const onLogin = async (e) => {
-    e.preventDefault();
-    setErrorMessage('');
-    dispatch(setLoading(true));
+        e.preventDefault();
+        setErrorMessage('');
+        dispatch(setLoading(true));
 
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const uid = userCredential.user.uid;
-        
-        dispatch(setTempUID(uid));
-        
-        setEmail('');
-        setPassword('');
-        
-        navigate("/mensajes");
-        
-    } catch (error) {
-        const errorCode = error.code;
-        
-        if (errorCode === 'auth/user-not-found') {
-        setErrorMessage('Usuario no encontrado.');
-        } else if (errorCode === 'auth/wrong-password') {
-        setErrorMessage('Contraseña incorrecta.');
-        } else if (errorCode === 'auth/invalid-email') {
-        setErrorMessage('Correo inválido.');
-        } else {
-        setErrorMessage('Error al iniciar sesión. Inténtalo de nuevo.');
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const uid = userCredential.user.uid;
+            
+            dispatch(setTempUID(uid));
+            
+            setEmail('');
+            setPassword('');
+            
+            navigate("/mensajes");
+            
+        } catch (error) {
+            const errorCode = error.code;
+            
+            if (errorCode === 'auth/user-not-found') {
+            setErrorMessage('Usuario no encontrado.');
+            } else if (errorCode === 'auth/wrong-password') {
+            setErrorMessage('Contraseña incorrecta.');
+            } else if (errorCode === 'auth/invalid-email') {
+            setErrorMessage('Correo inválido.');
+            } else {
+            setErrorMessage('Error al iniciar sesión. Inténtalo de nuevo.');
+            }
+            
+            dispatch(setLoading(false));
+            setTimeout(() => setErrorMessage(''), 5000);
         }
-        
-        dispatch(setLoading(false));
-        setTimeout(() => setErrorMessage(''), 5000);
-    }
     };
 
     const onForgetPassword = () => {
