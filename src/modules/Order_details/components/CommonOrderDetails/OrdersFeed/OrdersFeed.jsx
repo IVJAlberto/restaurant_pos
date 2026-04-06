@@ -8,6 +8,7 @@ import DishOrder from "./components/DishOrder/DishOrder";
 import emptyCart from "../../../../../assets/stickers/nothing_in_cart.png";
 import Toast from "../../../../../UI/Toast";
 import { limpiarMesaData, agregarMesaData } from "../../../slices/togglePagoSlice";
+import { agruparPlatillosCompletados } from "../../../../../app/helpers/agruparPlatillosCompletados";
 
 const OrdersFeed = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const OrdersFeed = () => {
   const [pendientesAbierto, setPendientesAbierto] = useState(false);
   const [loadingCompletar, setLoadingCompletar] = useState(false);
   const [loadingIndividual, setLoadingIndividual] = useState({});
+  const [cantidadPlatillosCompletados, setCantidadPlatillosCompletados] = useState(0);
 
   const normalizarPlatillo = (platilloDB, origen) => ({
     ...platilloDB,
@@ -54,7 +56,10 @@ const OrdersFeed = () => {
       }));
 
       setOrdenPendiente(Array.isArray(pendientes) ? pendientes.map(p => normalizarPlatillo(p, 'pendiente')) : []);
-      setOrdenesCompletadas(Array.isArray(completados) ? completados.map(p => normalizarPlatillo(p, 'completado')) : []);
+      const ordenesCompletasNormalizadas = Array.isArray(completados) ? completados.map(p => normalizarPlatillo(p, 'completado')) : [];
+      setCantidadPlatillosCompletados(ordenesCompletasNormalizadas.length);
+      const ordenesCompletadasAgrupadas = agruparPlatillosCompletados(ordenesCompletasNormalizadas);
+      setOrdenesCompletadas(ordenesCompletadasAgrupadas);
       
       setCargando(false);
     });
@@ -96,7 +101,6 @@ const OrdersFeed = () => {
   // Eliminar pedidosCocina
   const eliminarPedidosCocina = async (idsPlatillos, fecha, mesa) => {
     if (!idsPlatillos.length) return;
-    console.log("Platillos", idsPlatillos);
     
     const updates = {};
 
@@ -105,15 +109,11 @@ const OrdersFeed = () => {
     const snapshot = await get( ref(database, `pedidosCocina/${fecha}/${mesa}-${idPedido }/platillosCocina`));
     let platillosCocina = snapshot.val() || [];
 
-    console.log("Platillos en cocina", platillosCocina);
-
     if (idsPlatillos.length === 1 && Object.keys(platillosCocina).length > 1) {
-      console.log("Un platillo (no es el último)");
       const idPlatillo = idsPlatillos[0];
       const path = `pedidosCocina/${fecha}/${mesa}-${idPedido }/platillosCocina/${idPlatillo}`;
       updates[path] = null;
     }else{
-       console.log("Varios platillos o último platillo");
       const path = `pedidosCocina/${fecha}/${mesa}-${idPedido }`;
       updates[path] = null;
     }
@@ -307,7 +307,7 @@ const OrdersFeed = () => {
                     onClick={() => setServidosAbierto(!servidosAbierto)}
                     className="w-full flex items-center justify-between text-left font-semibold text-green-700 mb-2 p-2 hover:bg-gray-200 dark:hover:bg-zinc-600 rounded-lg transition-all"
                   >
-                    <span>Servidos ({ordenesCompletadas.length}) ${totalCompletados}</span>
+                    <span>Servidos ({cantidadPlatillosCompletados}) ${totalCompletados}</span>
                     <span className={`transition-transform`}>
                       {
                         servidosAbierto ? (
