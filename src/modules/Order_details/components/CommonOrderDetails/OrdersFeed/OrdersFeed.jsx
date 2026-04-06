@@ -71,10 +71,10 @@ const OrdersFeed = () => {
       return;
     }
 
+    dispatch(limpiarMesaData());
     setCargando(true);
     const unsubscribe = fetchMesaData();
 
-    dispatch(limpiarMesaData());
 
     return () => {
       if (unsubscribe) unsubscribe();
