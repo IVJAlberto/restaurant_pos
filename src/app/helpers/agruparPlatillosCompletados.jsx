@@ -8,11 +8,16 @@ export const agruparPlatillosCompletados = (platillos) => {
       acc[key] = {
         ...platillo,
         cantidad: 0,
+        subtotal: 0,
         _platillosOriginales: [],
       };
     }
 
-    acc[key].cantidad += platillo.cantidad ?? 1;
+    const cantidad = Number(platillo.cantidad ?? 1) || 0;
+    const precio = Number(platillo.precio ?? platillo.precioUnitario ?? 0) || 0;
+
+    acc[key].cantidad += cantidad;
+    acc[key].subtotal += precio * cantidad;
     acc[key]._platillosOriginales.push(platillo);
     return acc;
   }, {});
