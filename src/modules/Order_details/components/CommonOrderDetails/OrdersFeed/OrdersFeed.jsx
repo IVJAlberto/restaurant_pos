@@ -181,29 +181,29 @@ const OrdersFeed = () => {
 
       // Limpiar solo los platillos servidos
       const fechaPedido = new Date(listosParaServir[0].timestampCaptura)
-  .toLocaleDateString('sv-SE', { timeZone: 'America/Mexico_City' });
-      const idsPlatillos = listosParaServir.map((p) => p.id);
-      await eliminarPedidosCocina(idsPlatillos, fechaPedido, mesaSeleccionada);
+      .toLocaleDateString('sv-SE', { timeZone: 'America/Mexico_City' });
+          const idsPlatillos = listosParaServir.map((p) => p.id);
+          await eliminarPedidosCocina(idsPlatillos, fechaPedido, mesaSeleccionada);
 
-      if (listosParaServir.length !== 0) {
-        toast.custom(
-          <Toast
-            type="success"
-            message={`${completadosNuevos.length} platillo(s) completados`}
-          />,
-          { duration: 2000 }
-        );
-      }
-    } catch (error) {
-      console.error("Error al completar pendientes:", error);
-      toast.custom(
-        <Toast type="error" message="Error al completar pendientes" />,
-        { duration: 3000 }
-      );
-    } finally {
-      setLoadingCompletar(false);
-    }
-  };
+          if (listosParaServir.length !== 0) {
+            toast.custom(
+              <Toast
+                type="success"
+                message={`${completadosNuevos.length} platillo(s) completados`}
+              />,
+              { duration: 2000 }
+            );
+          }
+        } catch (error) {
+          console.error("Error al completar pendientes:", error);
+          toast.custom(
+            <Toast type="error" message="Error al completar pendientes" />,
+            { duration: 3000 }
+          );
+        } finally {
+          setLoadingCompletar(false);
+        }
+      };
 
 
   const handleCompletarIndividual = async (platilloId) => {

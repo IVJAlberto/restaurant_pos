@@ -10,6 +10,7 @@ import Toast from '../../UI/Toast';
 import toast from 'react-hot-toast';
 import PaymentBtn from '../../UI/PaymentBtn';
 import BackBtn from './../../UI/BackBtn';
+import { agruparPlatillosCompletados } from './../../app/helpers/agruparPlatillosCompletados';
 
 export const ModalPago = () => {
   const dispatch = useDispatch();
@@ -31,24 +32,32 @@ export const ModalPago = () => {
   const [propina, setPropina] = useState(0);
   const [cargandoCobro, setCargandoCobro] = useState(false);
   const [resumenAbierto, setResumenAbierto] = useState(true);
+  const [platillosCompletados, setPlatillosCompletados] = useState([])
+  const [cantidadPlatillosCompletados, setCantidadPlatillosCompletados] = useState(0);
 
   // Total: mesaData + propina
   const totalFinal = (mesaData?.granTotal) + propina;
-
-  // Todos platillos: completados > pendientes > local
-  const todosPlatillos = [
-    ...(mesaData?.pedidosCompletados || [])
-    // ...(mesaData?.ordenPendiente || []),
-    // ...carritoLocal
-  ];
 
   useEffect(() => {
     setMeseroCierre(nombre);
   }, [nombre]);
 
+  useEffect(() => {
+    const todosPlatillos = [
+    ...(mesaData?.pedidosCompletados || [])
+      // ...(mesaData?.ordenPendiente || []),
+      // ...carritoLocal
+    ];
+    setCantidadPlatillosCompletados(todosPlatillos.length);
+    const platillosAgrupados = agruparPlatillosCompletados(todosPlatillos);
+    setPlatillosCompletados(platillosAgrupados);
+  
+  }, [])
+  
+
 
   const handleCerrarMesa = async () => {
-    if (totalFinal === 0 || todosPlatillos.length === 0) {
+    if (totalFinal === 0 || platillosCompletados.length === 0) {
       toast.custom(<Toast type="error" message="Sin platillos para cobrar" />);
       return;
     }
@@ -74,7 +83,7 @@ export const ModalPago = () => {
         seleccionadoMetodoPago,
         meseroCierre: meseroCierre || 'Sistema',
         notasGenerales: notas,
-        platillos: todosPlatillos,
+        platillos: platillosCompletados,
         historialMeseros: mesaData?.historialMeseros || []
       };
 
@@ -131,7 +140,7 @@ export const ModalPago = () => {
                 size="text-xl" 
               />
               <p className="text-sm font-bold text-green-600 mt-1">
-                {todosPlatillos.length} platillos - ${totalFinal.toFixed(2)}
+                {platillosCompletados.length} platillos - ${totalFinal.toFixed(2)}
               </p>
             </div>
             <BackBtn onClick={() => {
@@ -150,7 +159,7 @@ export const ModalPago = () => {
                 className="w-full flex items-center justify-between mb-4"
               >
                 <h3 className="font-bold text-lg">
-                  Resumen {todosPlatillos.length > 0 && `(${todosPlatillos.length})`}
+                  Resumen {platillosCompletados.length > 0 && `(${cantidadPlatillosCompletados})`}
                 </h3>
                 <span className={`text-zinc-500 transition-transform duration-200 ${resumenAbierto ? 'rotate-180' : ''}`}>
                   ▼
@@ -168,7 +177,7 @@ export const ModalPago = () => {
                       <p>Sin platillos para cobrar</p>
                     </div>
                   ) : (
-                    todosPlatillos.map((p, i) => (
+                    platillosCompletados.map((p, i) => (
                       <div key={i} className="flex justify-between items-center py-3 border-b last:border-b-0 hover:bg-zinc-50 dark:hover:bg-zinc-700 p-2 rounded">
                         <div className="flex-1 min-w-0">
                           <div className="font-medium truncate">{p.nombre}</div>
@@ -192,81 +201,81 @@ export const ModalPago = () => {
 
             </div>
 
-            {/* Form */}
-            <div className="p-5 space-y-4">
-              <div>
-                <label className="block text-sm font-semibold mb-2">Método pago *</label>
-                <div className="flex flex-row space-x-3 justify-center">
-                  {["Efectivo", "TDC"].map((value, index) => (
-                      <PaymentBtn
-                          key={index}
-                          onClick={() => handlePaymentMethod(value)}
-                          className={`${
-                              seleccionadoMetodoPago === value ? 'bg-zinc-900 hover:bg-zinc-900 dark:bg-slate-100 dark:hover:bg-slate-200 text-gray-300 dark:text-zinc-950' : 'text-gray-950 dark:text-zinc-200 bg-zinc-400 hover:bg-zinc-500 dark:bg-zinc-800 dark:hover:bg-zinc-700'
-                          }  basis-1/3`}
-                      >
-                          {value}
-                      </PaymentBtn>
-                  ))}
-                </div>
+          </div>
+          {/* Form */}
+          <div className="p-5 space-y-4">
+            <div>
+              <label className="block text-sm font-semibold mb-2">Método pago *</label>
+              <div className="flex flex-row space-x-3 justify-center">
+                {["Efectivo", "TDC"].map((value, index) => (
+                    <PaymentBtn
+                        key={index}
+                        onClick={() => handlePaymentMethod(value)}
+                        className={`${
+                            seleccionadoMetodoPago === value ? 'bg-zinc-900 hover:bg-zinc-900 dark:bg-slate-100 dark:hover:bg-slate-200 text-gray-300 dark:text-zinc-950' : 'text-gray-950 dark:text-zinc-200 bg-zinc-400 hover:bg-zinc-500 dark:bg-zinc-800 dark:hover:bg-zinc-700'
+                        }  basis-1/3`}
+                    >
+                        {value}
+                    </PaymentBtn>
+                ))}
               </div>
+            </div>
 
+            <div>
+              <label className="block text-sm font-semibold mb-2">Mesero</label>
+              <input
+                value={meseroCierre ?? ""}
+                onChange={e => setMeseroCierre(e.target.value)}
+                className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-blue-500 bg-white"
+                placeholder="Nombre mesero"
+              />
+            </div>
+
+            <div className="grid grid-cols-4 gap-3">
               <div>
-                <label className="block text-sm font-semibold mb-2">Mesero</label>
+                <label className="block text-xs font-medium mb-1">Propina</label>
                 <input
-                  value={meseroCierre ?? ""}
-                  onChange={e => setMeseroCierre(e.target.value)}
-                  className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-blue-500 bg-white"
-                  placeholder="Nombre mesero"
+                  type="number"
+                  value={propina}
+                  onChange={e => setPropina(Number(e.target.value) || 0)}
+                  className="w-full p-3 rounded-xl border border-zinc-200 focus:border-green-500 text-right"
+                  min="0"
+                  step="0.01"
                 />
               </div>
+              <button
+                type="button"
+                onClick={() => setPropina(mesaData?.granTotal * 0.05)}
+                className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
+              >
+                5% (${(mesaData?.granTotal * 0.05).toFixed(2)})
+              </button>
+              <button
+                type="button"
+                onClick={() => setPropina(mesaData?.granTotal * 0.10)}
+                className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
+              >
+                10% (${(mesaData?.granTotal * 0.10).toFixed(2)})
+              </button>
+              <button
+                type="button"
+                onClick={() => setPropina(mesaData?.granTotal * 0.15)}
+                className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
+              >
+                15% (${(mesaData?.granTotal * 0.15).toFixed(2)})
+              </button>
+            </div>
 
-              <div className="grid grid-cols-4 gap-3">
-                <div>
-                  <label className="block text-xs font-medium mb-1">Propina</label>
-                  <input
-                    type="number"
-                    value={propina}
-                    onChange={e => setPropina(Number(e.target.value) || 0)}
-                    className="w-full p-3 rounded-xl border border-zinc-200 focus:border-green-500 text-right"
-                    min="0"
-                    step="0.01"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setPropina(mesaData?.granTotal * 0.05)}
-                  className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
-                >
-                  5% (${(mesaData?.granTotal * 0.05).toFixed(2)})
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPropina(mesaData?.granTotal * 0.10)}
-                  className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
-                >
-                  10% (${(mesaData?.granTotal * 0.10).toFixed(2)})
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPropina(mesaData?.granTotal * 0.15)}
-                  className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
-                >
-                  15% (${(mesaData?.granTotal * 0.15).toFixed(2)})
-                </button>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold mb-2">Notas</label>
-                <textarea
-                  value={notas}
-                  onChange={e => setNotas(e.target.value)}
-                  rows="3"
-                  className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-purple-500 resize-vertical bg-white"
-                  placeholder="Notas opcionales..."
-                  maxLength="500"
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-semibold mb-2">Notas</label>
+              <textarea
+                value={notas}
+                onChange={e => setNotas(e.target.value)}
+                rows="3"
+                className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-purple-500 resize-vertical bg-white"
+                placeholder="Notas opcionales..."
+                maxLength="500"
+              />
             </div>
           </div>
 
