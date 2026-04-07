@@ -5,7 +5,7 @@ import { ref, onValue } from 'firebase/database';
 import { useNavigate } from 'react-router-dom';
 import { setUserData } from '../modules/Login_page/components/LoginSide/components/slices/AuthReducer';
 
-const MensajesPage = () => {
+const SpinnerPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { uid, loading: reduxLoading } = useSelector(state => state.AuthSlice);
@@ -91,4 +91,4 @@ const MensajesPage = () => {
   );
 };
 
-export default MensajesPage;
+export default SpinnerPage;

@@ -34,7 +34,7 @@ const menuData = [
     ['Estadísticas', '/dashboard', Dashboard],
     ['Menú', '/food_catalog', Food],
     ['Cocina', '/cocina', Bills],
-    ['Mensajes', '/mensajes', Messages],
+    ['Notificaciones', '/notificaciones', Messages],
     ['Equipo', '/team', Team],
     ['Configuración', '/settings', Settings]
 ];

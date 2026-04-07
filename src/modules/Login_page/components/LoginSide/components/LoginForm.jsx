@@ -49,7 +49,7 @@ const LoginForm = () => {
             setEmail('');
             setPassword('');
             
-            navigate("/mensajes");
+            navigate("/spinner_page");
             
         } catch (error) {
             const errorCode = error.code;
