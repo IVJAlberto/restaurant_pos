@@ -3,6 +3,7 @@ import { database } from "../../firebase_config";
 import { ref, onValue, off, get, update } from "firebase/database";
 import Toast from "../../UI/Toast";
 import toast from 'react-hot-toast';
+import CocinaOrder from "./components/CocinaOrder";
 
 const CocinaFeed = ({ fecha = '2026-03-21' }) => {
   const [pedidos, setPedidos] = useState([]);
@@ -115,10 +116,8 @@ const CocinaFeed = ({ fecha = '2026-03-21' }) => {
     <div className="inset-0 z-40 p-4 bg-zinc-200/75 backdrop-blur-sm flex flex-col w-full max-h-screen">
       {/* Header */}
       <div className="bg-zinc-500 rounded-2xl p-6 flex justify-between items-center mb-4 shadow-2xl flex-shrink-0">
-        <div>
           <h1 className="text-2xl font-bold text-white">Cocina</h1>
           <p className="text-white text-lg">{fecha} - {pedidos.length} pedidos</p>
-        </div>
       </div>
 
       {/* Lista pedidos */}
@@ -133,67 +132,11 @@ const CocinaFeed = ({ fecha = '2026-03-21' }) => {
           </div>
         ) : (
           pedidos.map((pedido) => {
-            return (
-              <div key={`${pedido.mesa}-${pedido.timestamp}`} className="bg-gradient-to-r from-black/30 to-black/20 p-6 rounded-2xl border-2 border-black shadow-xl">
-                {/* Header pedido */}
-                <div className="flex flex-row justify-between items-start mb-4">
-                    <h3 className="text-xl font-bold text-white mb-1">MESA {pedido.mesa}</h3>
-                    <p className="text-zinc-300 text-sm">#{pedido.timestamp}</p>
-                </div>
-                {
-                  Object.entries(pedido.platillosCocina).map(([idPlatillo, data]) => {
-                    const estadoActual = getEstadoPlatillo(`${pedido.mesa}-${idPlatillo}`);
-                    
-                    return (
-                      <div key={idPlatillo} className="mb-1 last:mb-0">
-                        <div className="flex items-start space-x-3 p-4 bg-white/10 rounded-xl backdrop-blur-sm">
-                          <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-white text-lg truncate">
-                              {data.nombre}
-                              <span className="text-zinc-300 ml-2">x{data.cantidad}</span>
-                            </p>
-                            {data.notas && (
-                              <p className="text-yellow-300 text-base mt-1 bg-yellow-900/30 px-2 py-1 rounded inline-block">
-                                📝 {data.notas}
-                              </p>
-                            )}
-                          </div>
-                          
-                          {/* Botones con estado derivado */}
-                          <div className="flex flex-row space-x-2 flex-shrink-0">
-                            <button
-                              onClick={() => actualizarEstadoPlatillo(data.timestampCaptura, idPlatillo, 'preparando', pedido.mesa)}
-                              // disabled={actualizando[`${data.timestamp}-${idPlatillo}`]}
-                              className={`px-3 py-1.5 text-white text-base font-medium rounded shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap
-                                ${estadoActual === "preparando"  ? 
-                                  "bg-yellow-600 hover:bg-yellow-700 cursor-not-allowed pointer-events-none" 
-                                  : estadoActual === "listo" ? "bg-blue-600/20 hover:bg-blue-700/20 opacity-50 cursor-not-allowed pointer-events-none"
-                                  : "bg-gray-600 hover:bg-gray-700"
-                                }
-                              `}
-                            >
-                              Preparando
-                            </button>
-                            <button
-                              onClick={() => actualizarEstadoPlatillo(pedido.timestamp,idPlatillo, 'listo', pedido.mesa)}
-                              // disabled={actualizando[`${pedido.mesa}-${idPlatillo}`]}
-                              className={`px-3 py-1.5 text-white text-base font-medium rounded shadow-md transition-all disabled:opacity-75 disabled:cursor-not-allowed whitespace-nowrap
-                                ${estadoActual === "listo" ? 
-                                  "bg-purple-600 hover:bg-purple-700 cursor-not-allowed pointer-events-none" 
-                                  : "bg-gray-600 hover:bg-gray-700"
-                                }
-                              `}
-                            >
-                              Listo
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  })
-                }
-              </div>
-            );
+            return <CocinaOrder 
+              pedido={pedido}
+              getEstadoPlatillo={getEstadoPlatillo}
+              actualizarEstadoPlatillo={actualizarEstadoPlatillo}
+            />;
           })
         )}
       </div>
