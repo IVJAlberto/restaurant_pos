@@ -233,8 +233,8 @@ const OrdenPendiende = ({ mesaData, mesaSeleccionada, ordenPendiente, totalPendi
         >
             <div ref={contentRef}
                 className={`space-y-2 mt-1 pl-4 border-l-2 border-orange-300 transition-all duration-300 ease-in-out 
-                    ${pendientesAbierto ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
-            }`}
+                    ${pendientesAbierto ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"}`
+                }
             >
                 {ordenPendiente.map((platillo, i) => (
                 <div key={`pend-${i}`} className="flex items-center space-x-2 p-2 bg-white/50 dark:bg-zinc-800/50 rounded-lg">

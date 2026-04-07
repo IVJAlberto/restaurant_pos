@@ -9,6 +9,7 @@ import { limpiarMesaData, agregarMesaData } from "../../../slices/togglePagoSlic
 import { agruparPlatillosCompletados } from "../../../../../app/helpers/agruparPlatillosCompletados";
 import OrdenPendiende from './components/OrdenPendiende';
 import OrdenCompletada from "./components/OrdenCompletada";
+import OrdenEnCarrito from "./components/OrdenEnCarrito";
 
 const OrdersFeed = () => {
   const dispatch = useDispatch();
@@ -111,12 +112,11 @@ const OrdersFeed = () => {
           ) : mesaLibre ? (
             <div className="">
               {carritoLocal.length > 0 ? (
-                <div className="flex flex-col gap-2 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-xl">
-                  <h4 className="font-semibold text-blue-700 mb-2">Nuevo ({carritoLocal.length}) ${totalCarrito.toFixed(2)}</h4>
-                  {carritoLocal.map((platillo, i) => (
-                    <DishOrder key={`local-${i}`} platillo={normalizarPlatillo(platillo, 'local')} origen="local" />
-                  ))}
-                </div>
+                <OrdenEnCarrito 
+                  carritoLocal={carritoLocal}
+                  totalCarrito={totalCarrito}
+                  normalizarPlatillo={normalizarPlatillo}
+                />
               ) : (
                 <div className="flex flex-col justify-center items-center w-full h-full space-y-4 text-center">
                   <img src={emptyCart} className="h-64" alt="Vacio" />
@@ -152,22 +152,21 @@ const OrdersFeed = () => {
 
               {/* Sección Pendientes */}
               {ordenPendiente.length > 0 && (
-                  <OrdenPendiende 
-                    mesaData={mesaData}
-                    mesaSeleccionada={mesaSeleccionada}
-                    ordenPendiente={ordenPendiente}
-                    totalPendiente={totalPendiente}
-                  />
+                <OrdenPendiende 
+                  mesaData={mesaData}
+                  mesaSeleccionada={mesaSeleccionada}
+                  ordenPendiente={ordenPendiente}
+                  totalPendiente={totalPendiente}
+                />
               )}
 
               {/* Sección Carrito Local */}
               {carritoLocal.length > 0 && (
-                <div className="flex flex-col gap-2 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-xl">
-                  <h4 className="font-semibold text-blue-700 mb-2">Nuevo ({carritoLocal.length}) ${totalCarrito.toFixed(2)}</h4>
-                  {carritoLocal.map((platillo, i) => (
-                    <DishOrder key={`local-${i}`} platillo={normalizarPlatillo(platillo, 'local')} origen="local" />
-                  ))}
-                </div>
+                <OrdenEnCarrito 
+                  carritoLocal={carritoLocal}
+                  totalCarrito={totalCarrito}
+                  normalizarPlatillo={normalizarPlatillo}
+                />
               )}
             </>
           )}
