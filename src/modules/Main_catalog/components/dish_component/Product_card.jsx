@@ -11,8 +11,6 @@ const ProductCard = ({ platillo }) => {
   const mesaSeleccionada = useSelector(state => state.OrderTotal.table);
 
   const handleAddToCart = () => {
-    console.log("Mesa",mesaSeleccionada);
-    
     dispatch(agregarPlatillo({ mesaId: mesaSeleccionada, platillo }));
     toast.custom(<Toast type="platillo"/>,{
       duration: 1000,

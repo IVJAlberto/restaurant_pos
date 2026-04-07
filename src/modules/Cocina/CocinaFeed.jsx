@@ -38,7 +38,7 @@ const CocinaFeed = ({ fecha = '2026-03-21' }) => {
     const cocinaRef = ref(database, `pedidosCocina/${fecha}`);
     const unsubscribe = onValue(cocinaRef, (snapshot) => {
       const data = snapshot.val() || {};
-      const pedidosArray = Object.values(data);
+      const pedidosArray = Object.values(data).sort((a, b) => a.timestamp - b.timestamp);
       setPedidos(pedidosArray);
       
       setCargando(false);
