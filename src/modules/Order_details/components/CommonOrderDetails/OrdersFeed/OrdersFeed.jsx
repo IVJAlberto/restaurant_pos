@@ -94,6 +94,13 @@ const OrdersFeed = () => {
   const granTotal = (totalCompletados + totalPendiente + totalCarrito);
   const totalACobrar = (totalPendiente + totalCarrito);
 
+  const hayPendientes = ordenPendiente.length > 0;
+  const todosListos = hayPendientes && ordenPendiente.every(
+    (platillo) => platillo.estadoPlatillo === "listo"
+  );
+
+  const botonCompletarTodosDeshabilitado = loadingCompletar || !todosListos;
+
   const noHayMesa = !mesaSeleccionada;
   const mesaLibre = infoMesa?.estadoMesa === 'libre';
   const todoVacio = ordenesCompletadas.length === 0 && ordenPendiente.length === 0 && carritoLocal.length === 0;
@@ -351,8 +358,13 @@ const OrdersFeed = () => {
                     {/* BOTÓN COMPLETAR TODOS */}
                     <button
                       onClick={handleCompletarPendientes}
-                      disabled={loadingCompletar}
-                      className="ml-3 px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-1 text-sm"
+                      disabled={botonCompletarTodosDeshabilitado}
+                      className={`ml-3 px-4 py-2 text-white font-medium rounded-lg shadow-md transition-all flex items-center space-x-1 text-sm
+                        ${botonCompletarTodosDeshabilitado
+                          ? "opacity-50 cursor-not-allowed pointer-events-none bg-zinc-800/50 select-none"
+                          : "bg-green-500 hover:bg-green-600"
+                        }`
+                      }
                     >
                       {loadingCompletar ? (
                         <>
