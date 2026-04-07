@@ -34,23 +34,25 @@ const UserData = ({ collapsed }) => {
                     ${collapsed ? 'justify-center' : 'justify-start'}`}>
                 {
                     collapsed ? (
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="currentColor"
-                            className="h-8 w-8 text-gray-700 dark:text-gray-300 self-center"
-                            aria-hidden="true"
-                            >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.93 17.93 0 0112 21.75a17.93 17.93 0 01-3.499-.82z"
-                            />
-                        </svg>
+                        <div className="w-full h-full flex items-center justify-center">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                                stroke="currentColor"
+                                className="h-8 w-8 text-gray-700 dark:text-gray-300 self-center"
+                                aria-hidden="true"
+                                >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.93 17.93 0 0112 21.75a17.93 17.93 0 01-3.499-.82z"
+                                />
+                            </svg>
+                        </div>
                     ) : (
-                        <div className="ml-5 truncate block md:hidden lg:block">
+                        <div className="ml-2 truncate block md:hidden lg:block">
                             <p className="text-zinc-950 dark:text-gray-300 font-semibold text-md xl:text-lg">{nombre}</p>
                             <p className="text-zinc-950 dark:text-gray-400 font-normal truncate text-sm xl:text-normal">{rol }</p>
                         </div>
