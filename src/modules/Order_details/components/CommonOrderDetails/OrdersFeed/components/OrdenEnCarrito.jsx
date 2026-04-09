@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react"
 import DishOrder from "./DishOrder/DishOrder"
 
 const OrdenEnCarrito = ({carritoLocal, totalCarrito, normalizarPlatillo}) => {
-    const [carritoAbierto, setCarritoAbierto] = useState(false);
+    const [carritoAbierto, setCarritoAbierto] = useState(true);
     const [alturaContenido, setAlturaContenido] = useState("auto");
     const contentRef = useRef(null);
     

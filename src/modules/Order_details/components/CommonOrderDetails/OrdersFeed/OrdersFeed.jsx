@@ -11,7 +11,7 @@ import OrdenPendiende from './components/OrdenPendiende';
 import OrdenCompletada from "./components/OrdenCompletada";
 import OrdenEnCarrito from "./components/OrdenEnCarrito";
 
-const OrdersFeed = () => {
+const OrdersFeed = ({ mandarPedidosCompletados }) => {
   const dispatch = useDispatch();
   const mesaSeleccionada = useSelector((state) => state.OrderTotal.table);
   const carritoLocal = useSelector((state) => state.OrdersFeed.ordenesPorMesa?.[mesaSeleccionada]?.PlatillosSeleccionados || []);
@@ -57,7 +57,9 @@ const OrdersFeed = () => {
       setCantidadPlatillosCompletados(ordenesCompletasNormalizadas.length);
       const ordenesCompletadasAgrupadas = agruparPlatillosCompletados(ordenesCompletasNormalizadas);
       setOrdenesCompletadas(ordenesCompletadasAgrupadas);
-      
+      mandarPedidosCompletados({
+        totalCompletados: data?.totalCompletados || 0
+      });
       setCargando(false);
     });
     

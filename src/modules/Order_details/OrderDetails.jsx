@@ -1,16 +1,20 @@
-import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+
 import CloseBtn from "../../UI/CloseBtn";
 import TextHeader from "../../UI/textHeader";
 import MesaSelector from "./components/CommonOrderDetails/MesaSelector";
 import OrdersFeed from "./components/CommonOrderDetails/OrdersFeed/OrdersFeed";
 import OrderActions from "./components/OrderActions/OrderActions";
-
-import { useSelector } from "react-redux";
-import { useDispatch } from 'react-redux';
 import { toggleVisibility } from "./slices/OrderDetailsSlice";
 
 const OrderDetails = () => {
     const dispatch = useDispatch();
+    const [pedidosCompletados, setPedidosCompletados] = useState(null);
+
+    const recibirPedidosCompletados = (info) => {
+        setPedidosCompletados(info);
+    };
 
     const handleCheckoutClick = () => {
         dispatch(toggleVisibility());
@@ -39,12 +43,12 @@ const OrderDetails = () => {
                 
                 {/* OrdersFeed: flex-grow con scroll interno */}
                 <div className="flex-1 overflow-auto p-4">
-                    <OrdersFeed />
+                    <OrdersFeed mandarPedidosCompletados={recibirPedidosCompletados} />
                 </div>
                 
                 {/* OrderActions: 20% fijo abajo */}
                 <div className="h-[10%] min-h-0 flex-shrink-0">
-                    <OrderActions />
+                    <OrderActions recibirPedidosCompletados={pedidosCompletados}/>
                 </div>
             </div>
         </div>
