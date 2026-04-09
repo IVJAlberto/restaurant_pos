@@ -223,12 +223,9 @@ export const ModalPago = () => {
 
             <div>
               <label className="block text-sm font-semibold mb-2">Mesero</label>
-              <input
-                value={meseroCierre ?? ""}
-                onChange={e => setMeseroCierre(e.target.value)}
-                className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-blue-500 bg-white"
-                placeholder="Nombre mesero"
-              />
+              <p className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-blue-500 bg-white" >
+                {meseroCierre}
+              </p>
             </div>
 
             <div className="grid grid-cols-4 gap-3">
