@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 
 import { SignOutUser } from "./helpers/signoutUser";
 import { clearUserData } from "../../../Login_page/components/LoginSide/components/slices/AuthReducer";
+import { setTableNumber } from "../../../Order_details/slices/OrderInformation";
 
 const UserData = ({ collapsed }) => {
     const dispatch = useDispatch();
@@ -15,16 +16,13 @@ const UserData = ({ collapsed }) => {
 
     const onSignOut = () => {
         dispatch(clearUserData());
+        dispatch(setTableNumber(null));
         SignOutUser(navigate); 
     }
 
     const displayUserData = () => {
         setIsDataDisplayed(!isDataDisplayed);
     }
-
-    useEffect(() => {
-        
-    }, []);
 
     return (
         <div className="relative flex w-full">
