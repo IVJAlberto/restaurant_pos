@@ -31,12 +31,12 @@ import userImage from '../src/assets/common_images/userImage.png'
 import { revenue } from "./app/helpers/fetchStatisticsData";
 
 const menuData = [
-    ['Estadísticas', '/dashboard', Dashboard],
-    ['Menú', '/food_catalog', Food],
-    ['Cocina', '/cocina', Bills],
-    ['Notificaciones', '/notificaciones', Messages],
-    ['Equipo', '/team', Team],
-    ['Configuración', '/settings', Settings]
+    ['Estadísticas', '/dashboard', Dashboard, ["Administrador"]],
+    ['Menú', '/food_catalog', Food, ["Administrador","Mesero"]],
+    ['Cocina', '/cocina', Bills, ["Administrador","Cocinero"]],
+    ['Notificaciones', '/notificaciones', Messages, ["Administrador","Cocinero","Mesero"]],
+    ['Equipo', '/team', Team, ["Administrador","Cocinero","Mesero"]],
+    ['Configuración', '/settings', Settings, ["Administrador"]]
 ];
 
 export const categoriesData = [ 
