@@ -35,9 +35,7 @@ export const AuthProvider = ({ children }) => {
             return;
             }
 
-            // Declaras una función async interna
             const syncPerfil = async () => {
-                // si ya tienes los datos en Redux, no vuelvas a ir a la DB
                 if (authState.uid === user.uid && authState.nombre && authState.rol) {
                     return;
                 }
@@ -51,11 +49,9 @@ export const AuthProvider = ({ children }) => {
                     }));
                 } catch (e) {
                     console.error("Error cargando perfil:", e);
-                    // aquí decides si haces clearUserData, pones un flag de error, etc.
                 }
             };
 
-        // Llamas la función async (sin await, porque onAuthStateChanged no espera nada)
             syncPerfil();
         });
 
