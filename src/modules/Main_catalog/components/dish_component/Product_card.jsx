@@ -11,8 +11,16 @@ const ProductCard = ({ platillo }) => {
   const mesaSeleccionada = useSelector(state => state.OrderTotal.table);
 
   const handleAddToCart = () => {
+    if (!mesaSeleccionada && mesaSeleccionada === null) {
+      
+      toast.custom(<Toast type="no_mesa" gif="mal"/>, {
+        duration: 2000,
+      });
+      return;
+    }
+
     dispatch(agregarPlatillo({ mesaId: mesaSeleccionada, platillo }));
-    toast.custom(<Toast type="platillo"/>,{
+    toast.custom(<Toast type="platillo" gif="bien"/>,{
       duration: 1000,
       position: 'bottom-center',
     });
