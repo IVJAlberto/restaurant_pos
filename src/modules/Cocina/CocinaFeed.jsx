@@ -133,6 +133,7 @@ const CocinaFeed = ({ fecha = '2026-03-21' }) => {
         ) : (
           pedidos.map((pedido) => {
             return <CocinaOrder 
+              key={pedido.timestamp}
               pedido={pedido}
               getEstadoPlatillo={getEstadoPlatillo}
               actualizarEstadoPlatillo={actualizarEstadoPlatillo}
