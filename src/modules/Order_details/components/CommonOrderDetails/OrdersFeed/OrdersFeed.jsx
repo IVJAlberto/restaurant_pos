@@ -44,8 +44,10 @@ const OrdersFeed = ({ mandarPedidosCompletados }) => {
       // Actualizar pendientes y completados
       const pendientes = data?.ordenPendiente || [];
       const completados = data?.pedidosCompletados || [];
+      const horaApertura = data?.horaApertura || null;
       
       dispatch(agregarMesaData({
+        horaApertura: horaApertura,
         ordenPendiente: pendientes,
         pedidosCompletados: completados,
         granTotal: (data?.totalCompletados || 0) + (data?.totalPendiente || 0),
