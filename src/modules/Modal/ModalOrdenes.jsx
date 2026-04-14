@@ -49,8 +49,8 @@ const ModalOrdenes = ({
 
   const paginatedPedidos = useMemo(() => {
     const pedidosOrdenados = [...pedidos].sort((a, b) => {
-      const fechaA = new Date(a.fecha).getTime();
-      const fechaB = new Date(b.fecha).getTime();
+      const fechaA = new Date(a.timestampCierre).getTime();
+      const fechaB = new Date(b.timestampCierre).getTime();
 
       return orden === 'desc' ? fechaB - fechaA : fechaA - fechaB;
     });
@@ -189,7 +189,7 @@ const ModalOrdenes = ({
                                 Fecha
                               </span>
                               <span className="text-sm text-zinc-700 dark:text-zinc-300">
-                                {order.fecha?.nombre ?? order.fecha ?? '—'}
+                                {order.timestampCierre ? new Date(order.timestampCierre).toLocaleString('es-MX') : '—'}
                               </span>
                             </div>
 
