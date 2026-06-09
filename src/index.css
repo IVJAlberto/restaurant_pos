@@ -2,58 +2,104 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  :root {
+    --background: 245 246 248;
+    --foreground: 32 35 42;
+
+    --surface: 255 255 255;
+    --surface-foreground: 32 35 42;
+
+    --primary: 221 47 110;
+    --primary-foreground: 255 255 255;
+
+    --secondary: 244 76 98;
+    --secondary-foreground: 255 255 255;
+
+    --muted: 241 241 244;
+    --muted-foreground: 112 117 128;
+
+    --border: 230 232 238;
+    --input: 230 232 238;
+    --ring: 221 47 110;
+
+    --brand-start: 221 47 110;
+    --brand-end: 244 76 98;
+  }
+
+  .dark {
+    --background: 17 19 24;
+    --foreground: 241 245 249;
+
+    --surface: 27 30 37;
+    --surface-foreground: 241 245 249;
+
+    --primary: 221 47 110;
+    --primary-foreground: 255 255 255;
+
+    --secondary: 244 76 98;
+    --secondary-foreground: 255 255 255;
+
+    --muted: 39 44 54;
+    --muted-foreground: 156 163 175;
+
+    --border: 55 65 81;
+    --input: 55 65 81;
+    --ring: 244 76 98;
+
+    --brand-start: 221 47 110;
+    --brand-end: 244 76 98;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply bg-background text-foreground;
+  }
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #999;
+    border-radius: 5px;
+  }
+
+  .scroll-styling::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  .scroll-styling::-webkit-scrollbar-thumb {
+    background-color: #999;
+    border-radius: 5px;
+  }
+
+  .scroll-styling:hover::-webkit-scrollbar-thumb {
+    background-color: #777;
+    border-radius: 5px;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer utilities {
+  .logo {
+    font-family: "Short Stack", cursive;
+  }
+
+  .hover\:glow:hover {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+  }
 }
-
-.logo {
-  font-family: 'Short Stack', cursive;
-}
-
-.scroll-styling::-webkit-scrollbar {
-  height: 5px; 
-  width: 5px;
-}
-
-.scroll-styling::-webkit-scrollbar-thumb {
-  background-color: #999;
-  border-radius: 5px; 
-}
-
-.scroll-styling:hover::-webkit-scrollbar-thumb {
-  background-color: #777;
-  border-radius: 5px; 
-}
-
-.hidden {
-  display: none;
-}
-
-.hover\:glow:hover {
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
-}
-
-
-::-webkit-scrollbar {
-  height: 5px; 
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 5px; 
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #999;
-  border-radius: 5px; 
-}
-

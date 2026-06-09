@@ -31,33 +31,33 @@ const Sidebar = () => {
   const showCheckout = location.pathname === '/food_catalog';
 
   const sidebarClasses = `
-    h-screen flex flex-col bg-zinc-200 dark:bg-stone-950 border-r border-zinc-300 dark:border-zinc-950
-    transition-all duration-300 ease-in-out
+    h-screen flex flex-col border-r-6 border-background 
+    transition-all duration-300 ease-in-out 
     ${isCollapsed ? 'w-20' : 'w-full md:w-72 lg:w-80'}
   `;
 
   return (
     <aside className={sidebarClasses}>
-      <div className="flex h-24 items-center gap-3 px-2 bg-zinc-300 dark:bg-zinc-900">
+      <div className="flex max-h-24 items-center gap-3 bg-primary px-4">
+
+        {!isCollapsed && (
+          <div className="flex items-center justify-between w-full gap-3 ">
+            <MainLogo />
+            {showCheckout && <CheckoutBtn displayOnBig={false} />}
+          </div>
+        )}
         <div
           type="button"
           onClick={toggleSidebar}
           aria-expanded={!isCollapsed}
           aria-controls="sidebar-content"
-          className="shrink-0 rounded-md p-2 hover:bg-zinc-400 dark:hover:bg-zinc-800 transition-colors"
+          className="shrink-0 rounded-md p-2 hover:bg-primary transition-colors "
         >
           <span className="sr-only">
             {isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           </span>
           <MenuTogglerBtn isMenuOpen={!isCollapsed} />
         </div>
-
-        {!isCollapsed && (
-          <div className="flex items-center justify-between w-full gap-3">
-            <MainLogo />
-            {showCheckout && <CheckoutBtn displayOnBig={false} />}
-          </div>
-        )}
       </div>
 
       <div id="sidebar-content" className="flex-1">

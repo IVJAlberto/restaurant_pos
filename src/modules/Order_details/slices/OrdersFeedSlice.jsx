@@ -5,6 +5,8 @@ const initialState = {
 };
 
 const getMesaState = (state, mesaId) => {
+  console.log(mesaId);
+  
   if (!state.ordenesPorMesa[mesaId]) {
     state.ordenesPorMesa[mesaId] = {
       PlatillosSeleccionados: [],

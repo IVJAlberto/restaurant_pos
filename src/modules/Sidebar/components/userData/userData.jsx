@@ -28,7 +28,7 @@ const UserData = ({ collapsed }) => {
         <div className="relative flex w-full">
             <div onClick={displayUserData} 
                 className={`flex w-full justify-normal lg:justify-normal items-center space-x-3 
-                 rounded-2xl p-2 bg-zinc-300 dark:bg-zinc-900 duration-100 cursor-pointer
+                 rounded-2xl p-2 bg-background duration-100 cursor-pointer
                     ${collapsed ? 'justify-center' : 'justify-start'}`}>
                 {
                     collapsed ? (
@@ -39,7 +39,7 @@ const UserData = ({ collapsed }) => {
                                 viewBox="0 0 24 24"
                                 strokeWidth={2}
                                 stroke="currentColor"
-                                className="h-8 w-8 text-gray-700 dark:text-gray-300 self-center"
+                                className="h-8 w-8 text-primary self-center"
                                 aria-hidden="true"
                                 >
                                 <path
@@ -51,16 +51,16 @@ const UserData = ({ collapsed }) => {
                         </div>
                     ) : (
                         <div className="ml-2 truncate block md:hidden lg:block">
-                            <p className="text-zinc-950 dark:text-gray-300 font-semibold text-md xl:text-lg">{nombre}</p>
-                            <p className="text-zinc-950 dark:text-gray-400 font-normal truncate text-sm xl:text-normal">{rol }</p>
+                            <p className="text-primary font-semibold text-md xl:text-lg">{nombre}</p>
+                            <p className="text-primary font-normal truncate text-sm xl:text-normal">{rol }</p>
                         </div>
                     )
                 }
             </div>
             {isDataDisplayed && (
-                <div className="z-50 flex flex-col space-y-2 absolute bottom-20 rounded-xl bg-zinc-300 dark:bg-zinc-900 p-4 w-[200px] text-zinc-950 dark:text-gray-300">         
+                <div className="z-50 flex flex-col space-y-2 absolute bottom-20 rounded-xl bg-background dark:bg-muted p-4 w-[200px] text-primary">         
                     <p className="text-lg font-medium">Hola, {nombre}!</p>                
-                    <button onClick={onSignOut} className="text-red-500 w-fit">Cerrar sesión</button>
+                    <button onClick={onSignOut} className="bg-primary p-2 rounded-3xl text-primary-foreground w-fit">Cerrar sesión</button>
                 </div>
             )}
         </div>
