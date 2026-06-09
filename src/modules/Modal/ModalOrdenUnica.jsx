@@ -22,8 +22,8 @@ const ModalOrdenUnica = ({ pedido }) => {
                             <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
                                 Pedido {pedido.id?.slice(-6) || 'N/A'}
                             </h2>
-                            <p className="text-zinc-500 dark:text-zinc-400 mt-1">
-                                Mesa {pedido.mesa} • {pedido.fecha} {pedido.horaCierre}
+                            <p className="font-bold text-zinc-500 dark:text-zinc-400 mt-1">
+                                Mesa {pedido.mesa} • {pedido.fecha} 
                             </p>
                         </div>
                         <button
@@ -122,8 +122,8 @@ const ModalOrdenUnica = ({ pedido }) => {
                             <p><span className="font-medium">ID completo:</span> {pedido.id?.slice(0, 8)}...</p>
                         </div>
                         <div className="text-right">
-                            <p><span className="font-medium">Hora cierre:</span> {pedido.horaCierre || 'N/A'}</p>
-                            <p><span className="font-medium">Timestamp:</span> {new Date(pedido.timestampCierre || 0).toLocaleString()}</p>
+                            <p><span className="font-medium">Hora apertura:</span> {new Date(pedido.timestampApertura || 0).toLocaleTimeString()}</p>
+                            <p><span className="font-medium">Hora cierre:</span> {new Date(pedido.timestampCierre || 0).toLocaleTimeString()}</p>
                         </div>
                     </div>
                 </div>

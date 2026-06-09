@@ -48,6 +48,8 @@ export const ModalPago = () => {
       // ...(mesaData?.ordenPendiente || []),
       // ...carritoLocal
     ];
+    console.log(mesaData);
+    
     setCantidadPlatillosCompletados(todosPlatillos.length);
     const platillosAgrupados = agruparPlatillosCompletados(todosPlatillos);
     setPlatillosCompletados(platillosAgrupados);
@@ -77,6 +79,7 @@ export const ModalPago = () => {
         fecha: fechaMX,
         horaCierre,
         timestampCierre: Date.now(),
+        timestampApertura: mesaData?.horaApertura,
         total: mesaData.granTotal,
         propina: propina,
         granTotal: totalFinal,
