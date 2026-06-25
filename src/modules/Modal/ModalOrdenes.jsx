@@ -107,27 +107,27 @@ const ModalOrdenes = ({
         onClick={closeModal}
       >
         <div
-          className="relative flex max-h-[90vh] w-full max-w-6xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-black/5 dark:bg-zinc-900 dark:ring-white/10"
+          className="relative flex max-h-[90vh] w-full max-w-6xl flex-col overflow-hidden rounded-3xl bg-primary-foreground shadow-2xl ring-1 ring-black/5"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-start justify-between border-b border-zinc-200 px-5 py-4 dark:border-zinc-800 sm:px-6">
+          <div className="flex items-start justify-between border-b border-primary px-5 py-4 sm:px-6">
             <div>
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 sm:text-xl">
+              <h2 className="text-lg font-semibold text-black sm:text-xl">
                 Todas las órdenes ({totalOrders})
               </h2>
 
-              <div className="mt-3 flex flex-wrap gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-                <span className="rounded-full bg-zinc-100 px-3 py-1 dark:bg-zinc-800">
+              <div className="mt-3 flex flex-wrap gap-2 text-sm text-black">
+                <span className="rounded-full bg-primary-foreground px-3 py-1">
                   Periodo: {periodo}
                 </span>
 
-                <span className="rounded-full bg-zinc-100 px-3 py-1 dark:bg-zinc-800">
+                <span className="rounded-full bg-primary-foreground px-3 py-1">
                   Página {currentPage} de {totalPages}
                 </span>
 
                 <button
                   onClick={toggleOrden}
-                  className="inline-flex items-center gap-2 rounded-full bg-zinc-100 px-3 py-1 font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary/75  px-3 py-1 font-medium text-primary-foreground transition hover:bg-secondary/75"
                 >
                   <span>{orden === 'desc' ? '↓' : '↑'}</span>
                   <span>
@@ -172,7 +172,7 @@ const ModalOrdenes = ({
                       return (
                         <div
                           key={orderId}
-                          className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 shadow-sm transition hover:shadow-md dark:border-zinc-800 dark:bg-zinc-950/60"
+                          className="rounded-2xl border border-secondary/75 bg-zinc-50 p-4 shadow-sm transition hover:shadow-md"
                         >
                           <div className="grid grid-cols-1 gap-3 md:grid-cols-[1.2fr_1fr_1fr_1fr_auto] md:items-center">
                             <div className="flex flex-col">
@@ -208,7 +208,7 @@ const ModalOrdenes = ({
                               <span className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                                 Método de pago
                               </span>
-                              <span className="inline-flex w-fit rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-500/20 dark:text-blue-300">
+                              <span className="inline-flex w-fit rounded-full bg-secondary/50 px-3 py-1 text-xs font-semibold text-primary ">
                                 {order.seleccionadoMetodoPago ?? order.paymentMethod ?? 'Efectivo'}
                               </span>
                             </div>
@@ -248,12 +248,12 @@ const ModalOrdenes = ({
                   </div>
                 </div>
 
-                <div className="border-t border-zinc-200 px-4 py-4 dark:border-zinc-800 sm:px-6">
+                <div className="border-t border-zinc-200 px-4 py-4 sm:px-6">
                   <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
                     <button
                       onClick={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      className="rounded-xl bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                      className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       Anterior
                     </button>
@@ -273,8 +273,8 @@ const ModalOrdenes = ({
                             onClick={() => goToPage(page)}
                             className={`min-w-10 rounded-xl px-3 py-2 text-sm font-medium transition ${
                               currentPage === page
-                                ? 'bg-blue-600 text-white shadow-md'
-                                : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700'
+                                ? 'bg-primary text-primary-foreground shadow-md'
+                                : 'bg-background text-black hover:bg-background/75 hover:text-black'
                             }`}
                           >
                             {page}
@@ -286,7 +286,7 @@ const ModalOrdenes = ({
                     <button
                       onClick={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      className="rounded-xl bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                      className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       Siguiente
                     </button>

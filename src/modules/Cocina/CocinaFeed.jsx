@@ -113,17 +113,17 @@ const CocinaFeed = ({ fecha = '2026-03-21' }) => {
   }
 
   return (
-    <div className="inset-0 z-40 p-4 bg-zinc-200/75 backdrop-blur-sm flex flex-col w-full max-h-screen">
+    <div className="inset-0 z-40 p-4 px-5 bg-primary-foreground backdrop-blur-sm flex flex-col w-full max-h-screen">
       {/* Header */}
-      <div className="bg-zinc-500 rounded-2xl p-6 flex justify-between items-center mb-4 shadow-2xl flex-shrink-0">
-          <h1 className="text-2xl font-bold text-white">Cocina</h1>
-          <p className="text-white text-lg">{fecha} - {pedidos.length} pedidos</p>
+      <div className="h-20 flex justify-between items-center">
+          <h1 className="text-xl font-bold text-black">Cocina</h1>
+          <p className="text-black text-lg">{fecha} - {pedidos.length} pedidos</p>
       </div>
 
       {/* Lista pedidos */}
-      <div className="flex-1 overflow-y-auto space-y-4 bg-zinc-400 rounded-2xl p-6 shadow-2xl">
+      <div className=" flex-1 overflow-y-auto space-y-4 bg-secondary/25 rounded-2xl p-6">
         {pedidos.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-64 text-center text-zinc-500">
+          <div className="flex flex-col items-center justify-center h-[80vh] text-center text-black">
             <div className="w-20 h-20 bg-zinc-700 rounded-2xl flex items-center justify-center mb-4 text-3xl">
               🍳
             </div>

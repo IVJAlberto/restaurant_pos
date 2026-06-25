@@ -45,13 +45,13 @@ const StatisticalComponent = ({ element }) => {
   }
 
   return (
-    <div className="rounded-2xl flex flex-col flex-1 p-4 items-center space-y-3 border-1 border border-zinc-300 bg-zinc-200 dark:bg-zinc-900 dark:border-zinc-950 justify-between h-full">
-      <div className="w-full flex flex-row justify-between text-zinc-950 dark:text-gray-300">
+    <div className="rounded-2xl flex flex-col flex-1 p-4 items-center space-y-3 shadow-md justify-between h-full">
+      <div className="w-full flex flex-row justify-between text-primary">
         <p className="font-medium text-md">{element.titulo}</p>
         <span className="">{element.icon}</span>
       </div>
       <div className="w-full flex flex-row justify-between">
-        <p className={`text-zinc-950 dark:text-gray-300 font-semibold text-xl `}>{ typeof(element.valor) === 'number' ? element.valor.toFixed(2) : element.valor }</p>
+        <p className={`text-black font-semibold text-xl `}>{ typeof(element.valor) === 'number' ? element.valor.toFixed(2) : element.valor }</p>
         <span className="flex-row space-x-1 items-center hidden xl:flex">
           {svg}
           <p className={`self-center text-center ${textColor}`}>

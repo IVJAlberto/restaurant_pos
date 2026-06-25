@@ -34,9 +34,9 @@ const menuData = [
     ['Estadísticas', '/dashboard', Dashboard, ["Administrador"]],
     ['Menú', '/food_catalog', Food, ["Administrador","Mesero"]],
     ['Cocina', '/cocina', Bills, ["Administrador","Cocinero"]],
-    ['Notificaciones', '/notificaciones', Messages, ["Administrador","Cocinero","Mesero"]],
-    ['Equipo', '/team', Team, ["Administrador","Cocinero","Mesero"]],
-    ['Configuración', '/settings', Settings, ["Administrador"]]
+    // ['Notificaciones', '/notificaciones', Messages, ["Administrador","Cocinero","Mesero"]],
+    // ['Equipo', '/team', Team, ["Administrador","Cocinero","Mesero"]],
+    // ['Configuración', '/settings', Settings, ["Administrador"]]
 ];
 
 export const categoriesData = [ 

@@ -97,9 +97,9 @@ const OrderList = ({ data = [], onVerPedidos, onVerPedido }) => {
     };
 
     return (
-        <div className="w-full md:w-7/12 border bg-white rounded-2xl border-zinc-300 relative z-40 order-list-container">
+        <div className="w-full md:w-7/12 bg-primary-foreground shadow-md rounded-2xl relative z-40 order-list-container">
             <div className="flex justify-between px-5 py-4">
-                <p className="font-semibold text-xl">Lista de órdenes</p>
+                <p className="font-semibold text-xl text-primary">Lista de órdenes</p>
                 <button
                     type="button"
                     onClick={(e) => {
@@ -107,13 +107,13 @@ const OrderList = ({ data = [], onVerPedidos, onVerPedido }) => {
                         e.preventDefault();
                         onVerPedidos?.();
                     }}
-                    className="font-medium text-blue-600 hover:text-blue-800"
+                    className="font-medium text-secondary"
                 >
                     Ver todas
                 </button>
             </div>
 
-            <div className="flex flex-row bg-gray-200 px-5 py-3 border-y border-zinc-300">
+            <div className="flex flex-row bg-gray-200 px-5 py-3 border-y">
                 {categoryKeys.map((categoryKey) => (
                     <div
                         key={categoryKey}
@@ -121,7 +121,7 @@ const OrderList = ({ data = [], onVerPedidos, onVerPedido }) => {
                             categoryKey === "btnDetails" ? "items-center" : ""
                         }`}
                     >
-                        <p className="text-zinc-500 text-sm font-medium">
+                        <p className="text-secondary text-sm font-medium">
                             {categories[categoryKey]}
                         </p>
                     </div>
@@ -209,12 +209,6 @@ const OrderList = ({ data = [], onVerPedidos, onVerPedido }) => {
                         className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-50 flex items-center gap-2 font-medium text-zinc-800"
                     >
                         Ver detalles
-                    </button>
-                    <button className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-50 flex items-center gap-2 text-zinc-600">
-                        Reimprimir
-                    </button>
-                    <button className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-50 flex items-center gap-2 text-zinc-600">
-                        Duplicar
                     </button>
                 </div>
             )}

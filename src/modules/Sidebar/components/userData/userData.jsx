@@ -50,15 +50,15 @@ const UserData = ({ collapsed }) => {
                             </svg>
                         </div>
                     ) : (
-                        <div className="ml-2 truncate block md:hidden lg:block">
+                        <div className="ml-2 text-black truncate block md:hidden lg:block">
                             <p className="text-primary font-semibold text-md xl:text-lg">{nombre}</p>
-                            <p className="text-primary font-normal truncate text-sm xl:text-normal">{rol }</p>
+                            <p className=" font-normal truncate text-sm xl:text-normal">{rol }</p>
                         </div>
                     )
                 }
             </div>
             {isDataDisplayed && (
-                <div className="z-50 flex flex-col space-y-2 absolute bottom-20 rounded-xl bg-background dark:bg-muted p-4 w-[200px] text-primary">         
+                <div className="z-50 flex flex-col space-y-2 absolute bottom-20 rounded-xl bg-background dark:bg-muted p-4 w-[200px] text-black">         
                     <p className="text-lg font-medium">Hola, {nombre}!</p>                
                     <button onClick={onSignOut} className="bg-primary p-2 rounded-3xl text-primary-foreground w-fit">Cerrar sesión</button>
                 </div>

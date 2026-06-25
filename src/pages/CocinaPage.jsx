@@ -8,7 +8,7 @@ const CocinaPage = () => {
     const fecha = new Date(timestamp).toLocaleDateString('sv-SE', { timeZone: 'America/Mexico_City' });
     
     return(
-    <div className="flex flex-col md:flex-row w-full h-screen">
+    <div className="flex flex-col md:flex-row w-full h-screen bg-primary-foreground">
         <CocinaFeed fecha={fecha}/>
   </div>);
 };

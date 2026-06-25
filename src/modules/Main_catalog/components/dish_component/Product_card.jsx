@@ -37,18 +37,18 @@ const ProductCard = ({ platillo }) => {
         </span>
         <img src={platillo.imagen} alt="Product" className="h-full" />
       </div>
-      <div className="flex flex-col flex-1 justify-between text-zinc-950 dark:text-gray-300 px-1 space-y-1">
+      <div className="flex flex-col flex-1 justify-between text-zinc-950  px-1 space-y-1">
         <div className="space-y-1">
           <p className="text-sm md:text-base font-semibold">{platillo.nombre}</p>
-          <p className="text-gray-500 dark:text-zinc-400 text-xs md:text-sm">{platillo.descripcion}</p>
+          <p className="text-gray-500  text-xs md:text-sm">{platillo.descripcion}</p>
         </div>
         <div className="flex items-center justify-between">
           <p className="text-lg font-semibold">$ {platillo.precio}</p>
           <AddReduceBtn 
             action="+" 
             bgColor={platillo.disponible 
-              ? "bg-zinc-200 dark:bg-zinc-700" 
-              : "bg-zinc-100 dark:bg-zinc-800 opacity-50 cursor-not-allowed"} 
+              ? "bg-primary/75 text-primary-foreground" 
+              : "bg-background opacity-25 cursor-not-allowed"} 
             onClick={platillo.disponible ? handleAddToCart : undefined}
           />
         </div>

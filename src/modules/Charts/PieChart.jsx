@@ -33,6 +33,9 @@ const PieChart = ({ data = [] }) => {
         title: {
             text: 'Platillos más populares',
             left: 'center',
+            textStyle: {
+                color: "#DD2F6E"
+            },
         },
         tooltip: {
             trigger: 'item',

@@ -151,8 +151,8 @@ const DashboardComponent = () => {
     }, [pedidosFiltrados, periodoAnterior]); 
 
     return (
-        <div className="flex flex-1 flex-col bg-zinc-100 dark:bg-zinc-800">
-            <ModuleHeaderName bgColor="bg-zinc-200 dark:bg-stone-950">
+        <div className="flex flex-1 flex-col bg-primary-foreground">
+            <ModuleHeaderName bgColor="bg-bg-primary-foreground" textColor="text-black">
                 <div className="w-full flex items-center justify-between gap-4">
                     <TextHeader
                         text="Estadísticas"

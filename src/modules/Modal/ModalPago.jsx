@@ -127,22 +127,22 @@ export const ModalPago = () => {
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50">
       <div 
-        className="bg-black/60 absolute inset-0" 
+        className="bg-black/15 absolute inset-0" 
         onClick={() => { dispatch(toggleVisibility()); dispatch(toggleModal()); }}
       />
       
-      <div className="bg-zinc-200 dark:bg-stone-950 w-full md:w-6/12 absolute right-0 h-full
+      <div className="bg-primary w-full md:w-6/12 absolute right-0 h-full
       shadow-2xl overflow-hidden">
         <div className="flex flex-col gap-2 h-full overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between p-5 bg-zinc-300 dark:bg-zinc-900 max-h-20">
+          <div className="flex items-center justify-between p-5 bg-primary max-h-20">
             <div>
               <TextHeader 
                 text={`Cobrar Mesa ${mesaData?.mesa || mesaSeleccionada}`} 
-                color="text-zinc-950 dark:text-gray-300" 
+                color="text-primary-foreground" 
                 size="text-xl" 
               />
-              <p className="text-sm font-bold text-green-600 mt-1">
+              <p className="text-sm font-bold text-primary-foreground mt-1">
                 {platillosCompletados.length} platillos - ${totalFinal.toFixed(2)}
               </p>
             </div>
@@ -206,7 +206,7 @@ export const ModalPago = () => {
 
           </div>
           {/* Form */}
-          <div className="p-5 space-y-4">
+          <div className="p-5 space-y-4 text-primary-foreground">
             <div>
               <label className="block text-sm font-semibold mb-2">Método pago *</label>
               <div className="flex flex-row space-x-3 justify-center">
@@ -215,7 +215,7 @@ export const ModalPago = () => {
                         key={index}
                         onClick={() => handlePaymentMethod(value)}
                         className={`${
-                            seleccionadoMetodoPago === value ? 'bg-zinc-900 hover:bg-zinc-900 dark:bg-slate-100 dark:hover:bg-slate-200 text-gray-300 dark:text-zinc-950' : 'text-gray-950 dark:text-zinc-200 bg-zinc-400 hover:bg-zinc-500 dark:bg-zinc-800 dark:hover:bg-zinc-700'
+                            seleccionadoMetodoPago === value ? 'bg-secondary hover:bg-secondary text-primary-foreground' : 'text-gray-950  bg-primary-foreground hover:bg-secondary/50 dark:bg-zinc-800 dark:hover:bg-zinc-700'
                         }  basis-1/3`}
                     >
                         {value}
@@ -226,7 +226,7 @@ export const ModalPago = () => {
 
             <div>
               <label className="block text-sm font-semibold mb-2">Mesero</label>
-              <p className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-blue-500 bg-white" >
+              <p className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-blue-500 bg-white text-black" >
                 {meseroCierre}
               </p>
             </div>
@@ -238,7 +238,7 @@ export const ModalPago = () => {
                   type="number"
                   value={propina}
                   onChange={e => setPropina(Number(e.target.value) || 0)}
-                  className="w-full p-3 rounded-xl border border-zinc-200 focus:border-green-500 text-right"
+                  className="w-full p-3 text-black rounded-xl border border-zinc-200 focus:border-green-500 text-right"
                   min="0"
                   step="0.01"
                 />
@@ -246,21 +246,21 @@ export const ModalPago = () => {
               <button
                 type="button"
                 onClick={() => setPropina(mesaData?.granTotal * 0.05)}
-                className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
+                className="p-3 bg-secondary text-white rounded-xl hover:bg-secondary/50 font-medium mt-auto"
               >
                 5% (${(mesaData?.granTotal * 0.05).toFixed(2)})
               </button>
               <button
                 type="button"
                 onClick={() => setPropina(mesaData?.granTotal * 0.10)}
-                className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
+                className="p-3 bg-secondary text-white rounded-xl hover:bg-secondary/50 font-medium mt-auto"
               >
                 10% (${(mesaData?.granTotal * 0.10).toFixed(2)})
               </button>
               <button
                 type="button"
                 onClick={() => setPropina(mesaData?.granTotal * 0.15)}
-                className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 font-medium mt-auto"
+                className="p-3 bg-secondary text-white rounded-xl hover:bg-secondary/50 font-medium mt-auto"
               >
                 15% (${(mesaData?.granTotal * 0.15).toFixed(2)})
               </button>
@@ -272,7 +272,7 @@ export const ModalPago = () => {
                 value={notas}
                 onChange={e => setNotas(e.target.value)}
                 rows="3"
-                className="w-full p-3 rounded-xl border-2 border-zinc-200 focus:border-purple-500 resize-vertical bg-white"
+                className="w-full p-3 rounded-xl border-2 text-black border-zinc-200 focus:border-purple-500 resize-vertical bg-white"
                 placeholder="Notas opcionales..."
                 maxLength="500"
               />
@@ -280,14 +280,14 @@ export const ModalPago = () => {
           </div>
 
           {/* Acción */}
-          <div className="p-6 bg-gradient-to-r from-emerald-500 to-teal-600 sticky bottom-0 shadow-2xl">
+          <div className="p-6 bg-primary-foreground sticky bottom-0 shadow-2xl">
             <button
               onClick={handleCerrarMesa}
               disabled={cargandoCobro || totalFinal === 0}
-              className={`w-full h-14 text-xl font-bold rounded-xl transition-all flex items-center justify-center shadow-lg
+              className={`w-full h-14 text-xl font-bold rounded-xl transition-all flex items-center justify-center shadow-lg bg-primary text-primary-foreground hover:bg-secondary
                 ${cargandoCobro || totalFinal === 0
-                  ? 'bg-emerald-400 cursor-not-allowed opacity-75'
-                  : 'hover:from-emerald-600 hover:to-teal-700 active:scale-[0.98] hover:shadow-xl'
+                  ? 'bg-primary cursor-not-allowed opacity-75'
+                  : 'hover:from-primary hover:to-secondary active:scale-[0.98] hover:shadow-xl'
                 }`}
             >
               {cargandoCobro ? (

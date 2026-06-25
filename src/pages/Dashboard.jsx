@@ -5,7 +5,7 @@ import DashboardComponent from '../modules/DashboardComponent/DashboardComponent
 const Dashboard = () => {
 
     return(
-    <div className="flex flex-col md:flex-row h-screen">
+    <div className="flex flex-col md:flex-row h-screen ">
         <DashboardComponent />
   </div>);
 };

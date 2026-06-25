@@ -36,7 +36,7 @@ const CategoriaSeleccionada = () => {
 
   if (!platillos) {
     return (
-      <p className="p-5 text-zinc-500 dark:text-zinc-400">
+      <p className="p-5 text-black 0">
         Cargando menú...
       </p>
     );
@@ -47,7 +47,7 @@ const CategoriaSeleccionada = () => {
       <TextHeader
         text="Explora nuestro increíble menú"
         size="text-md md:text-xl p-4"
-        color="text-zinc-950 dark:text-gray-300"
+        color="text-black"
       />
 
       <div className="grid grid-cols-1 gap-10 p-5 sm:grid-cols-2 md:grid-cols-3 md:gap-10 lg:grid-cols-4 lg:gap-4 xl:grid-cols-5">

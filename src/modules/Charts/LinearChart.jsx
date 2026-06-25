@@ -49,6 +49,10 @@ const LinearChart = ({ data = [] }) => {
         darkMode: darkMode,
         title: {
             text: 'Ganancias por período',
+            left: 'center',
+            textStyle: {
+                color: "#DD2F6E"
+            },
         },
         tooltip: {
             trigger: 'axis',
@@ -82,7 +86,7 @@ const LinearChart = ({ data = [] }) => {
                     color: 'rgba(220, 220, 220, 0.8)'
                 },
                 itemStyle: {
-                    color: '#3b82f6'
+                    color: '#DD2F6E'
                 }
             }
         ]

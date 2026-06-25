@@ -6,7 +6,7 @@ const Logo = ({ params }) => {
     return (
       <div className="flex space-x-3">
         <div className="hidden md:flex items-center">
-          <img src={LogoImage} alt="Logo" className="h-16 md:h-12 lg:h-16"/>
+          {/* <img src={LogoImage} alt="Logo" className="h-16 md:h-12 lg:h-16"/> */}
         </div>
         <div className="flex md:hidden lg:flex flex-col self-center">
           <p className={textStyling}>Fluke's Pub</p>

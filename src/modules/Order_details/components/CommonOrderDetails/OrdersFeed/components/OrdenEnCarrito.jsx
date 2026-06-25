@@ -19,12 +19,12 @@ const OrdenEnCarrito = ({carritoLocal, totalCarrito, normalizarPlatillo}) => {
     
 
     return (
-        <div className="bg-gray-100 dark:bg-zinc-700 p-3 rounded-xl">
+        <div className="bg-primary-foreground p-3 rounded-xl">
 
             <div className="flex items-center justify-between mb-2">
                 <button
                     onClick={() => setCarritoAbierto(!carritoAbierto)}
-                    className="flex-1 text-left font-semibold text-gray-700 hover:bg-gray-200 dark:hover:bg-zinc-600 p-2 rounded-lg transition-all"
+                    className="flex-1 text-left font-semibold text-black p-2 rounded-lg transition-all"
                 >
                     <span>Carrito ({carritoLocal.length}) ${totalCarrito.toFixed(2)}</span>
                     <span className={`ml-2 transition-transform `}>
@@ -43,7 +43,7 @@ const OrdenEnCarrito = ({carritoLocal, totalCarrito, normalizarPlatillo}) => {
                 className="overflow-hidden transition-[height] duration-300 ease-in-out"
             >
                 <div ref={contentRef} 
-                    className={`space-y-2 mt-1 pl-4 border-l-2 border-gray-300 transition-all duration-300 ease-in-out 
+                    className={`space-y-2 mt-1 pl-4 border-l-2 border-primary transition-all duration-300 ease-in-out 
                     ${carritoAbierto ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"}`
                 }
                 >

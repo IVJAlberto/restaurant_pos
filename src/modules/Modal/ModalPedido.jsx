@@ -180,24 +180,24 @@ const ModalPedido = () => {
   const totalPedido = platillos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0).toFixed(2);
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-center items-center bg-zinc-800 bg-opacity-75 backdrop-blur-sm">
-      <div className="flex flex-col bg-zinc-900 px-4 py-5 md:rounded-2xl space-y-3 h-full w-full md:h-5/6 md:w-9/12 lg:w-7/12 xl:w-5/12">
-        <div className='flex w-full justify-between items-center bg-zinc-800 rounded-2xl shadow-md px-8 py-4'>
-          <p className='text-xl font-semibold text-white underline decoration-blue-500 decoration-2 underline-offset-2'>
+    <div className="fixed inset-0 z-50 flex justify-center items-center bg-primary bg-opacity-75 backdrop-blur-sm">
+      <div className="flex flex-col bg-primary px-4 py-5 md:rounded-2xl space-y-3 h-full w-full md:h-5/6 md:w-9/12 lg:w-7/12 xl:w-5/12">
+        <div className='flex w-full justify-between items-center bg-primary-foreground rounded-2xl shadow-md px-8 py-4'>
+          <p className='text-xl font-semibold text-black underline decoration-primary decoration-2 underline-offset-2'>
             Resumen Pedido Mesa {mesa || 'X'}
           </p>
           <CloseBtn onClick={handleClose} />
         </div>
 
         <div className="flex flex-grow space-x-3 h-full">
-          <div className="bg-zinc-800 p-8 w-full rounded-2xl space-y-3">
+          <div className="bg-primary-foreground p-8 w-full rounded-2xl space-y-3">
             <div className="flex flex-row justify-between px-4">
-              <p className="text-white font-semibold text-lg">Platillo</p>
-              <p className="text-white font-semibold text-lg">Cantidad</p>
+              <p className="text-black font-semibold text-lg">Platillo</p>
+              <p className="text-black font-semibold text-lg">Cantidad</p>
             </div>
             <div className="space-y-3 overflow-y-auto max-h-[60vh] md:max-h-[43vh] scroll-styling">
               {platillos.length === 0 ? (
-                <p className="text-zinc-400 text-center py-8">Carrito vacío</p>
+                <p className="text-black text-center py-8">Carrito vacío</p>
               ) : (
                 platillos.map((platillo, index) => (
                   <div className="w-full flex justify-between" key={index}>
@@ -205,15 +205,15 @@ const ModalPedido = () => {
                       <img 
                         src={platillo.imagen} 
                         alt="dish_image" 
-                        className="h-20 w-24 border border-zinc-500 object-cover rounded" 
+                        className="h-20 w-24 border border-primary object-cover rounded" 
                       />
-                      <div className="flex flex-col text-white justify-evenly h-full">
+                      <div className="flex flex-col text-black justify-evenly h-full">
                         <p className="font-semibold">{platillo.nombre}</p>
                         <p className="">$ {platillo.precio.toFixed(2)}</p>
-                        <p className="w-full px-3 py-2 text-md text-black dark:text-white bg-white/80 dark:bg-zinc-700/80 border border-zinc-300 dark:border-zinc-600 rounded-lg">{platillo.notas}</p>
+                        <p className="w-full px-3 py-2 text-md text-black  bg-secondary/50 dark:bg-zinc-700/80 border border-primary rounded-lg">{platillo.notas}</p>
                       </div>
                     </div>
-                    <div className="flex items-center font-semibold text-xl text-white pr-6">
+                    <div className="flex items-center font-semibold text-xl text-black pr-6">
                       <p>x {platillo.cantidad}</p>
                     </div>
                   </div>
@@ -223,9 +223,9 @@ const ModalPedido = () => {
           </div>
         </div>
 
-        <div className="bg-zinc-800 rounded-2xl py-4 px-8 text-white text-lg">
+        <div className="bg-primary-foreground rounded-2xl py-4 px-8 text-black text-lg">
           <div className="flex justify-between">
-            <div className="font-semibold text-zinc-300 flex text-center items-center space-x-1">
+            <div className="font-semibold text-black flex text-center items-center space-x-1">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
               </svg>
@@ -235,9 +235,9 @@ const ModalPedido = () => {
           </div>
         </div>
 
-        <div className="flex justify-end text-white font-medium space-x-2">
+        <div className="flex justify-end text-black font-medium space-x-2">
           <button 
-            className="rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 py-4 w-full duration-200 hover:from-emerald-700 hover:to-teal-700 shadow-xl font-semibold flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="rounded-2xl bg-secondary text-white py-4 w-full duration-200 hover:bg-secondary/50 shadow-xl font-semibold flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={handleEnviarCocina}
             disabled={loading || platillos.length === 0 || !mesa}
           >

@@ -14,7 +14,7 @@ const Sidemenu = ({collapsed}) => {
     return (
       <ul className="flex flex-col font-semibold ml-3 space-y-3">
         {data.map(([title, url, image]) => (
-          <Link to={url} key={url} className={ location.pathname === url ? ( linkStyle + ' bg-background text-primary' ) : ( linkStyle + ' hover:bg-secondary text-white' ) }>
+          <Link to={url} key={url} className={ location.pathname === url ? ( linkStyle + ' bg-primary-foreground text-primary' ) : ( linkStyle + ' text-primary-foreground' ) }>
             <MenuItem image={image}>
               <p className={collapsed ? "hidden" : "inline"}>{title}</p>
             </MenuItem>

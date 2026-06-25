@@ -16,15 +16,15 @@ const CocinaOrder = ({ pedido, getEstadoPlatillo, actualizarEstadoPlatillo }) =>
   }, [abierto, pedido.platillosCocina]);
 
   return (
-    <div className="bg-gradient-to-r from-black/30 to-black/20 p-4 rounded-2xl border-2 border-black shadow-xl">
+    <div className="bg-gradient-to-r from-primary to-secondary p-4 rounded-2xl border-2 border-primary shadow-xl">
       <button
         type="button"
         onClick={() => setAbierto((prev) => !prev)}
         className="w-full flex items-start justify-between gap-4 mb-1 text-left"
       >
         <div className="flex flex-row gap-4 min-w-0 items-center">
-            <h3 className="text-xl font-bold text-white mb-1">MESA {pedido.mesa} 
-                <span className="text-sm font-normal text-zinc-300 ml-2">({Object.keys(pedido.platillosCocina).length} platillos)</span>
+            <h3 className="text-xl font-bold text-primary-foreground mb-1">MESA {pedido.mesa} 
+                <span className="text-sm font-normal text-primary-foreground ml-2">({Object.keys(pedido.platillosCocina).length} platillos)</span>
             </h3>
             {/* <p className="text-zinc-300 text-sm truncate h-full">#{pedido.timestamp}</p> */}
         </div>
@@ -53,11 +53,11 @@ const CocinaOrder = ({ pedido, getEstadoPlatillo, actualizarEstadoPlatillo }) =>
 
             return (
               <div key={idPlatillo} className="mb-1 last:mb-0">
-                <div className="flex items-start space-x-3 p-4 bg-white/10 rounded-xl backdrop-blur-sm">
+                <div className="flex items-start space-x-3 p-4 bg-primary-foreground rounded-xl backdrop-blur-sm">
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-white text-lg truncate">
+                    <p className="font-semibold text-black text-lg truncate">
                       {data.nombre}
-                      <span className="text-zinc-300 ml-2">x{data.cantidad}</span>
+                      <span className="text-primary-foreground ml-2">x{data.cantidad}</span>
                     </p>
 
                     {data.notas && (
@@ -83,7 +83,7 @@ const CocinaOrder = ({ pedido, getEstadoPlatillo, actualizarEstadoPlatillo }) =>
                             ? "bg-yellow-600 hover:bg-yellow-700 cursor-not-allowed pointer-events-none"
                             : estadoActual === "listo"
                             ? "bg-blue-600/20 hover:bg-blue-700/20 opacity-50 cursor-not-allowed pointer-events-none"
-                            : "bg-gray-600 hover:bg-gray-700"
+                            : "bg-primary hover:bg-secondary"
                         }
                       `}
                     >
@@ -102,8 +102,8 @@ const CocinaOrder = ({ pedido, getEstadoPlatillo, actualizarEstadoPlatillo }) =>
                       className={`px-3 py-1.5 text-white text-base font-medium rounded shadow-md transition-all disabled:opacity-75 disabled:cursor-not-allowed whitespace-nowrap
                         ${
                           estadoActual === "listo"
-                            ? "bg-purple-600 hover:bg-purple-700 cursor-not-allowed pointer-events-none"
-                            : "bg-gray-600 hover:bg-gray-700"
+                            ? "bg-green-600 hover:bg-green-700 cursor-not-allowed pointer-events-none"
+                            : "bg-primary hover:bg-secondary"
                         }
                       `}
                     >

@@ -71,7 +71,7 @@ const MesaSelector = ({ origen = "carrito" }) => {
                         dispatch(toggleVisibility())
                     }
                     }
-                    className="p-2 bg-blue-500 text-white rounded-lg text-sm font-semibold hover:bg-blue-600 transition-all shadow-md hover:shadow-lg flex items-center space-x-1"
+                    className="p-2 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:bg-secondary transition-all shadow-md hover:shadow-lg flex items-center space-x-1"
                 >
                     {origen === "carrito" ? "Cambiar mesa" : 
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">

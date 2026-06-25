@@ -45,8 +45,8 @@ const Categorias = () => {
     return(
         <>
             {/* <TextHeader text="Categorías" color="text-zinc-950 dark:text-gray-300" categoryTopic={true} size="text-md md:text-lg p-4"/> */}
-            <div className="flex items-center px-2 bg-zinc-300 dark:bg-zinc-900 rounded-lg">
-            <button onClick={() => scroll('left')} className="text-black dark:text-white">
+            <div className="flex items-center px-2 mx-6 bg-primary rounded-lg">
+            <button onClick={() => scroll('left')} className="text-primary-foreground">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
               </svg>
@@ -58,7 +58,7 @@ const Categorias = () => {
                         ))}
                     </div>
                 </div>
-                <button onClick={() => scroll('right')} className="text-black dark:text-white">
+                <button onClick={() => scroll('right')} className="text-primary-foreground">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                   <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                 </svg>

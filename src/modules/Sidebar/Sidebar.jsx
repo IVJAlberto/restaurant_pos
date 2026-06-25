@@ -68,7 +68,7 @@ const Sidebar = () => {
               ${isCollapsed ? 'justify-center flex-col space-y-3' : 'justify-start space-x-3'}`}
             >
               <UserData collapsed={isCollapsed}/>
-              <ThemeToggler />
+              {/* <ThemeToggler /> */}
             </div>
             <InfoContainer collapsed={isCollapsed}/>
           </div>

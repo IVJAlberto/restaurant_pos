@@ -100,7 +100,7 @@ const OrdersFeed = ({ mandarPedidosCompletados }) => {
   const todoVacio = ordenesCompletadas.length === 0 && ordenPendiente.length === 0 && carritoLocal.length === 0;
 
   return (
-    <div className="px-3 py-4 bg-zinc-300 dark:bg-zinc-900 rounded-2xl mx-2 basis-4/12">
+    <div className="px-3 py-4 bg-secondary/75 rounded-2xl mx-2 basis-4/12">
       <div className="overflow-y-scroll scroll-styling h-full">
         <div className="space-y-3.5 px-3 h-full">
           {noHayMesa ? (
@@ -110,7 +110,7 @@ const OrdersFeed = ({ mandarPedidosCompletados }) => {
             </div>
           ) : cargando ? (
             <div className="flex flex-col justify-center items-center h-full space-y-3">
-              <div className="w-10 h-10 border-4 border-zinc-400 border-t-transparent rounded-full animate-spin" />
+              <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
               <p className="text-xs">Cargando mesa {mesaSeleccionada}...</p>
             </div>
           ) : mesaLibre ? (
@@ -122,25 +122,25 @@ const OrdersFeed = ({ mandarPedidosCompletados }) => {
                   normalizarPlatillo={normalizarPlatillo}
                 />
               ) : (
-                <div className="flex flex-col justify-center items-center w-full h-full space-y-4 text-center">
+                <div className="flex flex-col justify-center text-primary-foreground items-center w-full h-full space-y-4 text-center">
                   <img src={emptyCart} className="h-64" alt="Vacio" />
-                  <p className="text-xl font-semibold underline decoration-yellow-500">Mesa {mesaSeleccionada} abierta</p>
+                  <p className="text-xl font-semibold underline decoration-primary">Mesa {mesaSeleccionada} abierta</p>
                   <p className="text-xs">Agrega platillos desde el catálogo.</p>
                 </div>
               )}
             </div>
           ) : todoVacio ? (
-            <div className="flex flex-col justify-center items-center h-full space-y-4 text-center">
+            <div className="flex flex-col text-primary-foreground justify-center items-center h-full space-y-4 text-center">
               <img src={emptyCart} className="h-64" alt="Vacio" />
-              <p className="text-xl font-semibold underline decoration-yellow-500">Mesa {mesaSeleccionada} abierta</p>
+              <p className="text-xl font-semibold underline decoration-primary">Mesa {mesaSeleccionada} abierta</p>
               <p className="text-xs">Agrega platillos desde el catálogo.</p>
             </div>
           ) : (
             <>
               {/* Header con totales */}
-              <div className="bg-white dark:bg-zinc-800 p-3 rounded-xl">
+              <div className="bg-priamry-foreground p-3 rounded-xl">
                 <h3 className="font-bold text-lg">Mesa {mesaSeleccionada} - {infoMesa?.estadoMesa || 'ocupada'}</h3>
-                <p className="text-2xl font-black text-green-600">Total: ${granTotal.toFixed(2)}</p>
+                <p className="text-2xl font-black text-secondary-foreground">Total: ${granTotal.toFixed(2)}</p>
                 {/* {totalACobrar > 0 && <p className="text-sm text-blue-600">Pendiente: ${totalACobrar.toFixed(2)}</p>} */}
                 {infoMesa?.notasGenerales && <p className="text-xs italic mt-1">Notas: {infoMesa.notasGenerales}</p>}
               </div>

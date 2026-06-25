@@ -61,18 +61,18 @@ const ModalMesa = () => {
     return (
         <div className="fixed inset-0 flex justify-center items-center z-50">
             <div className="bg-black bg-opacity-60 absolute inset-0"></div>
-            <div className="bg-zinc-200 dark:bg-stone-950 w-full md:w-8/12 lg:w-6/12 absolute right-0 h-full flex flex-col overflow-hidden">
-                <div className="h-20 flex-shrink-0 flex items-center justify-between p-5 bg-zinc-300 dark:bg-zinc-900">
-                    <TextHeader text="Seleccionar Mesa" color="text-zinc-950 dark:text-gray-300" size="text-xl" />
+            <div className="bg-primary-foreground  w-full md:w-8/12 lg:w-6/12 absolute right-0 h-full flex flex-col overflow-hidden">
+                <div className="h-20 flex-shrink-0 flex items-center justify-between p-5 bg-primary ">
+                    <TextHeader text="Seleccionar Mesa" color="text-primary-foreground" size="text-xl" />
                     <CloseBtn onClick={() => dispatch(toggleVisibility())} />
                 </div>
                 <div className="flex-1 overflow-auto p-6">
                     <div className="space-y-4">
-                        <div className="flex justify-between text-sm text-zinc-500 dark:text-zinc-400">
+                        <div className="flex justify-between text-sm text-black">
                             <span>Estado en tiempo real</span>
                             <span className="font-mono">({Object.keys(mesas).length} mesas)</span>
                         </div>
-                        <div className="grid grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-3 p-6 bg-gradient-to-br from-white/70 to-zinc-100 dark:from-zinc-900/70 dark:to-zinc-800 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-700">
+                        <div className="grid grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-3 p-6 bg-gradient-to-br from-primary/75 to-secondary/75  rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-700">
                             {Object.entries(mesas).sort(([a], [b]) => 
                                 parseInt(a.replace('mesa', '')) - parseInt(b.replace('mesa', ''))
                             ).map(([key, mesaData]) => {

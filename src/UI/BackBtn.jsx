@@ -4,7 +4,7 @@ import BackButton from '../assets/common_icons/back.png';
 const BackBtn = ({onClick}) => {
     return(
         <button onClick={onClick} className="">
-            <img src={BackButton} alt="back_btn" className="w-7 h-7 md:w-10 md:h-10"/>
+            <img src={BackButton} alt="back_btn" className="w-7 h-7 md:w-10 md:h-10 bg-white rounded-full p-1"/>
         </button>
     );
 }

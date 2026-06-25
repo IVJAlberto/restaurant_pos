@@ -24,10 +24,10 @@ const OrderActions = ({ recibirPedidosCompletados }) => {
     }
 
     return (
-        <div className="flex flex-row items-center justify-center gap-4 bg-zinc-300 dark:bg-zinc-900 mx-2 rounded-2xl p-4">
+        <div className="flex flex-row items-center justify-center gap-4 bg-primary-foreground shadow-xl  mx-2 rounded-2xl p-4">
             <button
                 onClick={handleToggleModal}
-                className={`text-white bg-zinc-600 hover:bg-zinc-800 dark:text-black dark:bg-slate-100 dark:hover:bg-slate-200 duration-100 
+                className={`text-primary-foreground bg-primary hover:bg-secondary duration-100 
                 rounded-2xl font-semibold text-2xl h-14 w-full
                 ${platillosVacio === 0 || mesaSeleccionada == null 
                     ? 'disabled:opacity-50 disabled:pointer-events-none' : ''}
@@ -40,7 +40,7 @@ const OrderActions = ({ recibirPedidosCompletados }) => {
             <button
                 onClick={handleTogglePagoModal}
                 className={
-                    `text-white bg-zinc-600 hover:bg-zinc-800 dark:text-black dark:bg-slate-100 dark:hover:bg-slate-200 duration-100 
+                    `text-primary-foreground bg-primary hover:bg-secondary duration-100 
                         rounded-2xl font-semibold text-2xl h-14 w-full
                     ${recibirPedidosCompletados?.totalCompletados === 0 || mesaSeleccionada == null ? 'disabled:opacity-50 disabled:pointer-events-none' : ''}
                     `

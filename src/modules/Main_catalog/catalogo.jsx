@@ -8,16 +8,16 @@ import MesaSelector from '../Order_details/components/CommonOrderDetails/MesaSel
 const Catalogo = () => {
 
   return (
-    <div className="w-full flex flex-1 flex-col md:w-10/12 lg:w-9/12 bg-zinc-100 dark:bg-zinc-800">
-      <div className='z-50 sticky bg-opacity-95 top-0 '>
-        <div className='flex justify-between items-center py-3 md:h-24 px-5 bg-zinc-200 dark:bg-stone-950'>
-          <TextHeader text="Menú" color="text-zinc-950 dark:text-gray-300" size="text-sm md:text-xl" />
+    <div className="w-full flex flex-1 flex-col md:w-10/12 lg:w-9/12">
+      <div className='z-50 sticky top-0 bg-primary-foreground'>
+        <div className='flex justify-between items-center py-3 md:h-24 px-5'>
+          <TextHeader text="Menú" color="text-black" size="text-xl" />
           <MesaSelector origen={"catalogo"}/>
           <CheckoutBtn displayOnBig={true}/>
         </div>
           <Categorias />
       </div>
-      <div className='px-2'>
+      <div className='px-2 bg-primary-foreground overflow-hidden'>
         <CategoriaSeleccionada />
       </div>
     </div>

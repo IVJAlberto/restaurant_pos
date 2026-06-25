@@ -29,10 +29,10 @@ const OrderDetails = () => {
     return(
         <div className="fixed inset-0 flex justify-center items-center z-50">
             <div className="bg-black bg-opacity-60 absolute inset-0 z-0"></div>
-            <div className="bg-zinc-200 dark:bg-stone-950 w-full md:w-6/12 absolute right-0 h-full flex flex-col">
+            <div className="bg-primary-foreground w-full md:w-6/12 absolute right-0 h-full flex flex-col">
                 {/* Header fijo */}
-                <div className="h-20 flex-shrink-0 flex items-center justify-between p-5 bg-zinc-300 dark:bg-zinc-900">
-                    <TextHeader text="Detalles de orden" color="text-zinc-950 dark:text-gray-300" size="text-lg xl:text-xl"></TextHeader>
+                <div className="h-20 flex-shrink-0 flex items-center justify-between p-5 bg-primary">
+                    <TextHeader text="Detalles de orden" color="text-primary-foreground " size="text-lg xl:text-xl"></TextHeader>
                     <CloseBtn onClick={handleCheckoutClick} />
                 </div>
                 
